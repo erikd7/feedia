@@ -2,7 +2,7 @@ module.exports = {
   pages: {
     index: {
       title: "Feedia",
-      entry: "src/main"
+      entry: "client/main"
     }
   },
   pwa: {
