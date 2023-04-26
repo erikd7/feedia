@@ -1,3 +1,5 @@
+const setupProxy = require("./server/proxy");
+
 module.exports = {
   pages: {
     index: {
@@ -16,5 +18,10 @@ module.exports = {
         options.compiler = require("vue-template-babel-compiler");
         return options;
       });
+  },
+  devServer: {
+    before: app => {
+      setupProxy(app);
+    }
   }
 };
