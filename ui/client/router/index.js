@@ -26,7 +26,7 @@ const router = new VueRouter({
 
 router.afterEach(to => {
   Vue.nextTick(() => {
-    document.title = `${document.title.split(" | ")[0]} | ${to.name}`;
+    document.title = `Feedia | ${to.name}`;
   });
 });
 
