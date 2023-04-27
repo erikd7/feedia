@@ -31,7 +31,7 @@ export default {
   props: {
     sections: {
       type: Array,
-      default: () => [{ name: "Home", path: "/" }]
+      default: () => [{ name: "Feed", path: "/" }]
     },
     current: {
       type: String,
