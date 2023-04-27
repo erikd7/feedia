@@ -7,7 +7,7 @@
         'menu-pane-expanded': isExpanded
       }"
       @Click="toggleExpanded"
-      v-on-clickaway="toggleOffExpanded"
+      v-click-away="toggleOffExpanded"
     >
       <Menu
         :sections="routes"
@@ -24,7 +24,7 @@
 <script>
 import Menu from "./components/Menu.vue";
 import { routes } from "./router/index";
-import { mixin as clickaway } from "vue-clickaway";
+import { mixin as clickaway } from "vue3-click-away";
 
 export default {
   name: "App",
