@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Feed from "../components/feed/Feed.vue";
 import Library from "../components/library/Library.vue";
+import Search from "../components/search/Search.vue";
 
 export const routes = [
   {
@@ -12,6 +13,11 @@ export const routes = [
     name: "Library",
     path: "/library",
     component: Library
+  },
+  {
+    name: "Search",
+    path: "/search",
+    component: Search
   }
 ];
 
