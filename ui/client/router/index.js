@@ -1,9 +1,6 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import Feed from "../components/feed/Feed.vue";
 import Library from "../components/library/Library.vue";
-
-Vue.use(VueRouter);
 
 export const routes = [
   {
@@ -18,16 +15,13 @@ export const routes = [
   }
 ];
 
-const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(),
   routes
 });
 
 router.afterEach(to => {
-  Vue.nextTick(() => {
-    document.title = `Feedia | ${to.name}`;
-  });
+  document.title = `Feedia | ${to.name}`;
 });
 
 export default router;
