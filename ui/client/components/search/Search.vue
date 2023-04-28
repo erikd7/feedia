@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import SearchBar from "./SearchBar";
+import SearchBar from "../shared/SearchBar";
 import { searchBooks } from "../../http-clients/google";
 
 export default {

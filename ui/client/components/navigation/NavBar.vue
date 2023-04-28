@@ -1,30 +1,16 @@
 <template>
-  <div>
-    <div class="menu" @click="toggleExpanded">
-      <div
-        v-for="section in sections"
-        :key="section.path"
-        class="menu-item-spacer"
-        :class="{ 'sort-item-top': isCurrent(section.path) }"
-      >
-        <router-link :to="section.path">
-          <div
-            class="menu-item"
-            :class="{
-              'menu-item-selected': isCurrent(section.path)
-            }"
-            style="--scale: 1.01"
-          >
-            {{ section.name }}
-          </div>
-        </router-link>
-      </div>
-    </div>
+  <div class="flex flex-row justify-between" @click="toggleExpanded">
+    <Menu :sections="sections" :current="current" />
+    <SearchBar />
   </div>
 </template>
 
 <script>
+import Menu from "./Menu";
+import SearchBar from "../shared/SearchBar.vue";
+
 export default {
+  components: { Menu, SearchBar },
   data() {
     return {};
   },
@@ -54,7 +40,7 @@ export default {
 .menu {
   display: flex;
   flex-flow: row;
-  justify-content: center;
+  justify-content: left;
   overflow-x: hidden;
   overflow-y: hidden;
 }

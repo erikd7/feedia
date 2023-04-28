@@ -9,7 +9,7 @@
       @Click="toggleExpanded"
       v-click-away="toggleOffExpanded"
     >
-      <Menu
+      <NavBar
         :sections="routes"
         :current="currentRoute"
         :toggleExpanded="toggleExpanded"
@@ -22,14 +22,14 @@
 </template>
 
 <script>
-import Menu from "./components/Menu.vue";
+import NavBar from "./components/navigation/NavBar";
 import { routes } from "./router/index";
 import { mixin as clickaway } from "vue3-click-away";
 
 export default {
   name: "App",
   components: {
-    Menu
+    NavBar
   },
   data() {
     return {
@@ -41,7 +41,7 @@ export default {
       return routes;
     },
     currentRoute() {
-      return this.$route.path;
+      return this.$route.name;
     }
   },
   methods: {

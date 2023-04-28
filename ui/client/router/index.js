@@ -7,6 +7,7 @@ export const routes = [
   {
     name: "Feed",
     path: "/",
+    alias: "/feed",
     component: Feed
   },
   {
@@ -24,6 +25,15 @@ export const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes
+});
+
+//Reroute nonmatched to root
+router.beforeEach((to, _from, next) => {
+  if (to.matched.length === 0) {
+    next("/");
+  } else {
+    next();
+  }
 });
 
 router.afterEach(to => {
