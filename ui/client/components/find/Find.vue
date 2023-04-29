@@ -1,16 +1,16 @@
 <template>
   <div>
     <div>Search results Page!</div>
-    <SearchBar />
+    <BookSearch />
   </div>
 </template>
 
 <script>
-import SearchBar from "../shared/search/SearchBar";
+import BookSearch from "../shared/search/BookSearch";
 import { searchBooks } from "../../http-clients/google";
 
 export default {
-  components: { SearchBar },
+  components: { BookSearch },
   props: {},
   data() {
     return {

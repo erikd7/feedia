@@ -1,16 +1,16 @@
 <template>
   <div class="flex flex-row justify-between" @click="toggleExpanded">
     <Menu :sections="sections" :current="current" />
-    <SearchBooks />
+    <BookSearch />
   </div>
 </template>
 
 <script>
 import Menu from "./Menu";
-import SearchBooks from "../shared/search/SearchBooks";
+import BookSearch from "../shared/search/BookSearch";
 
 export default {
-  components: { Menu, SearchBooks },
+  components: { Menu, BookSearch },
   data() {
     return {};
   },
