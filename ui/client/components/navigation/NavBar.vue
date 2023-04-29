@@ -1,16 +1,16 @@
 <template>
   <div class="flex flex-row justify-between" @click="toggleExpanded">
     <Menu :sections="sections" :current="current" />
-    <SearchBar />
+    <SearchBooks />
   </div>
 </template>
 
 <script>
 import Menu from "./Menu";
-import SearchBar from "../shared/SearchBar.vue";
+import SearchBooks from "../shared/search/SearchBooks";
 
 export default {
-  components: { Menu, SearchBar },
+  components: { Menu, SearchBooks },
   data() {
     return {};
   },

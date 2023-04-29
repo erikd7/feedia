@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div>Search Page!</div>
+    <div>Search results Page!</div>
     <SearchBar />
   </div>
 </template>
 
 <script>
-import SearchBar from "../shared/SearchBar";
+import SearchBar from "../shared/search/SearchBar";
 import { searchBooks } from "../../http-clients/google";
 
 export default {
