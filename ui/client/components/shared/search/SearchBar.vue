@@ -2,7 +2,8 @@
   <div>
     <AutoComplete
       v-model="selection"
-      class="hide-default-results"
+      class="w-100 hide-default-results"
+      inputClass="w-100"
       placeholder="Search"
       :suggestions="items"
       :optionLabel="optionLabel"
@@ -11,6 +12,9 @@
       :delay="400"
       @complete="onQuery"
     >
+      <v-slot:option>
+        this is an option
+      </v-slot:option>
     </AutoComplete>
   </div>
 </template>
@@ -59,9 +63,13 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.hide-default-results > span {
-  display: none !important;
+:deep(.p-autocomplete),
+:deep(.p-autocomplete-input) {
+  width: 100%;
+}
+
+:deep(.p-autocomplete .p-hidden-accessible) {
+  display: none;
 }
 </style>

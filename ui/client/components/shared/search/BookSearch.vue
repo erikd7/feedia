@@ -34,7 +34,9 @@ export default {
       } catch (e) {}
     },
     getLabel(book) {
-      return `${book.title}${book.authors ? ` - ${book.authors?.join()}` : ""}`;
+      return `${book.title}${
+        book.authors ? ` - ${book.authors?.slice(0, 2).join(", ")}` : ""
+      }`;
     }
   }
 };

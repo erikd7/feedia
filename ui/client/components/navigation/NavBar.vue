@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-row justify-between" @click="toggleExpanded">
+  <div class="nav-bar" @click="toggleExpanded">
     <Menu :sections="sections" :current="current" />
-    <BookSearch />
+    <BookSearch class="flex-grow-1/2" />
   </div>
 </template>
 
@@ -37,6 +37,11 @@ export default {
 </script>
 
 <style>
+.nav-bar {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
 .menu {
   display: flex;
   flex-flow: row;
@@ -65,13 +70,15 @@ export default {
   cursor: pointer;
 }
 @media only screen and (max-width: 400px) {
-  .menu-pane {
+  .menu-pane,
+  .nav-bar {
     transition: all 0.5s;
   }
   .menu-pane-expanded {
     max-height: 300px !important;
   }
-  .menu {
+  .menu,
+  .nav-bar {
     flex-flow: column;
     align-items: center;
   }
