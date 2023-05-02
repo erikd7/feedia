@@ -15,13 +15,16 @@ module.exports = {
       .rule("vue")
       .use("vue-loader")
       .tap(options => {
-        options.compiler = require("vue-template-babel-compiler");
+        //options.compiler = require("vue-template-babel-compiler");
         return options;
       });
   },
   devServer: {
-    before: app => {
+    //https://webpack.js.org/configuration/dev-server/#devserversetupmiddlewares
+    setupMiddlewares: (middlewares, { app }) => {
       setupProxy(app);
+
+      return middlewares;
     }
   }
 };

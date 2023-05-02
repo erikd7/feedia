@@ -1,37 +1,23 @@
 <template>
-  <div>
-    <div class="menu" @click="toggleExpanded">
-      <div
-        v-for="section in sections"
-        :key="section.path"
-        class="menu-item-spacer"
-        :class="{ 'sort-item-top': isCurrent(section.path) }"
-      >
-        <router-link :to="section.path">
-          <div
-            class="menu-item"
-            :class="{
-              'menu-item-selected': isCurrent(section.path)
-            }"
-            style="--scale: 1.01"
-          >
-            {{ section.name }}
-          </div>
-        </router-link>
-      </div>
-    </div>
+  <div class="nav-bar" @click="toggleExpanded">
+    <Menu :sections="sections" :current="current" />
+    <BookSearch class="search-bar-container" />
   </div>
 </template>
 
 <script>
+import Menu from "./Menu";
+import BookSearch from "../shared/search/BookSearch";
+
 export default {
+  components: { Menu, BookSearch },
   data() {
     return {};
   },
   props: {
     sections: {
       type: Array,
-      default: () => [{ name: "Home", path: "/" }]
+      default: () => [{ name: "Feed", path: "/" }]
     },
     current: {
       type: String,
@@ -51,17 +37,17 @@ export default {
 </script>
 
 <style>
+.nav-bar {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
 .menu {
   display: flex;
   flex-flow: row;
-  justify-content: center;
+  justify-content: left;
   overflow-x: hidden;
   overflow-y: hidden;
-}
-.menu-item-spacer {
-  margin-left: 10px;
-  margin-right: 10px;
-  width: fit-content;
 }
 .menu-item {
   color: black;
@@ -78,19 +64,25 @@ export default {
   background-color: #60789e;
   cursor: pointer;
 }
+.search-bar-container {
+  flex-basis: 50%;
+  max-width: 24rem;
+}
 @media only screen and (max-width: 400px) {
-  .menu-pane {
+  .menu-pane,
+  .nav-bar {
     transition: all 0.5s;
   }
   .menu-pane-expanded {
     max-height: 300px !important;
   }
-  .menu {
+  .menu,
+  .nav-bar {
     flex-flow: column;
     align-items: center;
   }
-  .menu-item-spacer {
-    width: fit-content;
+  .search-bar-container {
+    width: 100%;
   }
   .sort-item-top {
     order: -1 !important;

@@ -1,33 +1,44 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import Feed from "../components/feed/Feed.vue";
 import Library from "../components/library/Library.vue";
-
-Vue.use(VueRouter);
+import Find from "../components/find/Find.vue";
 
 export const routes = [
   {
     name: "Feed",
     path: "/",
+    alias: "/feed",
     component: Feed
   },
   {
     name: "Library",
     path: "/library",
     component: Library
+  },
+  {
+    name: "Find",
+    path: "/find",
+    alias: "/search",
+    component: Find
   }
 ];
 
-const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(),
   routes
 });
 
+//Reroute nonmatched to root
+router.beforeEach((to, _from, next) => {
+  if (to.matched.length === 0) {
+    next("/");
+  } else {
+    next();
+  }
+});
+
 router.afterEach(to => {
-  Vue.nextTick(() => {
-    document.title = `Feedia | ${to.name}`;
-  });
+  document.title = `Feedia | ${to.name}`;
 });
 
 export default router;

@@ -1,32 +1,24 @@
-import Vue from "vue";
+import { createApp } from "vue";
 import App from "./App.vue";
-import VueCookies from "vue-cookies";
-import "./index.css";
+import router from "./router";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
+import "./public/themes/index.css";
+import "./public/themes/main.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
-import router from "./router";
+import VueCookies from "vue-cookies";
 import "./registerServiceWorker";
+import PrimeVue from "primevue/config";
 
-/* import the fontawesome core */
-import { library } from "@fortawesome/fontawesome-svg-core";
-
-/* import font awesome icon component */
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-
-/* import specific icons */
-import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
-
-/* add icons to the library */
 library.add(faUserSecret);
 
-/* add font awesome icon component */
-Vue.component("font-awesome-icon", FontAwesomeIcon);
+const app = createApp(App);
+app.component("font-awesome-icon", FontAwesomeIcon);
+app.use(router);
+app.use(VueCookies);
 
-Vue.config.productionTip = false;
+app.use(PrimeVue, { ripple: true });
 
-Vue.use(VueCookies);
-
-new Vue({
-  router,
-  render: h => h(App)
-}).$mount("#app");
+app.mount("#app");
