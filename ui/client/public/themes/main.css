@@ -3047,25 +3047,33 @@
   > td:last-child {
   border-width: 0 1px 1px 1px;
 }
-.p-datatable.p-datatable-gridlines:has(.p-datatable-thead):has(.p-datatable-tbody)
+.p-datatable.p-datatable-gridlines:has(.p-datatable-thead):has(
+    .p-datatable-tbody
+  )
   .p-datatable-tbody
   > tr
   > td {
   border-width: 0 0 1px 1px;
 }
-.p-datatable.p-datatable-gridlines:has(.p-datatable-thead):has(.p-datatable-tbody)
+.p-datatable.p-datatable-gridlines:has(.p-datatable-thead):has(
+    .p-datatable-tbody
+  )
   .p-datatable-tbody
   > tr
   > td:last-child {
   border-width: 0 1px 1px 1px;
 }
-.p-datatable.p-datatable-gridlines:has(.p-datatable-tbody):has(.p-datatable-tfoot)
+.p-datatable.p-datatable-gridlines:has(.p-datatable-tbody):has(
+    .p-datatable-tfoot
+  )
   .p-datatable-tbody
   > tr:last-child
   > td {
   border-width: 0 0 0 1px;
 }
-.p-datatable.p-datatable-gridlines:has(.p-datatable-tbody):has(.p-datatable-tfoot)
+.p-datatable.p-datatable-gridlines:has(.p-datatable-tbody):has(
+    .p-datatable-tfoot
+  )
   .p-datatable-tbody
   > tr:last-child
   > td:last-child {
@@ -3698,7 +3706,9 @@
   background: #e5ecff;
 }
 .p-organizationchart
-  .p-organizationchart-node-content.p-organizationchart-selectable-node:not(.p-highlight):hover {
+  .p-organizationchart-node-content.p-organizationchart-selectable-node:not(
+    .p-highlight
+  ):hover {
   background: #e5ecff;
   color: #6c6c6c;
 }
@@ -6958,4 +6968,9 @@
 }
 .p-datatable .p-datatable-tbody > tr.p-datatable-dragpoint-bottom > td {
   box-shadow: inset 0 -2px 0 0 #7189ad;
+}
+
+/*Feedia Mods*/
+.p-hidden-accessible {
+  display: none;
 }

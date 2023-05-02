@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="card flex justify-content-center">
     <AutoComplete
       v-model="selection"
       class="w-100 hide-default-results"
@@ -7,14 +7,15 @@
       placeholder="Search"
       :suggestions="items"
       :optionLabel="optionLabel"
-      emptySearchMessage=" "
-      :minLength="4"
+      :minLength="3"
       :delay="400"
       @complete="onQuery"
     >
-      <v-slot:option>
-        this is an option
-      </v-slot:option>
+      <template #option="slotProps">
+        <div class="flex align-options-center w-50">
+          <div class="">{{ optionLabel(slotProps.option) }}</div>
+        </div>
+      </template>
     </AutoComplete>
   </div>
 </template>
@@ -69,7 +70,8 @@ export default {
   width: 100%;
 }
 
-:deep(.p-autocomplete .p-hidden-accessible) {
+:deep(.p-autocomplete .p-hidden-accessible),
+:deep(.p-autocomplete-panel .p-hidden-accessible) {
   display: none;
 }
 </style>

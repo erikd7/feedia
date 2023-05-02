@@ -4,6 +4,7 @@
       <div
         v-for="section in sections"
         :key="section.path"
+        class="menu-item-spacer"
         :class="{ 'sort-item-top': isCurrent(section.name) }"
       >
         <router-link :to="section.path">
@@ -54,8 +55,7 @@ export default {
   overflow-y: hidden;
 }
 .menu-item-spacer {
-  margin-left: 10px;
-  margin-right: 10px;
+  margin: 0px 5px;
   width: fit-content;
 }
 .menu-item {

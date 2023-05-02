@@ -13,7 +13,7 @@ export const searchBooks = async (
   } = {}
 ) => {
   const params = {
-    q: queryString,
+    q: `"${queryString}"`,
     maxResults,
     printType,
     projection,

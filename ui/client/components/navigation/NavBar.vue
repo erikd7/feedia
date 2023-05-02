@@ -1,7 +1,7 @@
 <template>
   <div class="nav-bar" @click="toggleExpanded">
     <Menu :sections="sections" :current="current" />
-    <BookSearch class="flex-grow-1/2" />
+    <BookSearch class="search-bar-container" />
   </div>
 </template>
 
@@ -49,11 +49,6 @@ export default {
   overflow-x: hidden;
   overflow-y: hidden;
 }
-.menu-item-spacer {
-  margin-left: 10px;
-  margin-right: 10px;
-  width: fit-content;
-}
 .menu-item {
   color: black;
   border-radius: 5px;
@@ -69,6 +64,10 @@ export default {
   background-color: #60789e;
   cursor: pointer;
 }
+.search-bar-container {
+  flex-basis: 50%;
+  max-width: 24rem;
+}
 @media only screen and (max-width: 400px) {
   .menu-pane,
   .nav-bar {
@@ -82,8 +81,8 @@ export default {
     flex-flow: column;
     align-items: center;
   }
-  .menu-item-spacer {
-    width: fit-content;
+  .search-bar-container {
+    width: 100%;
   }
   .sort-item-top {
     order: -1 !important;
