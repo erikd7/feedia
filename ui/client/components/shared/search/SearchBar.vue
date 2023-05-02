@@ -12,9 +12,7 @@
       @complete="onQuery"
     >
       <template #option="slotProps">
-        <div class="flex align-options-center w-50">
-          <div class="">{{ optionLabel(slotProps.option) }}</div>
-        </div>
+        <slot name="option" :option="slotProps"></slot>
       </template>
     </AutoComplete>
   </div>

@@ -4,16 +4,21 @@
       :liveSearch="search"
       :updateItems="updateItems"
       :optionLabel="getLabel"
-    />
+    >
+      <template v-slot:option="slotProps">
+        <BookOption :option="slotProps.option.option" />
+      </template>
+    </SearchBar>
   </div>
 </template>
 
 <script>
 import SearchBar from "./SearchBar";
+import BookOption from "./BookOption";
 import { searchBooks } from "../../../http-clients/google";
 
 export default {
-  components: { SearchBar },
+  components: { SearchBar, BookOption },
   props: {},
   data() {
     return {};
@@ -28,7 +33,8 @@ export default {
       try {
         const newItems = searchResult.data.items.map(i => ({
           title: i.volumeInfo.title,
-          authors: i.volumeInfo.authors
+          authors: i.volumeInfo.authors,
+          publishedDate: i.volumeInfo.publishedDate
         }));
         return newItems;
       } catch (e) {}
