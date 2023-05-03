@@ -2,23 +2,24 @@ import { createRouter, createWebHistory } from "vue-router";
 import Feed from "../components/feed/Feed.vue";
 import Library from "../components/library/Library.vue";
 import Find from "../components/find/Find.vue";
+import { ROUTES } from "../util/constants/navigation";
 
 export const routes = [
   {
     name: "Feed",
-    path: "/",
-    alias: "/feed",
+    path: ROUTES.FEED,
+    alias: ROUTES.ROOT,
     component: Feed
   },
   {
     name: "Library",
-    path: "/library",
+    path: ROUTES.LIBRARY,
     component: Library
   },
   {
     name: "Find",
-    path: "/find",
-    alias: "/search",
+    path: ROUTES.FIND,
+    alias: ROUTES.SEARCH,
     component: Find
   }
 ];
