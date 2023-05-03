@@ -1,11 +1,11 @@
 <template>
   <div class="card flex justify-content-center">
     <AutoComplete
-      v-model="selection"
+      v-model="query"
       class="w-100 hide-default-results"
       inputClass="w-100"
       placeholder="Search"
-      :suggestions="items"
+      :suggestions="results"
       :optionLabel="optionLabel"
       :minLength="3"
       :delay="400"
@@ -20,6 +20,7 @@
 
 <script>
 import AutoComplete from "primevue/autocomplete";
+import { mapState } from "vuex";
 
 export default {
   components: { AutoComplete },
@@ -39,9 +40,11 @@ export default {
   },
   data() {
     return {
-      selection: null,
-      items: []
+      query: null
     };
+  },
+  computed: {
+    ...mapState("search", ["results", "selection"])
   },
   methods: {
     async onQuery(event) {
