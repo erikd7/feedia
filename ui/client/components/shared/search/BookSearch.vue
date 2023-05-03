@@ -1,15 +1,13 @@
 <template>
-  <div>
-    <SearchBar
-      :liveSearch="search"
-      :updateItems="updateItems"
-      :optionLabel="getLabel"
-    >
-      <template v-slot:option="slotProps">
-        <BookOption :option="slotProps.option.option" />
-      </template>
-    </SearchBar>
-  </div>
+  <SearchBar
+    :liveSearch="search"
+    :updateItems="updateItems"
+    :optionLabel="getLabel"
+  >
+    <template v-slot:option="slotProps">
+      <BookOption :option="slotProps.option.option" />
+    </template>
+  </SearchBar>
 </template>
 
 <script>

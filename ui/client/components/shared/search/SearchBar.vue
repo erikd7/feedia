@@ -3,12 +3,16 @@
     <AutoComplete
       v-model="query"
       class="w-100 hide-default-results"
+      :inputProps="{ ref: 'focusInput' }"
       inputClass="w-100"
       placeholder="Search"
       :suggestions="results"
       :optionLabel="optionLabel"
       :minLength="3"
       :delay="400"
+      :completeOnFocus="true"
+      :autoOptionFocus="false"
+      @keydown.enter="onEnter"
       @complete="onQuery"
     >
       <template #option="slotProps">
@@ -21,6 +25,7 @@
 <script>
 import AutoComplete from "primevue/autocomplete";
 import { mapState } from "vuex";
+import { ROUTES } from "../../../util/constants/navigation";
 
 export default {
   components: { AutoComplete },
@@ -48,18 +53,27 @@ export default {
   },
   methods: {
     async onQuery(event) {
-      try {
-        //Call the search
-        const result = await this.liveSearch(event.query);
+      if (event.query) {
+        try {
+          //Call the search
+          const result = await this.liveSearch(event.query);
 
-        //Update the items
-        this.items = this.updateItems(this.items, result);
-      } catch (e) {
-        //update universal error handler here
-        console.log(
-          `Error searching with query '${event.query}': ${e.message}'`
-        );
+          //Update the items
+          this.items = this.updateItems(this.items, result);
+        } catch (e) {
+          //update universal error handler here
+          console.log(
+            `Error searching with query '${event.query}': ${e.message}'`
+          );
+        }
       }
+    },
+    unfocus() {
+      this.$refs.focusInput?.blur();
+    },
+    onEnter() {
+      this.$router.push(ROUTES.SEARCH);
+      this.unfocus();
     }
   }
 };
