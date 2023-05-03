@@ -8,14 +8,16 @@
 <script>
 import BookSearch from "../shared/search/BookSearch";
 import { searchBooks } from "../../http-clients/google";
+import { mapState } from "vuex";
 
 export default {
   components: { BookSearch },
   props: {},
   data() {
-    return {
-      myData: "nothing"
-    };
+    return {};
+  },
+  computed: {
+    ...mapState("search", ["results", "selection"])
   },
   methods: {
     search() {

@@ -11,6 +11,7 @@ import "@fortawesome/fontawesome-free/js/all.js";
 import VueCookies from "vue-cookies";
 import "./registerServiceWorker";
 import PrimeVue from "primevue/config";
+import store from "./store/store";
 
 library.add(faUserSecret);
 
@@ -18,6 +19,8 @@ const app = createApp(App);
 app.component("font-awesome-icon", FontAwesomeIcon);
 app.use(router);
 app.use(VueCookies);
+
+app.use(store);
 
 app.use(PrimeVue, { ripple: true });
 

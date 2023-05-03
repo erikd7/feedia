@@ -16,6 +16,7 @@
 import SearchBar from "./SearchBar";
 import BookOption from "./BookOption";
 import { searchBooks } from "../../../http-clients/google";
+import { mapActions } from "vuex";
 
 export default {
   components: { SearchBar, BookOption },
@@ -24,7 +25,9 @@ export default {
     return {};
   },
   methods: {
+    ...mapActions("search", ["setResults", "setSelection"]),
     search(queryString) {
+      this.setSelection(queryString);
       try {
         return searchBooks(queryString);
       } catch (e) {}
@@ -36,6 +39,7 @@ export default {
           authors: i.volumeInfo.authors,
           publishedDate: i.volumeInfo.publishedDate
         }));
+        this.setResults(newItems);
         return newItems;
       } catch (e) {}
     },
