@@ -1,33 +1,23 @@
 <template>
   <div>
-    <div>Search results Page!</div>
-    <BookSearch />
+    <div class="text-center">Search results Page!</div>
+    <Table :rows="formattedResults" />
   </div>
 </template>
 
 <script>
-import BookSearch from "../shared/search/BookSearch";
-import { searchBooks } from "../../http-clients/google";
-import { mapState } from "vuex";
+import Table from "../shared/table/Table";
+import { mapState, mapGetters } from "vuex";
 
 export default {
-  components: { BookSearch },
+  components: { Table },
   props: {},
   data() {
     return {};
   },
   computed: {
-    ...mapState("search", ["results", "selection"])
-  },
-  methods: {
-    search() {
-      try {
-        searchBooks("jonathan+strange+mr+norrell");
-      } catch (e) {}
-    }
+    ...mapState("search", ["results", "selection"]),
+    ...mapGetters("search", ["formattedResults"])
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>

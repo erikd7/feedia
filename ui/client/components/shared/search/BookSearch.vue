@@ -1,6 +1,7 @@
 <template>
   <SearchBar
     :liveSearch="search"
+    :items="results"
     :updateItems="updateItems"
     :optionLabel="getLabel"
   >
@@ -14,41 +15,39 @@
 import SearchBar from "./SearchBar";
 import BookOption from "./BookOption";
 import { searchBooks } from "../../../http-clients/google";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
+import { httpToItems, resultToSearchLabel } from "../../../util/mapping/book";
 
 export default {
   components: { SearchBar, BookOption },
-  props: {},
-  data() {
-    return {};
+  computed: {
+    ...mapGetters("search", { results: "formattedResults" })
   },
   methods: {
     ...mapActions("search", ["setResults", "setSelection"]),
-    search(queryString) {
+    async search(queryString) {
       this.setSelection(queryString);
       try {
-        return searchBooks(queryString);
-      } catch (e) {}
+        const result = await searchBooks(queryString);
+        if (!result.ok) {
+          throw Error(result.message);
+        }
+
+        //Set the results in Vuex which are passed to Autocomplete items
+        this.setResults(httpToItems(result));
+      } catch (e) {
+        console.log(`Error with search:`, e.message);
+      }
     },
     updateItems(_currentItems, searchResult) {
       try {
-        const newItems = searchResult.data.items.map(i => ({
-          title: i.volumeInfo.title,
-          authors: i.volumeInfo.authors,
-          publishedDate: i.volumeInfo.publishedDate
-        }));
-        this.setResults(newItems);
+        this.setResults(searchResult.data.items);
         return newItems;
-      } catch (e) {}
+      } catch (e) {
+        console.log(`Error with updating search items:`, e.message);
+      }
     },
-    getLabel(book) {
-      return `${book.title}${
-        book.authors ? ` - ${book.authors?.slice(0, 2).join(", ")}` : ""
-      }`;
-    }
+    getLabel: resultToSearchLabel
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
