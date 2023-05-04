@@ -6,7 +6,7 @@
       :inputProps="{ ref: 'focusInput' }"
       inputClass="w-100"
       placeholder="Search"
-      :suggestions="results"
+      :suggestions="items"
       :optionLabel="optionLabel"
       :minLength="3"
       :delay="400"
@@ -24,7 +24,6 @@
 
 <script>
 import AutoComplete from "primevue/autocomplete";
-import { mapState } from "vuex";
 import { ROUTES } from "../../../util/constants/navigation";
 
 export default {
@@ -33,6 +32,10 @@ export default {
     liveSearch: {
       type: Function,
       default: () => {}
+    },
+    items: {
+      type: Array,
+      default: () => []
     },
     updateItems: {
       type: Function,
@@ -48,24 +51,12 @@ export default {
       query: null
     };
   },
-  computed: {
-    ...mapState("search", ["results", "selection"])
-  },
   methods: {
-    async onQuery(event) {
+    onQuery(event) {
       if (event.query) {
-        try {
-          //Call the search
-          const result = await this.liveSearch(event.query);
-
-          //Update the items
-          this.items = this.updateItems(this.items, result);
-        } catch (e) {
-          //update universal error handler here
-          console.log(
-            `Error searching with query '${event.query}': ${e.message}'`
-          );
-        }
+        //Call the search
+        this.liveSearch(event.query);
+        this.query = event.query;
       }
     },
     unfocus() {
