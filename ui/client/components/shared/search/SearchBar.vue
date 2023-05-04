@@ -10,7 +10,6 @@
       :optionLabel="optionLabel"
       :minLength="3"
       :delay="400"
-      :completeOnFocus="true"
       :autoOptionFocus="false"
       @keydown.enter="onEnter"
       @complete="onQuery"
@@ -43,7 +42,7 @@ export default {
     },
     optionLabel: {
       type: Function,
-      default: () => "label"
+      default: item => item.getLabel()
     }
   },
   data() {
