@@ -22,7 +22,7 @@ export default {
     async search(queryString) {
       this.setSelection(queryString);
       try {
-        const books = await OpenlibraryClient.searchBooks(queryString);
+        const books = await OpenlibraryClient.subComponentSearch(queryString);
 
         //Set the results in Vuex which are passed to Autocomplete items
         this.setResults(books);

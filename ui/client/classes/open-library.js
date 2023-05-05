@@ -1,8 +1,10 @@
-import { get } from "../util/http.js";
-import { TwoWayMap } from "../util/mapping/mapping.js";
-import Book from "./Book.js";
+import { get } from "../util/http";
+import { TwoWayMap } from "../util/mapping/mapping";
+import Book from "./Book";
+import config from "../config/build";
 
 const baseUrl = "https://openlibrary.org";
+const searchLimitByType = config.search.limit;
 const fieldMap = TwoWayMap.build({
   title: "title",
   authors: "author_name",
@@ -12,15 +14,18 @@ const fieldMap = TwoWayMap.build({
 export default class OpenlibraryClient {
   constructor() {}
 
+  //Search component
   static async searchBooks(
     queryString,
-    { fields = ["title", "firstPublishYear", "authors"] } = {}
+    { fields = ["title", "firstPublishYear", "authors"] } = {},
+    limit = searchLimitByType.subComponent
   ) {
     //Map input fields to OpenLibrary fields
     const openlibraryFields = this.getOpenLibraryFields(fields);
     const params = {
       q: `"${queryString}"`,
-      fields: openlibraryFields?.join()
+      fields: openlibraryFields?.join(),
+      limit
     };
     //Make the request
     const books = this.destructureResponseData(
@@ -33,6 +38,17 @@ export default class OpenlibraryClient {
     );
 
     return formattedBooks;
+  }
+
+  //Search wrapper for sub component (when router is not '/search')
+  static subComponentSearch(queryString, fields) {
+    const limit = searchLimitByType.subComponent;
+    return this.searchBooks(queryString, fields, limit);
+  }
+  //Search wrapper for full page
+  static fullPageSearch(queryString, fields) {
+    const limit = searchLimitByType.fullPage;
+    return this.searchBooks(queryString, fields, limit);
   }
 
   //Helpers
