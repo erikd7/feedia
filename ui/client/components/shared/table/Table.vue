@@ -2,7 +2,7 @@
   <div>
     <DataView :value="rows">
       <template #list="row">
-        <Row :key="row.key" :index="row.index" :data="row.data" />
+        <Row :index="row.index" :data="row.data" />
       </template>
     </DataView>
   </div>

@@ -40,10 +40,6 @@
 export default {
   components: {},
   props: {
-    key: {
-      type: Number,
-      required: true
-    },
     index: {
       type: Number,
       required: true

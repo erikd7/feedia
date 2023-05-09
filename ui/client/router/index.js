@@ -3,6 +3,7 @@ import Feed from "../components/feed/Feed.vue";
 import Library from "../components/library/Library.vue";
 import Find from "../components/find/Find.vue";
 import { ROUTES } from "../util/constants/navigation";
+import * as guards from "./guards";
 
 export const routes = [
   {
@@ -29,17 +30,12 @@ const router = createRouter({
   routes
 });
 
-//Reroute nonmatched to root
 router.beforeEach((to, _from, next) => {
-  if (to.matched.length === 0) {
-    next("/");
-  } else {
-    next();
-  }
+  guards.redirectToRoot(to, _from, () => guards.renameTitle(to, _from, next));
 });
 
 router.afterEach(to => {
-  document.title = `Feedia | ${to.name}`;
+  guards.updateRouteStore(to);
 });
 
 export default router;

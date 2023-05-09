@@ -1,5 +1,11 @@
 <template>
-  <SearchBar :liveSearch="search" :items="results" :updateItems="updateItems">
+  <SearchBar
+    :inputId="inputId"
+    :liveSearch="search"
+    :items="results"
+    :updateItems="updateItems"
+    :hideResultsPanel="isInFullPageSearch"
+  >
     <template v-slot:option="slotProps">
       <BookOption :option="slotProps.option.option" />
     </template>
@@ -10,19 +16,32 @@
 import SearchBar from "./SearchBar";
 import BookOption from "./BookOption";
 import OpenlibraryClient from "../../../classes/open-library";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
+import { ROUTES } from "../../../util/constants/navigation";
 
 export default {
   components: { SearchBar, BookOption },
+  props: {
+    inputId: {
+      type: String
+    }
+  },
   computed: {
-    ...mapState("search", ["results"])
+    ...mapState("search", ["results"]),
+    ...mapGetters("navigation", ["currentRoute"]),
+    isInFullPageSearch() {
+      return [ROUTES.FIND, ROUTES.SEARCH].includes(this.currentRoute);
+    }
   },
   methods: {
     ...mapActions("search", ["setResults", "setSelection"]),
     async search(queryString) {
       this.setSelection(queryString);
       try {
-        const books = await OpenlibraryClient.subComponentSearch(queryString);
+        const books = await OpenlibraryClient.search(
+          queryString,
+          this.isInFullPageSearch
+        );
 
         //Set the results in Vuex which are passed to Autocomplete items
         this.setResults(books);
