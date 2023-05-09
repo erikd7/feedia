@@ -50,6 +50,13 @@ export default class OpenlibraryClient {
     const limit = searchLimitByType.fullPage;
     return this.searchBooks(queryString, fields, limit);
   }
+  static search(queryString, isFullPageSearch = false) {
+    if (isFullPageSearch) {
+      return this.fullPageSearch(queryString);
+    }
+
+    return this.subComponentSearch(queryString);
+  }
 
   //Helpers
   static destructureResponseData(response) {

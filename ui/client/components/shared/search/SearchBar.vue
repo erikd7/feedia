@@ -3,14 +3,17 @@
     <AutoComplete
       v-model="query"
       class="w-100 hide-default-results"
+      :inputId="inputId"
       :inputProps="{ ref: 'focusInput' }"
       inputClass="w-100"
+      :panelClass="{ hidden: hideResultsPanel }"
       placeholder="Search"
       :suggestions="items"
       :optionLabel="optionLabel"
       :minLength="3"
       :delay="400"
       :autoOptionFocus="false"
+      @focus="$event.target.select()"
       @keydown.enter="onEnter"
       @complete="onQuery"
     >
@@ -24,10 +27,15 @@
 <script>
 import AutoComplete from "primevue/autocomplete";
 import { ROUTES } from "../../../util/constants/navigation";
+import { mapActions } from "vuex";
 
 export default {
   components: { AutoComplete },
   props: {
+    inputId: {
+      type: String,
+      default: "search-bar"
+    },
     liveSearch: {
       type: Function,
       default: () => {}
@@ -43,6 +51,10 @@ export default {
     optionLabel: {
       type: Function,
       default: item => item.getLabel()
+    },
+    hideResultsPanel: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -51,6 +63,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions("navigation", ["toggleOffExpanded"]),
     onQuery(event) {
       if (event.query) {
         //Call the search
@@ -58,12 +71,10 @@ export default {
         this.query = event.query;
       }
     },
-    unfocus() {
-      this.$refs.focusInput?.blur();
-    },
-    onEnter() {
+    onEnter(event) {
+      event.target.blur();
       this.$router.push(ROUTES.SEARCH);
-      this.unfocus();
+      this.toggleOffExpanded();
     }
   }
 };

@@ -16,7 +16,6 @@ const getConfigForEnv = env => {
 
 const buildConfig = (env = getEnv()) => {
   const overrideConfig = getConfigForEnv(env);
-  console.log(`building config with env`, env, overrideConfig); /* //!DELETE */
 
   //If there is not a valid override, return default config
   if (!overrideConfig) {

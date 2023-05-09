@@ -1,13 +1,17 @@
 <template>
   <div class="nav-bar" @click="toggleExpanded">
     <Menu :sections="sections" :current="current" />
-    <BookSearch class="search-bar-container" />
+    <BookSearch
+      :inputId="NAV_BAR_SEARCH_INPUT_ID"
+      class="search-bar-container"
+    />
   </div>
 </template>
 
 <script>
 import Menu from "./Menu";
 import BookSearch from "../shared/search/BookSearch";
+import { NAV_BAR_SEARCH_INPUT_ID } from "../../util/constants/navigation";
 
 export default {
   components: { Menu, BookSearch },
@@ -26,6 +30,11 @@ export default {
     toggleExpanded: {
       type: Function,
       default: () => {}
+    }
+  },
+  computed: {
+    NAV_BAR_SEARCH_INPUT_ID() {
+      return NAV_BAR_SEARCH_INPUT_ID;
     }
   },
   methods: {

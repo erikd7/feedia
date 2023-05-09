@@ -4,7 +4,7 @@
     <div
       class="menu-pane"
       :class="{
-        'menu-pane-expanded': isExpanded
+        'menu-pane-expanded': navExpanded
       }"
       @Click="toggleExpanded"
       v-click-away="toggleOffExpanded"
@@ -25,18 +25,15 @@
 import NavBar from "./components/navigation/NavBar";
 import { routes } from "./router/index";
 import { mixin as clickaway } from "vue3-click-away";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "App",
   components: {
     NavBar
   },
-  data() {
-    return {
-      isExpanded: false
-    };
-  },
   computed: {
+    ...mapState("navigation", ["navExpanded"]),
     routes() {
       return routes;
     },
@@ -45,16 +42,9 @@ export default {
     }
   },
   methods: {
-    toggleExpanded(forcedValue) {
-      if (typeof forcedValue === "boolean") this.isExpanded = forcedValue;
-      this.isExpanded = !this.isExpanded;
-    },
-    toggleOffExpanded() {
-      this.isExpanded = false;
-    }
+    ...mapActions("navigation", ["toggleExpanded", "toggleOffExpanded"])
   },
-  mixins: [clickaway],
-  created() {}
+  mixins: [clickaway]
 };
 </script>
 
