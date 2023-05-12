@@ -2,12 +2,13 @@ import axios from "axios";
 
 //Axios method wrappers
 const defaultHeaders = {};
-export const get = async (url, queryParams) => {
+export const get = async (url, queryParams, { responseType = "json" } = {}) => {
   const response = await axios({
     method: "get",
     headers: defaultHeaders,
     url,
-    params: queryParams
+    params: queryParams,
+    responseType
   });
   if (response.status === 200) {
     if (response.data) {

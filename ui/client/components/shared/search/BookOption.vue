@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import { callClassFn } from "../../../util/class";
+
 export default {
   props: {
     option: {
@@ -17,9 +19,7 @@ export default {
     }
   },
   methods: {
-    callClassFn(object, methodName) {
-      return object[methodName]();
-    }
+    callClassFn
   }
 };
 </script>

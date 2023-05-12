@@ -1,8 +1,8 @@
 <template>
   <div>
     <DataView :value="rows">
-      <template #list="row">
-        <Row :index="row.index" :data="row.data" />
+      <template #list="{ data, index }">
+        <slot name="row" :index="index" :row="data" />
       </template>
     </DataView>
   </div>

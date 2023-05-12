@@ -2,7 +2,7 @@
   <div>
     <div class="col-12">
       <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
-        Book Cover
+        <BookCover :book="book" />
         <div
           class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4"
         >
@@ -10,26 +10,26 @@
             class="flex flex-column align-items-center sm:align-items-start gap-3"
           >
             <div class="text-2xl font-bold text-900">
-              {{ data.title }}
+              {{ book.title }}
             </div>
             <div
               class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2"
             >
-              {{ callClassFn(data, "displayFirstNAuthors") }} |
-              {{ data.publishedYear }}
+              {{ callClassFn(book, "displayFirstNAuthors", [3]) }} |
+              {{ callClassFn(book, "displayFirstPublishYear") }}
             </div>
             Rating
             <div class="flex align-items-center gap-3">
               <span class="flex align-items-center gap-2">
                 <i class="pi pi-tag"></i>
-                <span class="font-semibold">{{ data.genres }}</span>
+                <span class="font-semibold">{{ book.genres }}</span>
               </span>
             </div>
           </div>
           <div
             class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2"
           >
-            {{ data.publishedYear }}
+            {{ callClassFn(book, "displayFirstPublishYear") }}
           </div>
         </div>
       </div>
@@ -38,20 +38,28 @@
 </template>
 
 <script>
+import BookCover from "../image/BookCover";
 import { callClassFn } from "../../../util/class";
 
 export default {
-  components: {},
+  components: { BookCover },
   props: {
     index: {
       type: Number,
       required: true
     },
-    data: {
+    book: {
       type: Object,
       default: () => {}
     }
   },
-  methods: { callClassFn }
+  methods: {
+    callClassFn
+  }
 };
 </script>
+<style scoped>
+.p-dataview-content > div > div {
+  width: 100% !important;
+}
+</style>
