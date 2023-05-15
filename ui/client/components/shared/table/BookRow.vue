@@ -1,36 +1,38 @@
 <template>
-  <div>
-    <div class="col-12">
-      <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
+  <div class="rounded overflow-hidden shadow-lg px-2 py-2">
+    <div class="flex flex-row">
+      <div class="flex flex-column">
         <BookCover :book="book" />
-        <div
-          class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4"
-        >
-          <div
-            class="flex flex-column align-items-center sm:align-items-start gap-3"
+      </div>
+      <div class="flex flex-column justify-between">
+        <div class="card-section">
+          <p class="font-bold text-xl">
+            {{ callClassFn(book, "displayTitle") }}
+          </p>
+          <p class="">
+            {{ callClassFn(book, "displayFirstNAuthors", [3]) }}
+          </p>
+        </div>
+        <div class="card-section">
+          <p class="text-gray-700 text-base card-section">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            Voluptatibus quia, nulla! Maiores et perferendis eaque,
+            exercitationem praesentium nihil.
+          </p>
+        </div>
+        <div class="card-section">
+          <span
+            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+            >{{ callClassFn(book, "displayFirstPublishYear") }}</span
           >
-            <div class="text-2xl font-bold text-900">
-              {{ book.title }}
-            </div>
-            <div
-              class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2"
-            >
-              {{ callClassFn(book, "displayFirstNAuthors", [3]) }} |
-              {{ callClassFn(book, "displayFirstPublishYear") }}
-            </div>
-            Rating
-            <div class="flex align-items-center gap-3">
-              <span class="flex align-items-center gap-2">
-                <i class="pi pi-tag"></i>
-                <span class="font-semibold">{{ book.genres }}</span>
-              </span>
-            </div>
-          </div>
-          <div
-            class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2"
+          <span
+            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+            >#travel</span
           >
-            {{ callClassFn(book, "displayFirstPublishYear") }}
-          </div>
+          <span
+            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+            >#winter</span
+          >
         </div>
       </div>
     </div>
@@ -61,5 +63,15 @@ export default {
 <style scoped>
 .p-dataview-content > div > div {
   width: 100% !important;
+}
+.card-section {
+  padding: 5px;
+}
+.card-section:first-child {
+  padding-top: 0;
+}
+
+.card-section:last-child {
+  padding-bottom: 0;
 }
 </style>

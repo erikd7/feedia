@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div class="text-center">Search results Page!</div>
     <BookTable :books="results" />
   </div>
 </template>

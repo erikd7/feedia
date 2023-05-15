@@ -1,5 +1,9 @@
 <template>
-  <Image :imageSource="coverUrl" :cacheLocation="coverName" />
+  <Image
+    :imageSource="coverUrl"
+    :cacheLocation="coverName"
+    imageClass="rounded-md"
+  />
 </template>
 
 <script>
