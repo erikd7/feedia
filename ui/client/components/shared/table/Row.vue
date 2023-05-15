@@ -15,7 +15,8 @@
             <div
               class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2"
             >
-              {{ data.authors }} | {{ data.publishedYear }}
+              {{ callClassFn(data, "displayFirstNAuthors") }} |
+              {{ data.publishedYear }}
             </div>
             Rating
             <div class="flex align-items-center gap-3">
@@ -37,6 +38,8 @@
 </template>
 
 <script>
+import { callClassFn } from "../../../util/class";
+
 export default {
   components: {},
   props: {
@@ -49,6 +52,6 @@ export default {
       default: () => {}
     }
   },
-  methods: {}
+  methods: { callClassFn }
 };
 </script>

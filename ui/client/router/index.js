@@ -7,7 +7,7 @@ import * as guards from "./guards";
 
 export const routes = [
   {
-    name: "Feed",
+    name: "Discover",
     path: ROUTES.FEED,
     alias: ROUTES.ROOT,
     component: Feed

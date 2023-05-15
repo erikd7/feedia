@@ -6,6 +6,7 @@ import config from "../config/build";
 const baseUrl = "https://openlibrary.org";
 const searchLimitByType = config.search.limit;
 const fieldMap = TwoWayMap.build({
+  openLibraryEditionKey: "cover_edition_key",
   title: "title",
   authors: "author_name",
   firstPublishYear: "first_publish_year"
@@ -17,7 +18,16 @@ export default class OpenlibraryClient {
   //Search component
   static async searchBooks(
     queryString,
-    { fields = ["title", "firstPublishYear", "authors"] } = {},
+    {
+      fields = [
+        "openLibraryEditionKey",
+        "title",
+        "firstPublishYear",
+        "authors",
+        "publishYears",
+        "isbns"
+      ]
+    } = {},
     limit = searchLimitByType.subComponent
   ) {
     //Map input fields to OpenLibrary fields
@@ -56,6 +66,11 @@ export default class OpenlibraryClient {
     }
 
     return this.subComponentSearch(queryString);
+  }
+
+  //Get book cover
+  static getCoverUrl(id, size = "S", idType = "olid") {
+    return `https://covers.openlibrary.org/b/${idType}/${id}-${size}.jpg`;
   }
 
   //Helpers

@@ -18,7 +18,7 @@
       @complete="onQuery"
     >
       <template #option="slotProps">
-        <slot name="option" :option="slotProps"></slot>
+        <slot name="option" :option="slotProps" />
       </template>
     </AutoComplete>
   </div>

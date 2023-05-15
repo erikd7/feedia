@@ -1,8 +1,16 @@
+import OpenlibraryClient from "./open-library";
+
 export default class Book {
-  constructor({ title, authors, firstPublishYear }) {
+  constructor({ title, authors, firstPublishYear, openLibraryEditionKey }) {
     this.title = title;
     this.authors = authors;
     this.firstPublishYear = firstPublishYear;
+    this.openLibraryEditionKey = openLibraryEditionKey;
+  }
+
+  //Add additional info to existing
+  async addInfoResultsPage() {
+    return "";
   }
 
   //Display info
@@ -17,6 +25,14 @@ export default class Book {
   }
   displayFirstPublishYear() {
     return this.firstPublishYear;
+  }
+
+  //Cover
+  getCoverName(size = "M") {
+    return `book/cover/${this.openLibraryEditionKey}-${size}.jpg`;
+  }
+  getCoverUrl(size = "M") {
+    return OpenlibraryClient.getCoverUrl(this.openLibraryEditionKey, size);
   }
 
   getLabel() {

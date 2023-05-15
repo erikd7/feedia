@@ -1,22 +1,38 @@
-import dayjs from "dayjs"
+import dayjs from "dayjs";
+import config from "../config/build";
 
-const get = (key) => {
-    const object = JSON.parse(localStorage[key] || 'null')
-    if (object && !isExpired(object.expires)) {
-        return object.value;
+const get = key => {
+  const object = JSON.parse(localStorage[key] || "null");
+  if (object) {
+    if (!isExpired(object.expires)) {
+      return object.value;
+    } else {
+      localStorage.removeItem(key);
     }
-}
+  }
+};
 
-const set = (key, value, {expirationValue, expirationUnits = 'm'}, forceSet) => {
-    const current = JSON.parse(localStorage[key] || 'null');
-    if (!current || forceSet || isExpired(current.expires)) {
-        const object = { value, expires: dayjs().add(expirationValue, expirationUnits)}
-        localStorage[key] = JSON.stringify(object);
-    }
-}
+const set = (
+  key,
+  value,
+  {
+    expirationValue = config.cache.localStorage.defaultExpirationHours,
+    expirationUnits = "h"
+  } = {},
+  overwrite = false
+) => {
+  const current = JSON.parse(localStorage[key] || "null");
+  if (!current || overwrite || isExpired(current.expires)) {
+    const object = {
+      value,
+      expires: dayjs().add(expirationValue, expirationUnits)
+    };
+    localStorage[key] = JSON.stringify(object);
+  }
+};
 
 const isExpired = (expires, time) => {
-    return dayjs(time).isAfter(dayjs(expires))
-}
+  return dayjs(time).isAfter(dayjs(expires));
+};
 
-export {get, set}
+export { get, set };

@@ -1,16 +1,15 @@
 <template>
   <div>
-    <div class="text-center">Search results Page!</div>
-    <Table :rows="results" />
+    <BookTable :books="results" />
   </div>
 </template>
 
 <script>
-import Table from "../shared/table/Table";
+import BookTable from "../shared/table/BookTable";
 import { mapState } from "vuex";
 
 export default {
-  components: { Table },
+  components: { BookTable },
   props: {},
   data() {
     return {};
