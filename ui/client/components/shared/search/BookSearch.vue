@@ -18,6 +18,10 @@ import BookOption from "./BookOption";
 import OpenlibraryClient from "../../../classes/open-library";
 import { mapActions, mapState, mapGetters } from "vuex";
 import { ROUTES } from "../../../util/constants/navigation";
+import config from "../../../config/build";
+import getFields from "../../../util/constants/fields";
+
+const searchLimitByType = config.search.limit;
 
 export default {
   components: { SearchBar, BookOption },
@@ -38,9 +42,16 @@ export default {
     async search(queryString) {
       this.setSelection(queryString);
       try {
+        const fieldsType = this.isInFullPageSearch ? "expanded" : "limited";
+        const fields = getFields("book", fieldsType, true);
+
+        const resultsLimit = this.isInFullPageSearch
+          ? searchLimitByType.full
+          : searchLimitByType.limited;
         const books = await OpenlibraryClient.search(
           queryString,
-          this.isInFullPageSearch
+          fields,
+          resultsLimit
         );
 
         //Set the results in Vuex which are passed to Autocomplete items

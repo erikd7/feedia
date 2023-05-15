@@ -10,6 +10,9 @@ export default class Book {
 
   //Add additional info to existing
   async addInfoResultsPage() {
+    const result = await OpenlibraryClient.getResultsPageInfo(
+      this.openLibraryEditionKey
+    );
     return "";
   }
 
