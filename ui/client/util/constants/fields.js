@@ -4,7 +4,7 @@ const levels = ["limited", "expanded"];
 
 export const book = {
   limited: ["openLibraryEditionKey", "title", "firstPublishYear", "authors"],
-  expanded: []
+  expanded: ["firstSentence"]
 };
 
 const fields = { book };
@@ -15,7 +15,7 @@ const getFields = (mediaType, level, aggregate) => {
     if (aggregate) {
       const levelIndex = levels.indexOf(level);
       if (levelIndex !== -1) {
-        levelsToGet = levels.slice(0, levelIndex);
+        levelsToGet = levels.slice(0, levelIndex + 1);
       }
     }
     const result = levelsToGet.reduce((acc, level) => {

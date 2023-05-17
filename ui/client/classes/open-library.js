@@ -10,8 +10,12 @@ const fieldMap = TwoWayMap.build({
   openLibraryEditionKey: "cover_edition_key",
   title: "title",
   authors: "author_name",
-  firstPublishYear: "first_publish_year"
+  firstPublishYear: "first_publish_year",
+  firstSentence: "first_sentence"
 });
+const fieldTransformer = {
+  firstSentence: sentencesArray => sentencesArray?.[0] || ""
+};
 
 export default class OpenlibraryClient {
   constructor() {}
@@ -19,7 +23,7 @@ export default class OpenlibraryClient {
   //Search component
   static async search(
     queryString,
-    { fields = bookFields.limited } = {},
+    fields = bookFields.limited,
     limit = searchLimitByType.limited
   ) {
     //Map input fields to OpenLibrary fields
@@ -65,7 +69,12 @@ export default class OpenlibraryClient {
   static convertObjectToLocal(openLibraryObject) {
     return Object.entries(openLibraryObject).reduce((agg, [oldKey, value]) => {
       const newKey = fieldMap.revGet(oldKey) || oldKey;
-      agg[newKey] = value;
+      const transformer = fieldTransformer[newKey];
+      let transformedValue = value;
+      if (fieldTransformer[newKey]) {
+        transformedValue = transformer(value);
+      }
+      agg[newKey] = transformedValue;
 
       return agg;
     }, {});
