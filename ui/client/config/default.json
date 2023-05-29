@@ -1,8 +1,8 @@
 {
   "search": {
     "limit": {
-      "subComponent": 10,
-      "fullPage": 20
+      "limited": 10,
+      "full": 20
     }
   }
 }

@@ -13,14 +13,18 @@
             {{ callClassFn(book, "displayFirstNAuthors", [3]) }}
           </p>
         </div>
-        <div class="card-section">
-          <p class="text-gray-700 text-base card-section">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Voluptatibus quia, nulla! Maiores et perferendis eaque,
-            exercitationem praesentium nihil.
+        <div
+          v-if="callClassFn(book, 'displayFirstSentence')"
+          class="card-section"
+        >
+          <p class="text-gray-700 text-base italic text-ellipses">
+            {{ truncate(callClassFn(book, "displayFirstSentence"), 100) }}
           </p>
         </div>
-        <div class="card-section">
+        <div
+          class="card-section"
+          :title="`First sentence of ${callClassFn(book, 'displayTitle')}`"
+        >
           <span
             class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
             >{{ callClassFn(book, "displayFirstPublishYear") }}</span
@@ -42,6 +46,7 @@
 <script>
 import BookCover from "../image/BookCover";
 import { callClassFn } from "../../../util/class";
+import { truncate } from "../../../util/format/text";
 
 export default {
   components: { BookCover },
@@ -56,7 +61,8 @@ export default {
     }
   },
   methods: {
-    callClassFn
+    callClassFn,
+    truncate
   }
 };
 </script>

@@ -1,5 +1,6 @@
 import { get } from "../util/http";
 import { TwoWayMap } from "../util/mapping/mapping";
+import { book as bookFields } from "../util/constants/fields";
 import Book from "./Book";
 import config from "../config/build";
 
@@ -9,26 +10,21 @@ const fieldMap = TwoWayMap.build({
   openLibraryEditionKey: "cover_edition_key",
   title: "title",
   authors: "author_name",
-  firstPublishYear: "first_publish_year"
+  firstPublishYear: "first_publish_year",
+  firstSentence: "first_sentence"
 });
+const fieldTransformer = {
+  firstSentence: sentencesArray => sentencesArray?.[0] || ""
+};
 
 export default class OpenlibraryClient {
   constructor() {}
 
   //Search component
-  static async searchBooks(
+  static async search(
     queryString,
-    {
-      fields = [
-        "openLibraryEditionKey",
-        "title",
-        "firstPublishYear",
-        "authors",
-        "publishYears",
-        "isbns"
-      ]
-    } = {},
-    limit = searchLimitByType.subComponent
+    fields = bookFields.limited,
+    limit = searchLimitByType.limited
   ) {
     //Map input fields to OpenLibrary fields
     const openlibraryFields = this.getOpenLibraryFields(fields);
@@ -50,23 +46,8 @@ export default class OpenlibraryClient {
     return formattedBooks;
   }
 
-  //Search wrapper for sub component (when router is not '/search')
-  static subComponentSearch(queryString, fields) {
-    const limit = searchLimitByType.subComponent;
-    return this.searchBooks(queryString, fields, limit);
-  }
-  //Search wrapper for full page
-  static fullPageSearch(queryString, fields) {
-    const limit = searchLimitByType.fullPage;
-    return this.searchBooks(queryString, fields, limit);
-  }
-  static search(queryString, isFullPageSearch = false) {
-    if (isFullPageSearch) {
-      return this.fullPageSearch(queryString);
-    }
-
-    return this.subComponentSearch(queryString);
-  }
+  //Additional data
+  static getResultsPageInfo(workId) {}
 
   //Get book cover
   static getCoverUrl(id, size = "S", idType = "olid") {
@@ -80,15 +61,20 @@ export default class OpenlibraryClient {
 
   //Mappers
   static getOpenLibraryFields(inputFields) {
-    return inputFields.map(i => fieldMap.get(i));
+    return inputFields.map(i => fieldMap.get(i) || i);
   }
   static getLocalFields(openLibraryFields) {
-    return openLibraryFields.map(i => fieldMap.revGet(i));
+    return openLibraryFields.map(i => fieldMap.revGet(i) || i);
   }
   static convertObjectToLocal(openLibraryObject) {
     return Object.entries(openLibraryObject).reduce((agg, [oldKey, value]) => {
-      const newKey = fieldMap.revGet(oldKey);
-      agg[newKey] = value;
+      const newKey = fieldMap.revGet(oldKey) || oldKey;
+      const transformer = fieldTransformer[newKey];
+      let transformedValue = value;
+      if (fieldTransformer[newKey]) {
+        transformedValue = transformer(value);
+      }
+      agg[newKey] = transformedValue;
 
       return agg;
     }, {});

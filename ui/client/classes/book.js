@@ -1,15 +1,22 @@
 import OpenlibraryClient from "./open-library";
 
 export default class Book {
-  constructor({ title, authors, firstPublishYear, openLibraryEditionKey }) {
-    this.title = title;
-    this.authors = authors;
-    this.firstPublishYear = firstPublishYear;
-    this.openLibraryEditionKey = openLibraryEditionKey;
+  constructor(input) {
+    //Limited fields
+    this.title = input.title;
+    this.authors = input.authors;
+    this.firstPublishYear = input.firstPublishYear;
+    this.openLibraryEditionKey = input.openLibraryEditionKey;
+
+    //Expanded fields
+    this.firstSentence = input.firstSentence;
   }
 
   //Add additional info to existing
   async addInfoResultsPage() {
+    const result = await OpenlibraryClient.getResultsPageInfo(
+      this.openLibraryEditionKey
+    );
     return "";
   }
 
@@ -25,6 +32,9 @@ export default class Book {
   }
   displayFirstPublishYear() {
     return this.firstPublishYear;
+  }
+  displayFirstSentence() {
+    return this.firstSentence || "";
   }
 
   //Cover
