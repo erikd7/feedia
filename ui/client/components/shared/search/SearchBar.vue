@@ -2,10 +2,10 @@
   <div class="card flex justify-content-center">
     <AutoComplete
       v-model="query"
-      class="w-100 hide-default-results"
+      class="w-full hide-default-results"
       :inputId="inputId"
       :inputProps="{ ref: 'focusInput' }"
-      inputClass="w-100"
+      inputClass="w-full"
       :panelClass="{ hidden: hideResultsPanel }"
       placeholder="Search"
       :suggestions="items"

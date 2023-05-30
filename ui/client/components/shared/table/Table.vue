@@ -2,7 +2,9 @@
   <div>
     <DataView :value="rows">
       <template #list="{ data, index }">
-        <slot name="row" :index="index" :row="data" />
+        <div class="w-full rounded-lg bg-slate-400 hover:bg-slate-400">
+          <slot name="row" :index="index" :row="data" />
+        </div>
       </template>
     </DataView>
   </div>
@@ -10,10 +12,9 @@
 
 <script>
 import DataView from "primevue/dataview";
-import Row from "./Row";
 
 export default {
-  components: { DataView, Row },
+  components: { DataView },
   props: {
     rows: {
       type: Array,

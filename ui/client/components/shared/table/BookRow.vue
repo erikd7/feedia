@@ -9,8 +9,22 @@
           <p class="font-bold text-xl">
             {{ callClassFn(book, "displayTitle") }}
           </p>
-          <p class="">
-            {{ callClassFn(book, "displayFirstNAuthors", [3]) }}
+          <div class="space-x-1">
+            <a>
+              {{ callClassFn(book, "displayFirstNAuthors", [3]) }}
+            </a>
+            <a>&#x2022;</a>
+            <a>{{ callClassFn(book, "displayFirstPublishYear") }}</a>
+            <a>&#x2022;</a>
+            <a>{{ callClassFn(book, "displayPages") }} pages</a>
+          </div>
+        </div>
+        <div
+          v-if="callClassFn(book, 'displayDescription')"
+          class="card-section"
+        >
+          <p class="text-gray-700 text-base italic text-ellipses">
+            {{ truncate(callClassFn(book, "displayDescription"), 200) }}
           </p>
         </div>
         <div

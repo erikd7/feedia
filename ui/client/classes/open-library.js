@@ -11,7 +11,9 @@ const fieldMap = TwoWayMap.build({
   title: "title",
   authors: "author_name",
   firstPublishYear: "first_publish_year",
-  firstSentence: "first_sentence"
+  description: "description",
+  firstSentence: "first_sentence",
+  medianPages: "number_of_pages_median"
 });
 const fieldTransformer = {
   firstSentence: sentencesArray => sentencesArray?.[0] || ""

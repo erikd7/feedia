@@ -125,7 +125,7 @@ export default {
 
 @media only screen and (min-width: 650px) {
   :root {
-    --scale: 1.1;
+    --scale: 1.01;
   }
   .hover-grow {
     transition: all 0.15s ease-in-out;
