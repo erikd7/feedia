@@ -27,7 +27,11 @@
           </p>
         </div>
         <div class="mobile-hide card-section space-x-1 space-y-1">
-          <Chip v-for="subject in book.subjects" :label="subject" />
+          <Chip
+            v-for="subject in book.subjects"
+            :title="subject"
+            :label="truncate(subject, 30)"
+          />
         </div>
       </div>
     </div>

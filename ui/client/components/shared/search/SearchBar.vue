@@ -73,7 +73,13 @@ export default {
     },
     onEnter(event) {
       event.target.blur();
-      this.$router.push(ROUTES.SEARCH);
+      if (
+        ![ROUTES.SEARCH, ROUTES.FIND].includes(
+          this.$router.currentRoute._value.path
+        )
+      ) {
+        this.$router.push(ROUTES.SEARCH);
+      }
       this.toggleOffExpanded();
     }
   }
