@@ -1,9 +1,11 @@
 <template>
-  <Image
-    :imageSource="coverUrl"
-    :cacheLocation="coverName"
-    imageClass="rounded-md"
-  />
+  <div class="image-size">
+    <Image
+      :imageSource="coverUrl"
+      :cacheLocation="coverName"
+      imageClass="rounded-md"
+    />
+  </div>
 </template>
 
 <script>
@@ -29,3 +31,13 @@ export default {
   }
 };
 </script>
+<style>
+.image-size {
+  @apply w-44;
+}
+@media only screen and (max-width: 650px) {
+  .image-size {
+    @apply w-28;
+  }
+}
+</style>

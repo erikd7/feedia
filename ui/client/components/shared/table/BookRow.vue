@@ -7,36 +7,31 @@
       <div class="flex flex-column justify-between">
         <div class="card-section">
           <p class="font-bold text-xl">
-            {{ callClassFn(book, "displayTitle") }}
+            {{ title }}
           </p>
-          <p class="">
-            {{ callClassFn(book, "displayFirstNAuthors", [3]) }}
-          </p>
+          <DotSeparatedInfo
+            :info="[
+              first3Authors,
+              firstPublishYear,
+              { value: pageCount, formatter: pageCount => pageCount + ' pages' }
+            ]"
+          />
         </div>
         <div
-          v-if="callClassFn(book, 'displayFirstSentence')"
+          v-if="firstSentence"
+          :title="`First sentence of ${title}`"
           class="card-section"
         >
           <p class="text-gray-700 text-base italic text-ellipses">
-            {{ truncate(callClassFn(book, "displayFirstSentence"), 100) }}
+            {{ truncate(firstSentence, 100) }}
           </p>
         </div>
-        <div
-          class="card-section"
-          :title="`First sentence of ${callClassFn(book, 'displayTitle')}`"
-        >
-          <span
-            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-            >{{ callClassFn(book, "displayFirstPublishYear") }}</span
-          >
-          <span
-            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-            >#travel</span
-          >
-          <span
-            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-            >#winter</span
-          >
+        <div class="mobile-hide card-section space-x-1 space-y-1">
+          <Chip
+            v-for="subject in book.subjects"
+            :title="subject"
+            :label="truncate(subject, 30)"
+          />
         </div>
       </div>
     </div>
@@ -45,11 +40,12 @@
 
 <script>
 import BookCover from "../image/BookCover";
-import { callClassFn } from "../../../util/class";
+import Chip from "primevue/chip";
+import DotSeparatedInfo from "../info/DotSeparatedInfo.vue";
 import { truncate } from "../../../util/format/text";
 
 export default {
-  components: { BookCover },
+  components: { BookCover, Chip, DotSeparatedInfo },
   props: {
     index: {
       type: Number,
@@ -61,8 +57,24 @@ export default {
     }
   },
   methods: {
-    callClassFn,
     truncate
+  },
+  computed: {
+    title() {
+      return this.book.displayTitle();
+    },
+    first3Authors() {
+      return this.book.displayFirstNAuthors(3);
+    },
+    firstPublishYear() {
+      return this.book.displayFirstPublishYear();
+    },
+    pageCount() {
+      return this.book.displayPages();
+    },
+    firstSentence() {
+      return this.book.displayFirstSentence();
+    }
   }
 };
 </script>

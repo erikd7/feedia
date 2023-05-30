@@ -2,10 +2,10 @@
   <div class="card flex justify-content-center">
     <AutoComplete
       v-model="query"
-      class="w-100 hide-default-results"
+      class="w-full hide-default-results"
       :inputId="inputId"
       :inputProps="{ ref: 'focusInput' }"
-      inputClass="w-100"
+      inputClass="w-full"
       :panelClass="{ hidden: hideResultsPanel }"
       placeholder="Search"
       :suggestions="items"
@@ -73,7 +73,13 @@ export default {
     },
     onEnter(event) {
       event.target.blur();
-      this.$router.push(ROUTES.SEARCH);
+      if (
+        ![ROUTES.SEARCH, ROUTES.FIND].includes(
+          this.$router.currentRoute._value.path
+        )
+      ) {
+        this.$router.push(ROUTES.SEARCH);
+      }
       this.toggleOffExpanded();
     }
   }

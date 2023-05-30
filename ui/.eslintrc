@@ -1,14 +1,15 @@
 {
+  "plugins": ["tailwindcss"],
   "parser": "babel-eslint",
-    "overrides": [
-      {
-        "files": [
-          "**/*.spec.js",
-          "**/*.spec.jsx"
-        ],
-        "env": {
-          "jest": true
-        }
+  "rules": {
+    "tailwindcss/classnames": "off"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.spec.js", "**/*.spec.jsx"],
+      "env": {
+        "jest": true
       }
-    ]
-  }
+    }
+  ]
+}

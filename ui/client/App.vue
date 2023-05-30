@@ -122,10 +122,13 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.hide-last:last-child {
+  display: none;
+}
 
 @media only screen and (min-width: 650px) {
   :root {
-    --scale: 1.1;
+    --scale: 1.01;
   }
   .hover-grow {
     transition: all 0.15s ease-in-out;
@@ -150,11 +153,6 @@ export default {
   top: 50%;
   position: relative;
 }
-.image-display {
-  border-radius: 10px;
-  object-fit: cover;
-  width: 300px;
-}
 @media only screen and (max-width: 650px) {
   .mobile-one-col {
     flex-wrap: wrap;
@@ -163,6 +161,9 @@ export default {
     flex-basis: 51% !important;
     flex-shrink: 0 !important;
     flex-grow: 1 !important;
+  }
+  .mobile-hide {
+    display: none;
   }
 }
 /* Animations */
