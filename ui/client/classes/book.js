@@ -12,6 +12,7 @@ export default class Book {
     this.descriptions = input.description;
     this.firstSentence = input.firstSentence;
     this.medianPages = input.medianPages;
+    this.subjects = input.subjects?.slice(0, 5);
 
     //Run cleaner functions
     this.clean();

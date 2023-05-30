@@ -16,7 +16,9 @@
             <a>&#x2022;</a>
             <a>{{ callClassFn(book, "displayFirstPublishYear") }}</a>
             <a>&#x2022;</a>
-            <a>{{ callClassFn(book, "displayPages") }} pages</a>
+            <a v-if="callClassFn(book, 'displayPages')"
+              >{{ callClassFn(book, "displayPages") }} pages</a
+            >
           </div>
         </div>
         <div
@@ -36,21 +38,10 @@
           </p>
         </div>
         <div
-          class="card-section"
+          class="card-section space-x-1"
           :title="`First sentence of ${callClassFn(book, 'displayTitle')}`"
         >
-          <span
-            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-            >{{ callClassFn(book, "displayFirstPublishYear") }}</span
-          >
-          <span
-            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-            >#travel</span
-          >
-          <span
-            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-            >#winter</span
-          >
+          <Chip v-for="subject in book.subjects" :label="subject" />
         </div>
       </div>
     </div>
@@ -59,11 +50,12 @@
 
 <script>
 import BookCover from "../image/BookCover";
+import Chip from "primevue/chip";
 import { callClassFn } from "../../../util/class";
 import { truncate } from "../../../util/format/text";
 
 export default {
-  components: { BookCover },
+  components: { BookCover, Chip },
   props: {
     index: {
       type: Number,

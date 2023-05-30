@@ -4,7 +4,7 @@ const levels = ["limited", "expanded"];
 
 export const book = {
   limited: ["openLibraryEditionKey", "title", "firstPublishYear", "authors"],
-  expanded: ["firstSentence", "medianPages"]
+  expanded: ["firstSentence", "medianPages", "subjects"]
 };
 
 const fields = { book };
