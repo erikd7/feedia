@@ -7,39 +7,26 @@
       <div class="flex flex-column justify-between">
         <div class="card-section">
           <p class="font-bold text-xl">
-            {{ callClassFn(book, "displayTitle") }}
+            {{ title }}
           </p>
           <div class="space-x-1">
             <a>
-              {{ callClassFn(book, "displayFirstNAuthors", [3]) }}
+              {{ first3Authors }}
             </a>
             <a>&#x2022;</a>
-            <a>{{ callClassFn(book, "displayFirstPublishYear") }}</a>
+            <a>{{ firstPublishYear }}</a>
             <a>&#x2022;</a>
-            <a v-if="callClassFn(book, 'displayPages')"
-              >{{ callClassFn(book, "displayPages") }} pages</a
-            >
+            <a v-if="pageCount">{{ pageCount }} pageCount</a>
           </div>
         </div>
-        <div
-          v-if="callClassFn(book, 'displayDescription')"
-          class="card-section"
-        >
+        <div v-if="firstSentence" class="card-section">
           <p class="text-gray-700 text-base italic text-ellipses">
-            {{ truncate(callClassFn(book, "displayDescription"), 200) }}
-          </p>
-        </div>
-        <div
-          v-if="callClassFn(book, 'displayFirstSentence')"
-          class="card-section"
-        >
-          <p class="text-gray-700 text-base italic text-ellipses">
-            {{ truncate(callClassFn(book, "displayFirstSentence"), 100) }}
+            {{ truncate(firstSentence, 100) }}
           </p>
         </div>
         <div
           class="card-section space-x-1"
-          :title="`First sentence of ${callClassFn(book, 'displayTitle')}`"
+          :title="`First sentence of ${title}`"
         >
           <Chip v-for="subject in book.subjects" :label="subject" />
         </div>
@@ -51,8 +38,8 @@
 <script>
 import BookCover from "../image/BookCover";
 import Chip from "primevue/chip";
-import { callClassFn } from "../../../util/class";
 import { truncate } from "../../../util/format/text";
+import { book } from "../../../util/constants/fields";
 
 export default {
   components: { BookCover, Chip },
@@ -67,8 +54,24 @@ export default {
     }
   },
   methods: {
-    callClassFn,
     truncate
+  },
+  computed: {
+    title() {
+      return book.displayTitle();
+    },
+    first3Authors() {
+      return book.displayFirstNAuthors(3);
+    },
+    firstPublishYear() {
+      return book.displayFirstPublishYear();
+    },
+    pageCount() {
+      return book.pageCount();
+    },
+    firstSentence() {
+      return book.displayFirstSentence();
+    }
   }
 };
 </script>
