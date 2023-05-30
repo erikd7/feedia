@@ -150,11 +150,6 @@ export default {
   top: 50%;
   position: relative;
 }
-.image-display {
-  border-radius: 10px;
-  object-fit: cover;
-  width: 300px;
-}
 @media only screen and (max-width: 650px) {
   .mobile-one-col {
     flex-wrap: wrap;
@@ -163,6 +158,9 @@ export default {
     flex-basis: 51% !important;
     flex-shrink: 0 !important;
     flex-grow: 1 !important;
+  }
+  .mobile-hide {
+    display: none;
   }
 }
 /* Animations */

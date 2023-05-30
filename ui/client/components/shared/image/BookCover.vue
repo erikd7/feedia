@@ -33,7 +33,7 @@ export default {
 </script>
 <style>
 .image-size {
-  @apply w-52;
+  @apply w-44;
 }
 @media only screen and (max-width: 650px) {
   .image-size {

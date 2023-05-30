@@ -17,15 +17,16 @@
             ]"
           />
         </div>
-        <div v-if="firstSentence" class="card-section">
+        <div
+          v-if="firstSentence"
+          :title="`First sentence of ${title}`"
+          class="card-section"
+        >
           <p class="text-gray-700 text-base italic text-ellipses">
             {{ truncate(firstSentence, 100) }}
           </p>
         </div>
-        <div
-          class="card-section space-x-1"
-          :title="`First sentence of ${title}`"
-        >
+        <div class="mobile-hide card-section space-x-1 space-y-1">
           <Chip v-for="subject in book.subjects" :label="subject" />
         </div>
       </div>
