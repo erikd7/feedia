@@ -122,6 +122,9 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.hide-last:last-child {
+  display: none;
+}
 
 @media only screen and (min-width: 650px) {
   :root {

@@ -3,9 +3,7 @@
     <template v-for="(value, index) in info">
       <template v-if="getValue(value)">
         <a>{{ getFormattedValue(value) }}</a>
-        <template v-if="index < info.length - 1">
-          <a class="space-x-1">&#x2022;</a>
-        </template>
+        <a class="hide-last">&#x2022;</a>
       </template>
     </template>
   </div>
@@ -20,7 +18,10 @@ export default {
   },
   methods: {
     getValue(value) {
-      return value?.value || value;
+      if (typeof value === "object") {
+        return value.value;
+      }
+      return value;
     },
     getFormattedValue(value) {
       if (value?.formatter) {

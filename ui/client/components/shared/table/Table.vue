@@ -2,7 +2,7 @@
   <div>
     <DataView :value="rows">
       <template #list="{ data, index }">
-        <div class="w-full rounded-lg bg-slate-400 hover:bg-slate-400">
+        <div class="w-full rounded-lg hover:bg-slate-200">
           <slot name="row" :index="index" :row="data" />
         </div>
       </template>
