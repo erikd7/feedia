@@ -9,15 +9,13 @@
           <p class="font-bold text-xl">
             {{ title }}
           </p>
-          <div class="space-x-1">
-            <a>
-              {{ first3Authors }}
-            </a>
-            <a>&#x2022;</a>
-            <a>{{ firstPublishYear }}</a>
-            <a>&#x2022;</a>
-            <a v-if="pageCount">{{ pageCount }} pageCount</a>
-          </div>
+          <DotSeparatedInfo
+            :info="[
+              first3Authors,
+              firstPublishYear,
+              { value: pageCount, formatter: pageCount => pageCount + ' pages' }
+            ]"
+          />
         </div>
         <div v-if="firstSentence" class="card-section">
           <p class="text-gray-700 text-base italic text-ellipses">
@@ -38,11 +36,12 @@
 <script>
 import BookCover from "../image/BookCover";
 import Chip from "primevue/chip";
+import DotSeparatedInfo from "../info/DotSeparatedInfo.vue";
+import { callClassFn } from "../../../util/class";
 import { truncate } from "../../../util/format/text";
-import { book } from "../../../util/constants/fields";
 
 export default {
-  components: { BookCover, Chip },
+  components: { BookCover, Chip, DotSeparatedInfo },
   props: {
     index: {
       type: Number,
@@ -54,23 +53,24 @@ export default {
     }
   },
   methods: {
+    callClassFn,
     truncate
   },
   computed: {
     title() {
-      return book.displayTitle();
+      return this.callClassFn(this.book, "displayTitle");
     },
     first3Authors() {
-      return book.displayFirstNAuthors(3);
+      return this.callClassFn(this.book, "displayFirstNAuthors", [3]);
     },
     firstPublishYear() {
-      return book.displayFirstPublishYear();
+      return this.callClassFn(this.book, "displayFirstPublishYear");
     },
     pageCount() {
-      return book.pageCount();
+      return this.callClassFn(this.book, "displayPages");
     },
     firstSentence() {
-      return book.displayFirstSentence();
+      return this.callClassFn(this.book, "displayFirstSentence");
     }
   }
 };
