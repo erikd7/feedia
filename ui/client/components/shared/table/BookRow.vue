@@ -37,7 +37,6 @@
 import BookCover from "../image/BookCover";
 import Chip from "primevue/chip";
 import DotSeparatedInfo from "../info/DotSeparatedInfo.vue";
-import { callClassFn } from "../../../util/class";
 import { truncate } from "../../../util/format/text";
 
 export default {
@@ -53,24 +52,23 @@ export default {
     }
   },
   methods: {
-    callClassFn,
     truncate
   },
   computed: {
     title() {
-      return this.callClassFn(this.book, "displayTitle");
+      return this.book.displayTitle();
     },
     first3Authors() {
-      return this.callClassFn(this.book, "displayFirstNAuthors", [3]);
+      return this.book.displayFirstNAuthors(3);
     },
     firstPublishYear() {
-      return this.callClassFn(this.book, "displayFirstPublishYear");
+      return this.book.displayFirstPublishYear();
     },
     pageCount() {
-      return this.callClassFn(this.book, "displayPages");
+      return this.book.displayPages();
     },
     firstSentence() {
-      return this.callClassFn(this.book, "displayFirstSentence");
+      return this.book.displayFirstSentence();
     }
   }
 };
