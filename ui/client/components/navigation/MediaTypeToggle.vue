@@ -1,5 +1,6 @@
 <template>
   <div>
+    <font-awesome-icon icon="fa-solid fa-xmark" />
     <SpeedDial
       :model="items"
       class=""
@@ -12,7 +13,9 @@
       hideIcon="fa fa-regular fa-circle-xmark"
     >
       <template #button="{ toggle }">
-        <button @click="toggle">my button</button>
+        <button @click="toggle">
+          <font-awesome-icon icon="fa-solid fa-plus-circle" />
+        </button>
       </template>
       <template #item="{ item, onClick }">
         <button @click="onClick" :title="item.label">

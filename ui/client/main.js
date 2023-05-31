@@ -6,9 +6,7 @@ import store from "./store/store";
 
 import { getEnv } from "./config/build";
 
-import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
 import PrimeVue from "primevue/config";
 import "./public/themes/index.css";
 import "./public/themes/main.css";
@@ -21,8 +19,6 @@ const env = getEnv();
 if (env !== "production") {
   console.log(`Building for ${env} environment.`);
 }
-
-library.add(faUserSecret);
 
 const app = createApp(App);
 app.component("font-awesome-icon", FontAwesomeIcon);
