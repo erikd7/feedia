@@ -11,8 +11,21 @@ const store = Vuex.createStore({
   },
   state() {
     return {
-      currentMediaType: MEDIA_TYPES.BOOK //eventually this will be one of book, movie, etc. and it will have its own setters
+      primaryMediaType: MEDIA_TYPES.BOOK,
+      currentMediaTypes: [MEDIA_TYPES.BOOK]
     };
+  },
+  mutations: {
+    currentMediaTypes(state, mediaTypes) {
+      state.currentMediaTypes = mediaTypes;
+    }
+  },
+  actions: {
+    addMediaType({ state, commit }, newMediaType) {
+      if (!state.currentMediaTypes.includes(newMediaType)) {
+        commit("currentMediaTypes", [...state.currentMediaTypes, newMediaType]);
+      }
+    }
   }
 });
 

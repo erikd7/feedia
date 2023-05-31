@@ -16,8 +16,8 @@ const store = {
     }
   },
   getters: {
-    currentMediaType(_state, _getters, rootState) {
-      return rootState.currentMediaType;
+    primaryMediaType(_state, _getters, rootState) {
+      return rootState.primaryMediaType;
     }
   },
   actions: {

@@ -63,11 +63,8 @@ export default {
 .menu-pane,
 .menu-pane-holder {
   width: 100%;
-  border-bottom: 2px solid #60789e;
-  overflow-y: hidden;
-  overflow-x: hidden;
   max-height: 45px;
-  position: absolute;
+  position: fixed;
 }
 .menu-pane {
   box-shadow: 0px 0px 5px grey;
@@ -75,6 +72,7 @@ export default {
   z-index: 5;
   height: min-content;
   background-color: white;
+  border-bottom: 2px solid #60789e;
 }
 .menu-pane-holder {
   height: inherit;
