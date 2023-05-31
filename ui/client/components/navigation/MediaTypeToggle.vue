@@ -1,6 +1,5 @@
 <template>
   <div>
-    <font-awesome-icon icon="fa-solid fa-xmark" />
     <SpeedDial
       :model="items"
       class=""
@@ -19,7 +18,7 @@
       </template>
       <template #item="{ item, onClick }">
         <button @click="onClick" :title="item.label">
-          a<font-awesome-icon :icon="['far', 'circle-xmark']" />
+          <component :is="item.icon" class="icon-size text-blue-500" />
         </button>
       </template>
     </SpeedDial>
@@ -30,9 +29,10 @@
 import SpeedDial from "primevue/speeddial";
 import { MEDIA_TYPE_DISPLAY } from "../../util/constants/base";
 import { mapState, mapActions } from "vuex";
+import { BookOpenIcon } from "@heroicons/vue/24/solid";
 
 export default {
-  components: { SpeedDial },
+  components: { SpeedDial, BookOpenIcon },
   computed: {
     ...mapState(["currentMediaTypes"]),
     items() {

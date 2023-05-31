@@ -120,6 +120,10 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.icon-size {
+  height: 25px;
+  width: 25px;
+}
 .hide-last:last-child {
   display: none;
 }

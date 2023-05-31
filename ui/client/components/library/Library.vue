@@ -1,4 +1,10 @@
-<template><div>This is the library</div></template>
+<template>
+  <div>
+    This is the library
+
+    <BeakerIcon class="h-6 w-6 text-blue-500" />
+  </div>
+</template>
 
 <script>
 export default {
