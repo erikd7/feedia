@@ -2,21 +2,17 @@
   <div class="nav-bar" @click="toggleExpanded">
     <Menu :sections="sections" :current="current" />
     <MediaTypeToggle />
-    <BookSearch
-      :inputId="NAV_BAR_SEARCH_INPUT_ID"
-      class="search-bar-container"
-    />
+    <SearchIconOrBar />
   </div>
 </template>
 
 <script>
 import Menu from "./Menu";
 import MediaTypeToggle from "./MediaTypeToggle";
-import BookSearch from "../shared/search/BookSearch";
-import { NAV_BAR_SEARCH_INPUT_ID } from "../../util/constants/navigation";
+import SearchIconOrBar from "./SearchIconOrBar";
 
 export default {
-  components: { Menu, BookSearch, MediaTypeToggle },
+  components: { Menu, SearchIconOrBar, MediaTypeToggle },
   data() {
     return {};
   },
@@ -32,11 +28,6 @@ export default {
     toggleExpanded: {
       type: Function,
       default: () => {}
-    }
-  },
-  computed: {
-    NAV_BAR_SEARCH_INPUT_ID() {
-      return NAV_BAR_SEARCH_INPUT_ID;
     }
   },
   methods: {
@@ -83,13 +74,17 @@ export default {
   .menu-pane,
   .nav-bar {
     transition: all 0.5s;
+    overflow-y: hidden;
   }
   .menu-pane-expanded {
     max-height: 300px !important;
   }
-  .menu,
-  .nav-bar {
+  .menu {
     flex-flow: column;
+  }
+  .nav-bar {
+    flex-flow: row;
+    overflow-y: hidden;
     align-items: center;
   }
   .search-bar-container {
