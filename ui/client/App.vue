@@ -120,7 +120,8 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.icon-size {
+.icon-base {
+  @apply text-blue-500;
   height: 25px;
   width: 25px;
 }

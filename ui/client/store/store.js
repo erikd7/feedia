@@ -12,7 +12,7 @@ const store = Vuex.createStore({
   state() {
     return {
       primaryMediaType: MEDIA_TYPES.BOOK,
-      currentMediaTypes: [MEDIA_TYPES.BOOK]
+      currentMediaTypes: [MEDIA_TYPES.BOOK, MEDIA_TYPES.MOVIE]
     };
   },
   mutations: {

@@ -1,6 +1,6 @@
 <template>
   <div class="space-x-1">
-    <template v-for="(value, index) in info">
+    <template v-for="value in info">
       <template v-if="getValue(value)">
         <a>{{ getFormattedValue(value) }}</a>
         <a class="hide-last">&#x2022;</a>

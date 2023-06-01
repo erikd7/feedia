@@ -6,13 +6,15 @@ import {
 } from "@heroicons/vue/24/solid";
 
 export const MEDIA_TYPES = {
-  BOOK: "book",
-  MOVIE: "movie"
+  BOOK: "BOOK",
+  MOVIE: "MOVIE",
+  TV: "TV",
+  MUSIC: "MUSIC"
 };
 
 export const MEDIA_TYPE_DISPLAY = {
-  BOOK: { name: "Books", icon: BookOpenIcon },
-  MOVIE: { name: "Movies", icon: FilmIcon },
-  TV: { name: "TV Shows", icon: TvIcon },
-  MUSIC: { name: "Music", icon: MusicalNoteIcon }
+  BOOK: { key: "BOOK", name: "Books", icon: BookOpenIcon },
+  MOVIE: { key: "MOVIE", name: "Movies", icon: FilmIcon },
+  TV: { key: "TV", name: "TV Shows", icon: TvIcon },
+  MUSIC: { key: "MUSIC", name: "Music", icon: MusicalNoteIcon }
 };

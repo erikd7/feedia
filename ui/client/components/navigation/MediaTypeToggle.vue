@@ -3,8 +3,8 @@
     <SpeedDial
       :model="items"
       class=""
-      type="semi-circle"
-      :radius="40"
+      type="linear"
+      :radius="50"
       buttonClass="toggle-button p-button-outlined"
       direction="down"
       :transitionDelay="40"
@@ -13,12 +13,12 @@
     >
       <template #button="{ toggle }">
         <button @click="toggle">
-          <font-awesome-icon icon="fa-solid fa-plus-circle" />
+          <CurrentMediaTypes />
         </button>
       </template>
       <template #item="{ item, onClick }">
         <button @click="onClick" :title="item.label">
-          <component :is="item.icon" class="icon-size text-blue-500" />
+          <component :is="item.icon" class="icon-base" />
         </button>
       </template>
     </SpeedDial>
@@ -27,12 +27,12 @@
 
 <script>
 import SpeedDial from "primevue/speeddial";
+import CurrentMediaTypes from "./CurrentMediaTypes";
 import { MEDIA_TYPE_DISPLAY } from "../../util/constants/base";
 import { mapState, mapActions } from "vuex";
-import { BookOpenIcon } from "@heroicons/vue/24/solid";
 
 export default {
-  components: { SpeedDial, BookOpenIcon },
+  components: { SpeedDial, CurrentMediaTypes },
   computed: {
     ...mapState(["currentMediaTypes"]),
     items() {
@@ -63,5 +63,12 @@ export default {
 :deep(.p-speeddial-action) {
   width: 30px !important;
   height: 30px !important;
+}
+:deep(.p-speeddial) {
+  padding: 0px 10px;
+}
+:deep(.p-speeddial-opened) {
+  @apply shadow-md;
+  background-color: white;
 }
 </style>
