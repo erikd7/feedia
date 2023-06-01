@@ -1,14 +1,14 @@
 <template>
-  <div class="self-baseline flex flex-row" :class="{ 'w-full': showSearchBar }">
+  <div
+    v-click-away="handleSearchBarClickAway"
+    class="self-baseline flex flex-row"
+    :class="{ 'w-full': showSearchBar }"
+  >
     <MagnifyingGlassCircleIcon
       class="search-icon self-end"
       @click="handleSearchIconClick"
     />
-    <div
-      v-click-away="() => setShowSearchBar(false)"
-      class="search-bar"
-      :class="{ 'mobile-hide': !showSearchBar }"
-    >
+    <div class="search-bar" :class="{ 'mobile-hide': !showSearchBar }">
       <BookSearch ref="search-component" :inputId="NAV_BAR_SEARCH_INPUT_ID" />
     </div>
   </div>
@@ -19,6 +19,7 @@ import { MagnifyingGlassCircleIcon } from "@heroicons/vue/24/solid";
 import BookSearch from "../shared/search/BookSearch";
 import { NAV_BAR_SEARCH_INPUT_ID } from "../../util/constants/navigation";
 import { mixin as clickaway } from "vue3-click-away";
+import { DomHandler } from "primevue/utils";
 
 export default {
   components: { BookSearch, MagnifyingGlassCircleIcon },
@@ -42,18 +43,25 @@ export default {
       this.setShowSearchBar(!this.showSearchBar);
     },
     focusSearch() {
+      //Both of these execute without error but neither works :/
+      DomHandler.focus(
+        this.$refs["search-component"].$refs["search-bar"].$refs["autocomplete"]
+          .$refs.focusInput
+      );
       this.$refs["search-component"].$refs["search-bar"].$refs[
         "autocomplete"
-      ].$refs[NAV_BAR_SEARCH_INPUT_ID].focus();
+      ].$refs.focusInput.focus();
     },
-    handleSearchIconClick() {
+    handleSearchIconClick(event) {
+      event.preventDefault();
+      event.stopPropagation();
       this.toggleSearchBar();
-      console.log(
-        `refs are`,
-        this.$refs["search-component"].$refs["search-bar"].$refs["autocomplete"]
-          .$refs[NAV_BAR_SEARCH_INPUT_ID]
-      ); /* //!DELETE */
       this.focusSearch();
+    },
+    handleSearchBarClickAway(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.setShowSearchBar(false);
     }
   },
   mixins: [clickaway]
@@ -63,6 +71,7 @@ export default {
 <style scoped>
 .search-icon {
   display: block;
+  flex-shrink: 0;
   color: white;
   background-color: #60789e;
   cursor: pointer;
@@ -74,6 +83,7 @@ export default {
 @media only screen and (max-width: 450px) {
   .search-icon {
     display: inline-block;
+    align-self: auto;
   }
   .search-bar {
     order: -1;

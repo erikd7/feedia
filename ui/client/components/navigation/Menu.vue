@@ -82,7 +82,7 @@ export default {
   }
   .menu {
     flex-flow: column;
-    align-items: center;
+    align-items: start;
   }
   .menu-item-spacer {
     width: fit-content;

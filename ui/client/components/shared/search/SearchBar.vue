@@ -5,7 +5,7 @@
       class="w-full hide-default-results"
       ref="autocomplete"
       :inputId="inputId"
-      :inputProps="{ ref: inputId }"
+      :inputProps="{ ref: 'focusInput' }"
       inputClass="w-full"
       :panelClass="{ hidden: hideResultsPanel }"
       placeholder="Search"
@@ -17,6 +17,12 @@
       @focus="$event.target.select()"
       @keydown.enter="onEnter"
       @complete="onQuery"
+      @click="
+        event => {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      "
     >
       <template #option="slotProps">
         <slot name="option" :option="slotProps" />
