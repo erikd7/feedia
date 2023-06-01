@@ -33,6 +33,13 @@ const store = Vuex.createStore({
       if (!state.currentMediaTypes.includes(newMediaType)) {
         commit("currentMediaTypes", [...state.currentMediaTypes, newMediaType]);
       }
+    },
+    removeMediaType({ state, commit }, mediaTypeKey) {
+      const indexToRemove = state.currentMediaTypes.indexOf(mediaTypeKey);
+      if (indexToRemove > -1) {
+        state.currentMediaTypes.splice(indexToRemove, 1);
+        commit("currentMediaTypes", state.currentMediaTypes);
+      }
     }
   }
 });

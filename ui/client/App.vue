@@ -142,7 +142,7 @@ export default {
   }
   .hover-grow:hover {
     transform: scale(var(--scale));
-    filter: drop-shadow(2px 2px 2px #425677);
+    filter: drop-shadow(2px 2px 2px #b4c3dc);
   }
   .no-grow {
     transform: scale(1) !important;

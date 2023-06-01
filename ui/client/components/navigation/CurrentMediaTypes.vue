@@ -1,24 +1,34 @@
 <template>
-  <div class="flex flex-row">
-    <div v-for="mediaType in currentMediaTypesDisplay" :key="mediaType.name">
-      <component
-        :is="mediaType.icon"
-        :title="mediaType.name"
-        class="icon-base"
-      />
+  <div>
+    <div v-if="currentMediaTypesDisplay?.length" class="flex flex-row">
+      <div v-for="mediaType in currentMediaTypesDisplay" :key="mediaType.name">
+        <MediaTypeIcon
+          :icon="mediaType.icon"
+          :name="mediaType.name"
+          :showRemove="currentMediaTypesDisplay?.length > 1"
+          :remove="() => removeMediaType(mediaType.key)"
+        />
+      </div>
     </div>
+    <PlusIcon v-if="!currentMediaTypesDisplay?.length" />
   </div>
 </template>
 
 <script>
+import MediaTypeIcon from "./MediaTypeIcon";
+import { PlusIcon } from "@heroicons/vue/24/solid";
 import { MEDIA_TYPE_DISPLAY } from "../../util/constants/base";
 import { mapState, mapActions } from "vuex";
 
 export default {
+  components: { MediaTypeIcon, PlusIcon },
   computed: {
     ...mapState(["currentMediaTypes"]),
     currentMediaTypesDisplay() {
-      return this.currentMediaTypes.map(mt => MEDIA_TYPE_DISPLAY[mt]);
+      return this.currentMediaTypes.map(mt => ({
+        ...MEDIA_TYPE_DISPLAY[mt],
+        key: mt
+      }));
     },
     items() {
       return Object.entries(MEDIA_TYPE_DISPLAY).map(([key, info]) => ({
@@ -29,7 +39,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["addMediaType"])
+    ...mapActions(["addMediaType", "removeMediaType"])
   }
 };
 </script>

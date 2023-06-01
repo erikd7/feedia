@@ -17,9 +17,11 @@
         </button>
       </template>
       <template #item="{ item }">
-        <button @click="item.command" :title="item.label">
-          <component :is="item.icon" class="icon-base" />
-        </button>
+        <div class="hover-grow">
+          <button @click="item.command" :title="item.label">
+            <MediaTypeIcon :icon="item.icon" iconClass="icon-base" />
+          </button>
+        </div>
       </template>
     </SpeedDial>
   </div>
@@ -28,11 +30,12 @@
 <script>
 import SpeedDial from "primevue/speeddial";
 import CurrentMediaTypes from "./CurrentMediaTypes";
+import MediaTypeIcon from "./MediaTypeIcon";
 import { MEDIA_TYPE_DISPLAY } from "../../util/constants/base";
 import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
-  components: { SpeedDial, CurrentMediaTypes },
+  components: { SpeedDial, CurrentMediaTypes, MediaTypeIcon },
   computed: {
     ...mapState(["currentMediaTypes"]),
     ...mapGetters(["currentMediaTypesHash"]),
@@ -43,7 +46,6 @@ export default {
           label: info.name,
           icon: info.icon,
           command: () => {
-            console.log("clicked " + key);
             this.addMediaType(key);
           }
         }));
@@ -71,7 +73,7 @@ export default {
   height: 30px !important;
 }
 :deep(.p-speeddial) {
-  padding: 0px 10px;
+  padding: 5px 10px;
 }
 :deep(.p-speeddial-opened) {
   @apply shadow-md;
