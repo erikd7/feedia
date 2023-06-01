@@ -63,11 +63,8 @@ export default {
 .menu-pane,
 .menu-pane-holder {
   width: 100%;
-  border-bottom: 2px solid #60789e;
-  overflow-y: hidden;
-  overflow-x: hidden;
   max-height: 45px;
-  position: absolute;
+  position: fixed;
 }
 .menu-pane {
   box-shadow: 0px 0px 5px grey;
@@ -75,6 +72,7 @@ export default {
   z-index: 5;
   height: min-content;
   background-color: white;
+  border-bottom: 2px solid #60789e;
 }
 .menu-pane-holder {
   height: inherit;
@@ -122,6 +120,11 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.icon-base {
+  @apply text-blue-500;
+  height: 25px;
+  width: 25px;
+}
 .hide-last:last-child {
   display: none;
 }
@@ -139,7 +142,7 @@ export default {
   }
   .hover-grow:hover {
     transform: scale(var(--scale));
-    filter: drop-shadow(2px 2px 2px #425677);
+    filter: drop-shadow(2px 2px 2px #b4c3dc);
   }
   .no-grow {
     transform: scale(1) !important;

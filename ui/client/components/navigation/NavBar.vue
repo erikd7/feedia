@@ -1,6 +1,7 @@
 <template>
   <div class="nav-bar" @click="toggleExpanded">
     <Menu :sections="sections" :current="current" />
+    <MediaTypeToggle />
     <BookSearch
       :inputId="NAV_BAR_SEARCH_INPUT_ID"
       class="search-bar-container"
@@ -10,11 +11,12 @@
 
 <script>
 import Menu from "./Menu";
+import MediaTypeToggle from "./MediaTypeToggle";
 import BookSearch from "../shared/search/BookSearch";
 import { NAV_BAR_SEARCH_INPUT_ID } from "../../util/constants/navigation";
 
 export default {
-  components: { Menu, BookSearch },
+  components: { Menu, BookSearch, MediaTypeToggle },
   data() {
     return {};
   },
