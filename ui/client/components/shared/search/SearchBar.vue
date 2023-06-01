@@ -8,7 +8,7 @@
       :inputProps="{ ref: 'focusInput' }"
       inputClass="w-full"
       :panelClass="{ hidden: hideResultsPanel }"
-      placeholder="Search"
+      :placeholder="placeholder"
       :suggestions="items"
       :optionLabel="optionLabel"
       :minLength="3"
@@ -62,6 +62,10 @@ export default {
     hideResultsPanel: {
       type: Boolean,
       default: false
+    },
+    placeholder: {
+      type: String,
+      default: "Search..."
     }
   },
   data() {
