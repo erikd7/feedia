@@ -1,8 +1,15 @@
 <template>
   <div class="nav-bar" @click="toggleExpanded">
-    <Menu :sections="sections" :current="current" />
-    <MediaTypeToggle />
-    <SearchIconOrBar />
+    <Menu
+      :sections="sections"
+      :current="current"
+      :class="{ 'mobile-hide': showSearchBar }"
+    />
+    <MediaTypeToggle :class="{ 'mobile-hide': showSearchBar }" />
+    <SearchIconOrBar
+      :showSearchBar="showSearchBar"
+      :setShowSearchBar="setShowSearchBar"
+    />
   </div>
 </template>
 
@@ -14,7 +21,7 @@ import SearchIconOrBar from "./SearchIconOrBar";
 export default {
   components: { Menu, SearchIconOrBar, MediaTypeToggle },
   data() {
-    return {};
+    return { showSearchBar: false };
   },
   props: {
     sections: {
@@ -33,6 +40,9 @@ export default {
   methods: {
     isCurrent(path) {
       return path === this.current;
+    },
+    setShowSearchBar(showSearchBar) {
+      this.showSearchBar = showSearchBar;
     }
   }
 };

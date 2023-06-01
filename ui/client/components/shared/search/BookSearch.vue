@@ -5,6 +5,7 @@
     :items="results"
     :updateItems="updateItems"
     :hideResultsPanel="isInFullPageSearch"
+    ref="search-bar"
   >
     <template v-slot:option="slotProps">
       <BookOption :option="slotProps.option.option" />

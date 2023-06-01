@@ -3,8 +3,9 @@
     <AutoComplete
       v-model="query"
       class="w-full hide-default-results"
+      ref="autocomplete"
       :inputId="inputId"
-      :inputProps="{ ref: 'focusInput' }"
+      :inputProps="{ ref: inputId }"
       inputClass="w-full"
       :panelClass="{ hidden: hideResultsPanel }"
       placeholder="Search"
