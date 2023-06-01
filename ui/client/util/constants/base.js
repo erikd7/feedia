@@ -18,3 +18,9 @@ export const MEDIA_TYPE_DISPLAY = {
   TV: { name: "TV Shows", icon: TvIcon },
   MUSIC: { name: "Music", icon: MusicalNoteIcon }
 };
+
+export const getSearchTerms = mediaTypes => {
+  return `Search ${mediaTypes
+    .map(mt => MEDIA_TYPE_DISPLAY[mt].name)
+    .join(", ")}...`;
+};

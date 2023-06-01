@@ -1,10 +1,14 @@
 <template>
   <div class="nav-bar" @click="toggleExpanded">
-    <Menu :sections="sections" :current="current" />
-    <MediaTypeToggle />
-    <BookSearch
-      :inputId="NAV_BAR_SEARCH_INPUT_ID"
-      class="search-bar-container"
+    <Menu
+      :sections="sections"
+      :current="current"
+      :class="{ 'mobile-hide': showSearchBar }"
+    />
+    <MediaTypeToggle :class="{ 'mobile-hide': showSearchBar }" />
+    <SearchIconOrBar
+      :showSearchBar="showSearchBar"
+      :setShowSearchBar="setShowSearchBar"
     />
   </div>
 </template>
@@ -12,13 +16,12 @@
 <script>
 import Menu from "./Menu";
 import MediaTypeToggle from "./MediaTypeToggle";
-import BookSearch from "../shared/search/BookSearch";
-import { NAV_BAR_SEARCH_INPUT_ID } from "../../util/constants/navigation";
+import SearchIconOrBar from "./SearchIconOrBar";
 
 export default {
-  components: { Menu, BookSearch, MediaTypeToggle },
+  components: { Menu, SearchIconOrBar, MediaTypeToggle },
   data() {
-    return {};
+    return { showSearchBar: false };
   },
   props: {
     sections: {
@@ -34,14 +37,12 @@ export default {
       default: () => {}
     }
   },
-  computed: {
-    NAV_BAR_SEARCH_INPUT_ID() {
-      return NAV_BAR_SEARCH_INPUT_ID;
-    }
-  },
   methods: {
     isCurrent(path) {
       return path === this.current;
+    },
+    setShowSearchBar(showSearchBar) {
+      this.showSearchBar = showSearchBar;
     }
   }
 };
@@ -79,17 +80,21 @@ export default {
   flex-basis: 50%;
   max-width: 24rem;
 }
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 450px) {
   .menu-pane,
   .nav-bar {
     transition: all 0.5s;
+    overflow-y: hidden;
   }
   .menu-pane-expanded {
     max-height: 300px !important;
   }
-  .menu,
-  .nav-bar {
+  .menu {
     flex-flow: column;
+  }
+  .nav-bar {
+    flex-flow: row;
+    overflow-y: hidden;
     align-items: center;
   }
   .search-bar-container {

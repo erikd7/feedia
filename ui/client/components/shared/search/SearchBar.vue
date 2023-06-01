@@ -3,11 +3,12 @@
     <AutoComplete
       v-model="query"
       class="w-full hide-default-results"
+      ref="autocomplete"
       :inputId="inputId"
       :inputProps="{ ref: 'focusInput' }"
       inputClass="w-full"
       :panelClass="{ hidden: hideResultsPanel }"
-      placeholder="Search"
+      :placeholder="placeholder"
       :suggestions="items"
       :optionLabel="optionLabel"
       :minLength="3"
@@ -16,6 +17,12 @@
       @focus="$event.target.select()"
       @keydown.enter="onEnter"
       @complete="onQuery"
+      @click="
+        event => {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      "
     >
       <template #option="slotProps">
         <slot name="option" :option="slotProps" />
@@ -55,6 +62,10 @@ export default {
     hideResultsPanel: {
       type: Boolean,
       default: false
+    },
+    placeholder: {
+      type: String,
+      default: "Search..."
     }
   },
   data() {

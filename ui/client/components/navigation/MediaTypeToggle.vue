@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="relative self-start">
     <SpeedDial
       :model="items"
-      class=""
+      class="t-0"
       type="linear"
       :radius="50"
       buttonClass="toggle-button p-button-outlined"
@@ -61,6 +61,10 @@ export default {
   width: 35px;
   height: 35px;
 }
+:deep(.p-speeddial) {
+  top: 0;
+  left: 0;
+}
 :deep(.p-speeddial-button) {
   width: 35px !important;
   height: 35px !important;
@@ -71,9 +75,6 @@ export default {
 :deep(.p-speeddial-action) {
   width: 30px !important;
   height: 30px !important;
-}
-:deep(.p-speeddial) {
-  padding: 5px 10px;
 }
 :deep(.p-speeddial-opened) {
   @apply shadow-md;

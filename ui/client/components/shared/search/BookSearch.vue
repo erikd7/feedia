@@ -5,6 +5,8 @@
     :items="results"
     :updateItems="updateItems"
     :hideResultsPanel="isInFullPageSearch"
+    :placeholder="searchPlaceholder"
+    ref="search-bar"
   >
     <template v-slot:option="slotProps">
       <BookOption :option="slotProps.option.option" />
@@ -18,6 +20,7 @@ import BookOption from "./BookOption";
 import OpenlibraryClient from "../../../classes/open-library";
 import { mapActions, mapState, mapGetters } from "vuex";
 import { ROUTES } from "../../../util/constants/navigation";
+import { getSearchTerms } from "../../../util/constants/base";
 import config from "../../../config/build";
 import getFields from "../../../util/constants/fields";
 
@@ -32,9 +35,13 @@ export default {
   },
   computed: {
     ...mapState("search", ["results"]),
+    ...mapState(["currentMediaTypes"]),
     ...mapGetters("navigation", ["currentRoute"]),
     isInFullPageSearch() {
       return [ROUTES.FIND, ROUTES.SEARCH].includes(this.currentRoute);
+    },
+    searchPlaceholder() {
+      return getSearchTerms(this.currentMediaTypes);
     }
   },
   methods: {
