@@ -156,7 +156,7 @@ export default {
   top: 50%;
   position: relative;
 }
-@media only screen and (max-width: 650px) {
+@media only screen and (max-width: 450px) {
   .mobile-one-col {
     flex-wrap: wrap;
   }

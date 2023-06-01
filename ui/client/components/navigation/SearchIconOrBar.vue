@@ -71,7 +71,7 @@ export default {
   height: 30px;
   display: none;
 }
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 450px) {
   .search-icon {
     display: inline-block;
   }

@@ -73,7 +73,7 @@ export default {
   background-color: #60789e;
   cursor: pointer;
 }
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 450px) {
   .menu-pane {
     transition: all 0.5s;
   }

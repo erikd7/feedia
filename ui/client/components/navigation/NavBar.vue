@@ -80,7 +80,7 @@ export default {
   flex-basis: 50%;
   max-width: 24rem;
 }
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 450px) {
   .menu-pane,
   .nav-bar {
     transition: all 0.5s;
