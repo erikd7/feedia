@@ -12,8 +12,16 @@ const store = Vuex.createStore({
   state() {
     return {
       primaryMediaType: MEDIA_TYPES.BOOK,
-      currentMediaTypes: [MEDIA_TYPES.BOOK, MEDIA_TYPES.MOVIE]
+      currentMediaTypes: [MEDIA_TYPES.BOOK]
     };
+  },
+  getters: {
+    currentMediaTypesHash(state) {
+      return state.currentMediaTypes.reduce(
+        (map, mt) => ({ ...map, [mt]: mt }),
+        {}
+      );
+    }
   },
   mutations: {
     currentMediaTypes(state, mediaTypes) {

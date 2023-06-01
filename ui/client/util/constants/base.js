@@ -13,8 +13,8 @@ export const MEDIA_TYPES = {
 };
 
 export const MEDIA_TYPE_DISPLAY = {
-  BOOK: { key: "BOOK", name: "Books", icon: BookOpenIcon },
-  MOVIE: { key: "MOVIE", name: "Movies", icon: FilmIcon },
-  TV: { key: "TV", name: "TV Shows", icon: TvIcon },
-  MUSIC: { key: "MUSIC", name: "Music", icon: MusicalNoteIcon }
+  BOOK: { name: "Books", icon: BookOpenIcon },
+  MOVIE: { name: "Movies", icon: FilmIcon },
+  TV: { name: "TV Shows", icon: TvIcon },
+  MUSIC: { name: "Music", icon: MusicalNoteIcon }
 };

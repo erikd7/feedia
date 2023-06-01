@@ -16,8 +16,8 @@
           <CurrentMediaTypes />
         </button>
       </template>
-      <template #item="{ item, onClick }">
-        <button @click="onClick" :title="item.label">
+      <template #item="{ item }">
+        <button @click="item.command" :title="item.label">
           <component :is="item.icon" class="icon-base" />
         </button>
       </template>
@@ -29,18 +29,24 @@
 import SpeedDial from "primevue/speeddial";
 import CurrentMediaTypes from "./CurrentMediaTypes";
 import { MEDIA_TYPE_DISPLAY } from "../../util/constants/base";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
   components: { SpeedDial, CurrentMediaTypes },
   computed: {
     ...mapState(["currentMediaTypes"]),
+    ...mapGetters(["currentMediaTypesHash"]),
     items() {
-      return Object.entries(MEDIA_TYPE_DISPLAY).map(([key, info]) => ({
-        label: info.name,
-        icon: info.icon,
-        command: () => console.log("clicked " + key)
-      }));
+      return Object.entries(MEDIA_TYPE_DISPLAY)
+        .filter(([key]) => !this.currentMediaTypesHash[key])
+        .map(([key, info]) => ({
+          label: info.name,
+          icon: info.icon,
+          command: () => {
+            console.log("clicked " + key);
+            this.addMediaType(key);
+          }
+        }));
     }
   },
   methods: {
