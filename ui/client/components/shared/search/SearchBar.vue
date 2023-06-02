@@ -2,7 +2,7 @@
   <div class="card flex justify-content-center">
     <AutoComplete
       v-model="query"
-      class="w-full hide-default-results"
+      class="w-full search-bar-min-width hide-default-results"
       ref="autocomplete"
       :inputId="inputId"
       :inputProps="{ ref: 'focusInput' }"
@@ -102,8 +102,10 @@ export default {
 :deep(.p-autocomplete-input) {
   width: 100%;
 }
-
 :deep(.p-autocomplete .p-hidden-accessible) {
   display: none;
+}
+.search-bar-min-width {
+  min-width: 300px;
 }
 </style>
