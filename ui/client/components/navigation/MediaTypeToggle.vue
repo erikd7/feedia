@@ -16,6 +16,7 @@
         hovered = false;
       }
     "
+    @click="stopEvent"
   >
     <SpeedDial
       :model="items"
@@ -59,6 +60,7 @@ import MediaTypeIcon from "./MediaTypeIcon";
 import { PlusCircleIcon } from "@heroicons/vue/24/solid";
 import { MEDIA_TYPE_DISPLAY } from "../../util/constants/base";
 import { mapState, mapActions, mapGetters } from "vuex";
+import { stopEvent } from "../../util/event";
 
 export default {
   data() {
@@ -91,12 +93,8 @@ export default {
   },
   methods: {
     ...mapActions(["addMediaType", "removeMediaType"]),
+    stopEvent,
     isMediaTypeSelected(key) {
-      console.log(
-        `in checker`,
-        key,
-        this.currentMediaTypesHash
-      ); /* //!DELETE */
       return this.currentMediaTypesHash[key];
     }
   }
