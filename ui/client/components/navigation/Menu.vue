@@ -7,7 +7,7 @@
         class="menu-item-spacer"
         :class="{
           'sort-item-top': isCurrent(section.name),
-          'mobile-hide': !isCurrent(section.name)
+          'mobile-hide': false && !isCurrent(section.name) && !navExpanded
         }"
       >
         <router-link :to="section.path">
@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   data() {
     return {};
@@ -40,6 +42,9 @@ export default {
       type: String,
       default: "/"
     }
+  },
+  computed: {
+    ...mapState("navigation", ["navExpanded"])
   },
   methods: {
     isCurrent(name) {

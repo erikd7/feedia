@@ -84,7 +84,6 @@ export default {
   .menu-pane,
   .nav-bar {
     transition: all 0.5s;
-    overflow-y: hidden;
   }
   .menu-pane-expanded {
     max-height: 300px !important;
@@ -94,7 +93,6 @@ export default {
   }
   .nav-bar {
     flex-flow: row;
-    overflow-y: hidden;
     align-items: center;
   }
   .search-bar-container {
