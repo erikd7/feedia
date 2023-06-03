@@ -1,5 +1,5 @@
 <template>
-  <div class="relative self-start">
+  <div class="flex flex-row relative self-start">
     <SpeedDial
       :model="items"
       class="t-0"
@@ -12,9 +12,7 @@
       hideIcon="fa fa-regular fa-circle-xmark"
     >
       <template #button="{ toggle }">
-        <button @click="toggle">
-          <CurrentMediaTypes />
-        </button>
+        <button @click="toggle">x<PlusCircleIcon /></button>
       </template>
       <template #item="{ item }">
         <div class="hover-grow">
@@ -24,6 +22,7 @@
         </div>
       </template>
     </SpeedDial>
+    <CurrentMediaTypes />
   </div>
 </template>
 
@@ -31,11 +30,12 @@
 import SpeedDial from "primevue/speeddial";
 import CurrentMediaTypes from "./CurrentMediaTypes";
 import MediaTypeIcon from "./MediaTypeIcon";
+import { PlusCircleIcon } from "@heroicons/vue/24/solid";
 import { MEDIA_TYPE_DISPLAY } from "../../util/constants/base";
 import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
-  components: { SpeedDial, CurrentMediaTypes, MediaTypeIcon },
+  components: { SpeedDial, CurrentMediaTypes, MediaTypeIcon, PlusCircleIcon },
   computed: {
     ...mapState(["currentMediaTypes"]),
     ...mapGetters(["currentMediaTypesHash"]),

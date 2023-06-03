@@ -2,20 +2,40 @@
   <div
     class="icon-container"
     :title="name"
-    @mouseover="showCloseIcon = true"
-    @mouseleave="showCloseIcon = false"
+    @mouseover="
+      () => {
+        showCloseIcon = true;
+      }
+    "
+    @mouseleave="
+      () => {
+        showCloseIcon = false;
+      }
+    "
   >
-    <component :is="icon" :class="iconClass" />
-    <XCircleIcon
+    <component
+      :is="icon"
+      :class="{
+        [iconClass]: true,
+        'icon-hover-delete': showRemove && showCloseIcon
+      }"
+    />
+    <XMarkIcon
       v-if="showRemove && showCloseIcon"
-      class="transition-smooth close-icon"
-      @click="remove"
+      class="transition-smooth close-icon hover-grow"
+      @click="
+        event => {
+          event.preventDefault();
+          event.stopPropagation();
+          remove(event);
+        }
+      "
     />
   </div>
 </template>
 
 <script>
-import { XCircleIcon } from "@heroicons/vue/24/solid";
+import { XMarkIcon } from "@heroicons/vue/24/solid";
 
 export default {
   props: {
@@ -40,7 +60,7 @@ export default {
     }
   },
   components: {
-    XCircleIcon
+    XMarkIcon
   },
   data() {
     return {
@@ -58,10 +78,12 @@ export default {
 
 .close-icon {
   position: absolute;
-  top: -6px;
-  left: -6px;
+  top: 0;
+  left: 0;
   cursor: pointer;
-  @apply w-3;
   @apply text-red-700;
+}
+.icon-hover-delete {
+  @apply text-gray-400;
 }
 </style>
