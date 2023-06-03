@@ -1,8 +1,27 @@
 <template>
-  <div class="relative self-start">
+  <div
+    class="relative self-start"
+    @mouseover="
+      () => {
+        hovered = true;
+      }
+    "
+    @mouseleave="
+      () => {
+        hovered = false;
+      }
+    "
+    v-click-away="
+      () => {
+        hovered = false;
+      }
+    "
+    @click="stopEvent"
+  >
     <SpeedDial
       :model="items"
       class="t-0"
+      :class="{ 'p-speeddial-opened': hovered }"
       type="linear"
       :radius="50"
       buttonClass="toggle-button p-button-outlined"
@@ -13,13 +32,20 @@
     >
       <template #button="{ toggle }">
         <button @click="toggle">
-          <CurrentMediaTypes />
+          <CurrentMediaTypes :allowRemove="true" />
         </button>
       </template>
       <template #item="{ item }">
         <div class="hover-grow">
           <button @click="item.command" :title="item.label">
-            <MediaTypeIcon :icon="item.icon" iconClass="icon-base" />
+            <MediaTypeIcon
+              :icon="item.icon"
+              :showRemove="
+                isMediaTypeSelected(item.key) &&
+                currentMediaTypesDisplay?.length > 1
+              "
+              :remove="() => removeMediaType(item.key)"
+            />
           </button>
         </div>
       </template>
@@ -31,11 +57,18 @@
 import SpeedDial from "primevue/speeddial";
 import CurrentMediaTypes from "./CurrentMediaTypes";
 import MediaTypeIcon from "./MediaTypeIcon";
+import { PlusCircleIcon } from "@heroicons/vue/24/solid";
 import { MEDIA_TYPE_DISPLAY } from "../../util/constants/base";
 import { mapState, mapActions, mapGetters } from "vuex";
+import { stopEvent } from "../../util/event";
 
 export default {
-  components: { SpeedDial, CurrentMediaTypes, MediaTypeIcon },
+  data() {
+    return {
+      hovered: false
+    };
+  },
+  components: { SpeedDial, CurrentMediaTypes, MediaTypeIcon, PlusCircleIcon },
   computed: {
     ...mapState(["currentMediaTypes"]),
     ...mapGetters(["currentMediaTypesHash"]),
@@ -43,16 +76,27 @@ export default {
       return Object.entries(MEDIA_TYPE_DISPLAY)
         .filter(([key]) => !this.currentMediaTypesHash[key])
         .map(([key, info]) => ({
+          key: key,
           label: info.name,
           icon: info.icon,
           command: () => {
             this.addMediaType(key);
           }
         }));
+    },
+    currentMediaTypesDisplay() {
+      return this.currentMediaTypes.map(mt => ({
+        ...MEDIA_TYPE_DISPLAY[mt],
+        key: mt
+      }));
     }
   },
   methods: {
-    ...mapActions(["addMediaType"])
+    ...mapActions(["addMediaType", "removeMediaType"]),
+    stopEvent,
+    isMediaTypeSelected(key) {
+      return this.currentMediaTypesHash[key];
+    }
   }
 };
 </script>
@@ -79,5 +123,9 @@ export default {
 :deep(.p-speeddial-opened) {
   @apply shadow-md;
   background-color: white;
+  border-radius: 10px;
+}
+.speeddial-hover .p-speeddial-items {
+  display: block;
 }
 </style>
