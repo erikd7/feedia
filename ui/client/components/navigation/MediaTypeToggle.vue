@@ -32,7 +32,7 @@
     >
       <template #button="{ toggle }">
         <button @click="toggle">
-          <CurrentMediaTypes :allowRemove="true" />
+          <CurrentMediaTypes :allowRemove="!isMobile" />
         </button>
       </template>
       <template #item="{ item }">
@@ -40,10 +40,11 @@
           <button @click="item.command" :title="item.label">
             <MediaTypeIcon
               :icon="item.icon"
-              :showRemove="
+              :allowRemove="
                 isMediaTypeSelected(item.key) &&
                 currentMediaTypesDisplay?.length > 1
               "
+              :showRemove="isMobile && isMediaTypeSelected(item.key)"
               :remove="() => removeMediaType(item.key)"
             />
           </button>
@@ -73,16 +74,21 @@ export default {
     ...mapState(["currentMediaTypes"]),
     ...mapGetters(["currentMediaTypesHash"]),
     items() {
-      return Object.entries(MEDIA_TYPE_DISPLAY)
-        .filter(([key]) => !this.currentMediaTypesHash[key])
-        .map(([key, info]) => ({
-          key: key,
-          label: info.name,
-          icon: info.icon,
-          command: () => {
-            this.addMediaType(key);
-          }
-        }));
+      let mediaTypeEntries = Object.entries(MEDIA_TYPE_DISPLAY);
+      //In desktop, user deletes from the SpeedDial button. In mobile, user deletes from dropdown, so only filter for desktop
+      if (!this.isMobile) {
+        mediaTypeEntries = mediaTypeEntries.filter(
+          ([key]) => !this.currentMediaTypesHash[key]
+        );
+      }
+      return mediaTypeEntries.map(([key, info]) => ({
+        key: key,
+        label: info.name,
+        icon: info.icon,
+        command: () => {
+          this.addMediaType(key);
+        }
+      }));
     },
     currentMediaTypesDisplay() {
       return this.currentMediaTypes.map(mt => ({

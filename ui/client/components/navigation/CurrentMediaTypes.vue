@@ -5,7 +5,7 @@
         <MediaTypeIcon
           :icon="mediaType.icon"
           :name="mediaType.name"
-          :showRemove="allowRemove && currentMediaTypesDisplay?.length > 1"
+          :allowRemove="allowRemove && currentMediaTypesDisplay?.length > 1"
           :remove="() => removeMediaType(mediaType.key)"
         />
       </div>
