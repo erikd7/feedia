@@ -78,7 +78,7 @@ export default {
   height: 30px;
   display: none;
 }
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 767px /*mobile-breakpoint*/) {
   .search-icon {
     display: inline-block;
     align-self: auto;

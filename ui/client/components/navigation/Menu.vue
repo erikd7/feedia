@@ -5,7 +5,10 @@
         v-for="section in sections"
         :key="section.path"
         class="menu-item-spacer"
-        :class="{ 'sort-item-top': isCurrent(section.name) }"
+        :class="{
+          'sort-item-top': isCurrent(section.name),
+          'mobile-opaque': !isCurrent(section.name) && !navExpanded
+        }"
       >
         <router-link :to="section.path">
           <div
@@ -24,6 +27,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   data() {
     return {};
@@ -37,6 +42,9 @@ export default {
       type: String,
       default: "/"
     }
+  },
+  computed: {
+    ...mapState("navigation", ["navExpanded"])
   },
   methods: {
     isCurrent(name) {
@@ -57,6 +65,7 @@ export default {
 .menu-item-spacer {
   margin: 0px 5px;
   width: fit-content;
+  transition: all 0.5s;
 }
 .menu-item {
   color: black;
@@ -73,7 +82,7 @@ export default {
   background-color: #60789e;
   cursor: pointer;
 }
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 767px /*mobile-breakpoint*/) {
   .menu-pane {
     transition: all 0.5s;
   }

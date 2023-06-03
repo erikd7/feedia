@@ -4,5 +4,8 @@
       "limited": 10,
       "full": 20
     }
+  },
+  "mobile": {
+    "breakpoint": "767px"
   }
 }

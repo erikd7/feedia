@@ -80,12 +80,7 @@ export default {
   flex-basis: 50%;
   max-width: 24rem;
 }
-@media only screen and (max-width: 450px) {
-  .menu-pane,
-  .nav-bar {
-    transition: all 0.5s;
-    overflow-y: hidden;
-  }
+@media only screen and (max-width: 767px /*mobile-breakpoint*/) {
   .menu-pane-expanded {
     max-height: 300px !important;
   }
@@ -94,7 +89,6 @@ export default {
   }
   .nav-bar {
     flex-flow: row;
-    overflow-y: hidden;
     align-items: center;
   }
   .search-bar-container {

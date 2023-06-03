@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="top">
     <div class="menu-pane-holder" />
     <div
       class="menu-pane"
@@ -47,7 +47,7 @@ export default {
 </script>
 
 <style>
-#app {
+.top {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -57,6 +57,9 @@ export default {
   flex-flow: wrap;
   height: 100vh;
   overflow-y: hidden;
+}
+:root {
+  --mobile-breakpoint: 767px; /*mobile-breakpoint*/
 }
 .menu-pane,
 .menu-pane-holder {
@@ -154,7 +157,7 @@ export default {
   top: 50%;
   position: relative;
 }
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 767px /*mobile-breakpoint*/) {
   .mobile-one-col {
     flex-wrap: wrap;
   }
@@ -165,6 +168,12 @@ export default {
   }
   .mobile-hide {
     display: none;
+  }
+  .mobile-invisible {
+    visibility: hidden;
+  }
+  .mobile-opaque {
+    opacity: 0;
   }
 }
 /* Animations */
