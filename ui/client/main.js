@@ -1,11 +1,17 @@
+//Basic
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import VueCookies from "vue-cookies";
 import store from "./store/store";
 
+//Plugins
+import { mixin as clickaway } from "vue3-click-away";
+
+//Helpers
 import { getEnv } from "./config/build";
 
+//Style
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import PrimeVue from "primevue/config";
 import "./public/themes/index.css";
@@ -21,12 +27,17 @@ if (env !== "production") {
 }
 
 const app = createApp(App);
-app.component("font-awesome-icon", FontAwesomeIcon);
+
+//Basic
 app.use(router);
 app.use(VueCookies);
-
 app.use(store);
 
+//Plugins
+app.mixin(clickaway);
+
+//Style
+app.component("font-awesome-icon", FontAwesomeIcon);
 app.use(PrimeVue, { ripple: true });
 
 app.mount("#app");

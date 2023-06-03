@@ -24,7 +24,6 @@
 <script>
 import NavBar from "./components/navigation/NavBar";
 import { routes } from "./router/index";
-import { mixin as clickaway } from "vue3-click-away";
 import { mapActions, mapState } from "vuex";
 
 export default {
@@ -43,8 +42,7 @@ export default {
   },
   methods: {
     ...mapActions("navigation", ["toggleExpanded", "toggleOffExpanded"])
-  },
-  mixins: [clickaway]
+  }
 };
 </script>
 

@@ -5,7 +5,7 @@
         <MediaTypeIcon
           :icon="mediaType.icon"
           :name="mediaType.name"
-          :showRemove="currentMediaTypesDisplay?.length > 1"
+          :showRemove="allowRemove && currentMediaTypesDisplay?.length > 1"
           :remove="() => removeMediaType(mediaType.key)"
         />
       </div>
@@ -21,6 +21,12 @@ import { MEDIA_TYPE_DISPLAY } from "../../util/constants/base";
 import { mapState, mapActions } from "vuex";
 
 export default {
+  props: {
+    allowRemove: {
+      type: Boolean,
+      default: false
+    }
+  },
   components: { MediaTypeIcon, PlusIcon },
   computed: {
     ...mapState(["currentMediaTypes"]),

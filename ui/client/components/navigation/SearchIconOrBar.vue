@@ -18,7 +18,6 @@
 import { MagnifyingGlassCircleIcon } from "@heroicons/vue/24/solid";
 import BookSearch from "../shared/search/BookSearch";
 import { NAV_BAR_SEARCH_INPUT_ID } from "../../util/constants/navigation";
-import { mixin as clickaway } from "vue3-click-away";
 import { DomHandler } from "primevue/utils";
 
 export default {
@@ -63,8 +62,7 @@ export default {
       event.stopPropagation();
       this.setShowSearchBar(false);
     }
-  },
-  mixins: [clickaway]
+  }
 };
 </script>
 
