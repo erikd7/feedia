@@ -6,6 +6,6 @@
     }
   },
   "mobile": {
-    "breakpoint": 767
+    "breakpoint": "767px"
   }
 }

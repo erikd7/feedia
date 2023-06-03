@@ -76,7 +76,7 @@ export default {
   background-color: #60789e;
   cursor: pointer;
 }
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: var(--mobile-breakpoint)) {
   .menu-pane {
     transition: all 0.5s;
   }

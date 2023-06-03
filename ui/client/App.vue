@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div :style="{ '--mobile-breakpoint': config.mobile.breakpoint }">
     <div class="menu-pane-holder" />
     <div
       class="menu-pane"
@@ -57,6 +57,9 @@ export default {
   flex-flow: wrap;
   height: 100vh;
   overflow-y: hidden;
+}
+:root {
+  --mobile-breakpoint: 767px; /*mobile-breakpoint*/
 }
 .menu-pane,
 .menu-pane-holder {
@@ -154,7 +157,7 @@ export default {
   top: 50%;
   position: relative;
 }
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: var(--mobile-breakpoint)) {
   .mobile-one-col {
     flex-wrap: wrap;
   }
