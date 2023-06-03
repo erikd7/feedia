@@ -7,7 +7,7 @@
         class="menu-item-spacer"
         :class="{
           'sort-item-top': isCurrent(section.name),
-          'mobile-hide': false && !isCurrent(section.name) && !navExpanded
+          'mobile-opaque': !isCurrent(section.name) && !navExpanded
         }"
       >
         <router-link :to="section.path">
@@ -65,6 +65,7 @@ export default {
 .menu-item-spacer {
   margin: 0px 5px;
   width: fit-content;
+  transition: all 0.5s;
 }
 .menu-item {
   color: black;

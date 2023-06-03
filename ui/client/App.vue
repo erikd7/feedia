@@ -169,6 +169,12 @@ export default {
   .mobile-hide {
     display: none;
   }
+  .mobile-invisible {
+    visibility: hidden;
+  }
+  .mobile-opaque {
+    opacity: 0;
+  }
 }
 /* Animations */
 :nth-child(1) {

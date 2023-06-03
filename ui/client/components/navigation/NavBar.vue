@@ -81,10 +81,6 @@ export default {
   max-width: 24rem;
 }
 @media only screen and (max-width: 767px /*mobile-breakpoint*/) {
-  .menu-pane,
-  .nav-bar {
-    transition: all 0.5s;
-  }
   .menu-pane-expanded {
     max-height: 300px !important;
   }
