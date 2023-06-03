@@ -1,5 +1,5 @@
 <template>
-  <div :style="{ '--mobile-breakpoint': config.mobile.breakpoint }">
+  <div class="top">
     <div class="menu-pane-holder" />
     <div
       class="menu-pane"
@@ -47,7 +47,7 @@ export default {
 </script>
 
 <style>
-#app {
+.top {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -157,7 +157,7 @@ export default {
   top: 50%;
   position: relative;
 }
-@media only screen and (max-width: var(--mobile-breakpoint)) {
+@media only screen and (max-width: 767px /*mobile-breakpoint*/) {
   .mobile-one-col {
     flex-wrap: wrap;
   }

@@ -80,7 +80,7 @@ export default {
   flex-basis: 50%;
   max-width: 24rem;
 }
-@media only screen and (max-width: var(--mobile-breakpoint)) {
+@media only screen and (max-width: 767px /*mobile-breakpoint*/) {
   .menu-pane,
   .nav-bar {
     transition: all 0.5s;
