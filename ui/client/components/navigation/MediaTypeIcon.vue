@@ -17,11 +17,11 @@
       :is="icon"
       :class="{
         [iconClass]: true,
-        'icon-hover-delete': showRemove && showCloseIcon
+        'icon-hover-delete': aggregateShowCloseIcon
       }"
     />
     <XMarkIcon
-      v-if="showRemove && showCloseIcon"
+      v-if="aggregateShowCloseIcon"
       class="transition-smooth close-icon hover-grow"
       @click="
         event => {
@@ -50,6 +50,11 @@ export default {
       type: String,
       default: "icon-base hover-grow"
     },
+    allowRemove: {
+      type: Boolean,
+      default: false
+    },
+    //Override component state to force show remove option
     showRemove: {
       type: Boolean,
       default: false
@@ -66,6 +71,11 @@ export default {
     return {
       showCloseIcon: false
     };
+  },
+  computed: {
+    aggregateShowCloseIcon() {
+      return this.allowRemove && (this.showRemove || this.showCloseIcon);
+    }
   }
 };
 </script>

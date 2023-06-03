@@ -8,19 +8,19 @@ export default {
     };
   },
   created() {
-    const mediaQuery = window.matchMedia(`(max-width: ${mobileBreakpoint}px)`);
+    const mediaQuery = window.matchMedia(`(max-width: ${mobileBreakpoint})`);
 
     // Update the mobile state initially
     this.isMobile = mediaQuery.matches;
 
     // Add a listener for changes to the media query
-    mediaQuery.addEventListener("change", this.updateMobileState);
+    mediaQuery.addListener(this.updateMobileState);
   },
   beforeUnmount() {
-    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const mediaQuery = window.matchMedia(`(max-width: ${mobileBreakpoint})`);
 
     // Remove the listener when the component is unmounted
-    mediaQuery.removeEventListener("change", this.updateMobileState);
+    mediaQuery.removeListener(this.updateMobileState);
   },
   methods: {
     updateMobileState(event) {
