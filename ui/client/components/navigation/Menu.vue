@@ -5,7 +5,10 @@
         v-for="section in sections"
         :key="section.path"
         class="menu-item-spacer"
-        :class="{ 'sort-item-top': isCurrent(section.name) }"
+        :class="{
+          'sort-item-top': isCurrent(section.name),
+          'mobile-hide': !isCurrent(section.name)
+        }"
       >
         <router-link :to="section.path">
           <div

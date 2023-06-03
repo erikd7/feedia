@@ -7,6 +7,8 @@ import store from "./store/store";
 
 //Plugins
 import { mixin as clickaway } from "vue3-click-away";
+import MobileMixin from "./components/shared/mixins/MobileMixin";
+import ConfigMixin from "./components/shared/mixins/ConfigMixin";
 
 //Helpers
 import { getEnv } from "./config/build";
@@ -35,6 +37,8 @@ app.use(store);
 
 //Plugins
 app.mixin(clickaway);
+app.mixin(ConfigMixin);
+app.mixin(MobileMixin);
 
 //Style
 app.component("font-awesome-icon", FontAwesomeIcon);
