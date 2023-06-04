@@ -1,5 +1,6 @@
-//Fields stack on each other, e.g. when you collect book.expanded fields, you should already have collected book.limited fields
+import { MEDIA_TYPES } from "./base";
 
+//Fields stack on each other, e.g. when you collect book.expanded fields, you should already have collected book.limited fields
 const levels = ["limited", "expanded"];
 
 export const book = {
@@ -7,9 +8,14 @@ export const book = {
   expanded: ["firstSentence", "medianPages", "subjects"]
 };
 
-const fields = { book };
+const movie = {
+  limited: ["title"],
+  expanded: []
+};
 
-const getFields = (mediaType, level, aggregate) => {
+const fields = { [MEDIA_TYPES.BOOK]: book, [MEDIA_TYPES.MOVIE]: movie };
+
+const getFields = (mediaType, level, aggregate = true) => {
   try {
     let levelsToGet = [level];
     if (aggregate) {
@@ -32,4 +38,11 @@ const getFields = (mediaType, level, aggregate) => {
   }
 };
 
-export default getFields;
+const getRequiredFields = (mediaTypes, level, aggregate = true) => {
+  return Object.keys(mediaTypes).reduce((acc, mediaType) => {
+    acc[mediaType] = getFields(mediaType, level, aggregate);
+    return acc;
+  }, {});
+};
+
+export default getRequiredFields;
