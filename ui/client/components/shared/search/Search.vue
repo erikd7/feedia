@@ -3,7 +3,6 @@
     :inputId="inputId"
     :liveSearch="search"
     :items="results"
-    :updateItems="updateItems"
     :hideResultsPanel="isInFullPageSearch"
     :placeholder="searchPlaceholder"
     ref="search-bar"
@@ -56,14 +55,6 @@ export default {
       } catch (e) {
         console.log(`Error with search:`, e.message);
         throw Error(e);
-      }
-    },
-    updateItems(_currentItems, searchResult) {
-      try {
-        this.setResults(searchResult.data.items);
-        return newItems;
-      } catch (e) {
-        console.log(`Error with updating search items:`, e.message);
       }
     }
   }
