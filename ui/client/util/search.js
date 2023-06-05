@@ -1,7 +1,8 @@
 import config from "../config/build";
 import { MEDIA_TYPES } from "./constants/base";
 import getRequiredFields from "./constants/fields";
-import OpenlibraryClient from "../classes/open-library";
+import Openlibrary from "../classes/open-library";
+import TMDB from "../classes/open-library";
 
 const searchConfig = config.search;
 
@@ -20,11 +21,17 @@ const search = async (currentMediaTypesHash, query, isFullPageSearch) => {
 
   //Get book info
   if (currentMediaTypesHash[MEDIA_TYPES.BOOK]) {
-    const books = await OpenlibraryClient.search(
+    const books = await Openlibrary.search(
       query,
       fields[MEDIA_TYPES.BOOK],
       resultsLimit
     );
+    results = results.concat(books);
+  }
+
+  //Get movie info
+  if (currentMediaTypesHash[MEDIA_TYPES.MOVIE]) {
+    const books = await TMDB.search(query, resultsLimit);
     results = results.concat(books);
   }
 

@@ -1,46 +1,33 @@
 import { get } from "../util/http";
 import { TwoWayMap } from "../util/mapping/mapping";
-import { book as bookFields } from "../util/constants/fields";
-import Book from "./Book";
-import config from "../config/build";
+import { getYearFromDate } from "../util/format/date";
+import Movie from "./Movie";
 
-export class OpenLibrary {
+export class TMDB {
   constructor() {
-    this.baseUrl = "https://openlibrary.org";
+    this.baseUrl = "https://api.themoviedb.org/3";
 
     this.fieldMap = TwoWayMap.build({
-      openLibraryEditionKey: "cover_edition_key",
+      tmdbId: "id",
       title: "title",
-      authors: "author_name",
-      firstPublishYear: "first_publish_year",
-      description: "description",
-      firstSentence: "first_sentence",
-      medianPages: "number_of_pages_median",
-      subjects: "subject_facet"
+      year: "release_date",
+      description: "overview",
+      posterPath: "poster_path"
     });
     this.fieldTransformer = {
-      firstSentence: sentencesArray => sentencesArray?.[0] || ""
+      year: releaseDate => getYearFromDate(releaseDate)
     };
-
-    this.searchConfig = config.search;
   }
 
   //Search component
-  async search(
-    queryString,
-    fields = bookFields.limited,
-    limit = this.searchConfig.limit.limited
-  ) {
+  static async search(queryString) {
     //Map input fields to OpenLibrary fields
-    const openlibraryFields = this.getOpenLibraryFields(fields);
     const params = {
-      q: `"${queryString}"`,
-      fields: openlibraryFields?.join(),
-      limit
+      query: queryString
     };
     //Make the request
     const books = this.destructureResponseData(
-      await get(this.baseUrl + "/search.json", params)
+      await get(this.baseUrl + "/search/movie", params)
     );
 
     //Map OpenLibrary fields back to our fields and create a class instance
@@ -58,15 +45,12 @@ export class OpenLibrary {
 
   //Helpers
   destructureResponseData(response) {
-    return response.data.docs;
+    return response.data.results;
   }
 
   //Mappers
-  getOpenLibraryFields(inputFields) {
-    return inputFields.map(i => this.fieldMap.get(i) || i);
-  }
-  getLocalFields(openLibraryFields) {
-    return openLibraryFields.map(i => this.fieldMap.revGet(i) || i);
+  getLocalFields(externalFields) {
+    return externalFields.map(i => this.fieldMap.revGet(i) || i);
   }
   convertObjectToLocal(openLibraryObject) {
     return Object.entries(openLibraryObject).reduce((agg, [oldKey, value]) => {
@@ -81,11 +65,11 @@ export class OpenLibrary {
       return agg;
     }, {});
   }
-  instantiateBookClass(bookObject) {
-    return new Book(bookObject);
+  instantiateMovieClass(movieObject) {
+    return new Movie(movieObject);
   }
 }
 
-const openLibrary = new OpenLibrary();
+const tmdb = new TMDB();
 
-export default openLibrary;
+export default tmdb;

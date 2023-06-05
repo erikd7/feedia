@@ -44,18 +44,18 @@ export default {
     ...mapActions("search", ["setResults", "setSelection"]),
     async search(queryString) {
       this.setSelection(queryString);
-      try {
-        const results = await aggregateSearch(
-          this.currentMediaTypesHash,
-          queryString,
-          this.isInFullPageSearch
-        );
-        //Set the results in Vuex which are passed to Autocomplete items
-        this.setResults(results);
-      } catch (e) {
+      //try {
+      const results = await aggregateSearch(
+        this.currentMediaTypesHash,
+        queryString,
+        this.isInFullPageSearch
+      );
+      //Set the results in Vuex which are passed to Autocomplete items
+      this.setResults(results);
+      /*} catch (e) {
         console.log(`Error with search:`, e.message);
         throw Error(e);
-      }
+      }*/
     }
   }
 };
