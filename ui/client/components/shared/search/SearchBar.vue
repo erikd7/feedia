@@ -51,10 +51,6 @@ export default {
       type: Array,
       default: () => []
     },
-    updateItems: {
-      type: Function,
-      default: currentItems => currentItems
-    },
     optionLabel: {
       type: Function,
       default: item => item.getLabel()

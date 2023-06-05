@@ -4,30 +4,32 @@ import { book as bookFields } from "../util/constants/fields";
 import Book from "./Book";
 import config from "../config/build";
 
-const baseUrl = "https://openlibrary.org";
-const searchLimitByType = config.search.limit;
-const fieldMap = TwoWayMap.build({
-  openLibraryEditionKey: "cover_edition_key",
-  title: "title",
-  authors: "author_name",
-  firstPublishYear: "first_publish_year",
-  description: "description",
-  firstSentence: "first_sentence",
-  medianPages: "number_of_pages_median",
-  subjects: "subject_facet"
-});
-const fieldTransformer = {
-  firstSentence: sentencesArray => sentencesArray?.[0] || ""
-};
+export class OpenLibrary {
+  constructor() {
+    this.baseUrl = "https://openlibrary.org";
 
-export default class OpenlibraryClient {
-  constructor() {}
+    this.fieldMap = TwoWayMap.build({
+      openLibraryEditionKey: "cover_edition_key",
+      title: "title",
+      authors: "author_name",
+      firstPublishYear: "first_publish_year",
+      description: "description",
+      firstSentence: "first_sentence",
+      medianPages: "number_of_pages_median",
+      subjects: "subject_facet"
+    });
+    this.fieldTransformer = {
+      firstSentence: sentencesArray => sentencesArray?.[0] || ""
+    };
+
+    this.searchConfig = config.search;
+  }
 
   //Search component
-  static async search(
+  async search(
     queryString,
     fields = bookFields.limited,
-    limit = searchLimitByType.limited
+    limit = this.searchConfig.limit.limited
   ) {
     //Map input fields to OpenLibrary fields
     const openlibraryFields = this.getOpenLibraryFields(fields);
@@ -38,7 +40,7 @@ export default class OpenlibraryClient {
     };
     //Make the request
     const books = this.destructureResponseData(
-      await get(baseUrl + "/search.json", params)
+      await get(this.baseUrl + "/search.json", params)
     );
 
     //Map OpenLibrary fields back to our fields and create a class instance
@@ -49,32 +51,29 @@ export default class OpenlibraryClient {
     return formattedBooks;
   }
 
-  //Additional data
-  static getResultsPageInfo(workId) {}
-
   //Get book cover
-  static getCoverUrl(id, size = "S", idType = "olid") {
+  getCoverUrl(id, size = "S", idType = "olid") {
     return `https://covers.openlibrary.org/b/${idType}/${id}-${size}.jpg`;
   }
 
   //Helpers
-  static destructureResponseData(response) {
+  destructureResponseData(response) {
     return response.data.docs;
   }
 
   //Mappers
-  static getOpenLibraryFields(inputFields) {
-    return inputFields.map(i => fieldMap.get(i) || i);
+  getOpenLibraryFields(inputFields) {
+    return inputFields.map(i => this.fieldMap.get(i) || i);
   }
-  static getLocalFields(openLibraryFields) {
-    return openLibraryFields.map(i => fieldMap.revGet(i) || i);
+  getLocalFields(openLibraryFields) {
+    return openLibraryFields.map(i => this.fieldMap.revGet(i) || i);
   }
-  static convertObjectToLocal(openLibraryObject) {
+  convertObjectToLocal(openLibraryObject) {
     return Object.entries(openLibraryObject).reduce((agg, [oldKey, value]) => {
-      const newKey = fieldMap.revGet(oldKey) || oldKey;
-      const transformer = fieldTransformer[newKey];
+      const newKey = this.fieldMap.revGet(oldKey) || oldKey;
+      const transformer = this.fieldTransformer[newKey];
       let transformedValue = value;
-      if (fieldTransformer[newKey]) {
+      if (this.fieldTransformer[newKey]) {
         transformedValue = transformer(value);
       }
       agg[newKey] = transformedValue;
@@ -82,7 +81,11 @@ export default class OpenlibraryClient {
       return agg;
     }, {});
   }
-  static instantiateBookClass(bookObject) {
+  instantiateBookClass(bookObject) {
     return new Book(bookObject);
   }
 }
+
+const openLibrary = new OpenLibrary();
+
+export default openLibrary;

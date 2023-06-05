@@ -4,5 +4,9 @@
       "limited": 5,
       "full": 10
     }
+  },
+  "api": {
+    "redirect": true,
+    "redirectTo": "http://localhost:4000/api"
   }
 }

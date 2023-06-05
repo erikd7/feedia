@@ -3,31 +3,26 @@
     :inputId="inputId"
     :liveSearch="search"
     :items="results"
-    :updateItems="updateItems"
     :hideResultsPanel="isInFullPageSearch"
     :placeholder="searchPlaceholder"
     ref="search-bar"
   >
     <template v-slot:option="slotProps">
-      <BookOption :option="slotProps.option.option" />
+      <Option :option="slotProps.option.option" />
     </template>
   </SearchBar>
 </template>
 
 <script>
 import SearchBar from "./SearchBar";
-import BookOption from "./BookOption";
-import OpenlibraryClient from "../../../classes/open-library";
+import Option from "./Option";
 import { mapActions, mapState, mapGetters } from "vuex";
 import { ROUTES } from "../../../util/constants/navigation";
 import { getSearchTerms } from "../../../util/constants/base";
-import config from "../../../config/build";
-import getFields from "../../../util/constants/fields";
-
-const searchLimitByType = config.search.limit;
+import aggregateSearch from "../../../util/search";
 
 export default {
-  components: { SearchBar, BookOption },
+  components: { SearchBar, Option },
   props: {
     inputId: {
       type: String
@@ -36,6 +31,7 @@ export default {
   computed: {
     ...mapState("search", ["results"]),
     ...mapState(["currentMediaTypes"]),
+    ...mapGetters(["currentMediaTypesHash"]),
     ...mapGetters("navigation", ["currentRoute"]),
     isInFullPageSearch() {
       return [ROUTES.FIND, ROUTES.SEARCH].includes(this.currentRoute);
@@ -49,30 +45,16 @@ export default {
     async search(queryString) {
       this.setSelection(queryString);
       try {
-        const fieldsType = this.isInFullPageSearch ? "expanded" : "limited";
-        const fields = getFields("book", fieldsType, true);
-
-        const resultsLimit = this.isInFullPageSearch
-          ? searchLimitByType.full
-          : searchLimitByType.limited;
-        const books = await OpenlibraryClient.search(
+        const results = await aggregateSearch(
+          this.currentMediaTypesHash,
           queryString,
-          fields,
-          resultsLimit
+          this.isInFullPageSearch
         );
-
         //Set the results in Vuex which are passed to Autocomplete items
-        this.setResults(books);
+        this.setResults(results);
       } catch (e) {
         console.log(`Error with search:`, e.message);
-      }
-    },
-    updateItems(_currentItems, searchResult) {
-      try {
-        this.setResults(searchResult.data.items);
-        return newItems;
-      } catch (e) {
-        console.log(`Error with updating search items:`, e.message);
+        throw Error(e);
       }
     }
   }

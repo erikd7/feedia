@@ -9,19 +9,19 @@
       @click="handleSearchIconClick"
     />
     <div class="search-bar" :class="{ 'mobile-hide': !showSearchBar }">
-      <BookSearch ref="search-component" :inputId="NAV_BAR_SEARCH_INPUT_ID" />
+      <Search ref="search-component" :inputId="NAV_BAR_SEARCH_INPUT_ID" />
     </div>
   </div>
 </template>
 
 <script>
 import { MagnifyingGlassCircleIcon } from "@heroicons/vue/24/solid";
-import BookSearch from "../shared/search/BookSearch";
+import Search from "../shared/search/Search";
 import { NAV_BAR_SEARCH_INPUT_ID } from "../../util/constants/navigation";
 import { DomHandler } from "primevue/utils";
 
 export default {
-  components: { BookSearch, MagnifyingGlassCircleIcon },
+  components: { Search, MagnifyingGlassCircleIcon },
   props: {
     showSearchBar: {
       type: Boolean,
