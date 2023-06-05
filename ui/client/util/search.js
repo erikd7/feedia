@@ -19,6 +19,8 @@ const search = async (currentMediaTypesHash, query, isFullPageSearch) => {
   //Get results
   let results = [];
 
+  //TODO wrap these in Promise.all()
+
   //Get book info
   if (currentMediaTypesHash[MEDIA_TYPES.BOOK]) {
     const books = await Openlibrary.search(

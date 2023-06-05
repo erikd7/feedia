@@ -2,4 +2,4 @@
 npm run build
 
 #Starting server
-node ./server/index.js
+sh server.sh

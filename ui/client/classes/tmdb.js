@@ -36,19 +36,19 @@ export class TMDB {
       query: queryString
     };
     //Make the request
-    const books = this.destructureResponseData(
+    const movies = this.destructureResponseData(
       await get(this.url() + this.searchPath, params)
     );
 
     //Map OpenLibrary fields back to our fields and create a class instance
-    const formattedBooks = books.map(b =>
-      this.instantiateBookClass(this.convertObjectToLocal(b))
+    const formattedMovies = movies.map(b =>
+      this.instantiateMovieClass(this.convertObjectToLocal(b))
     );
 
-    return formattedBooks;
+    return formattedMovies;
   }
 
-  //Get book cover
+  //Get movie cover
   getCoverUrl(id, size = "S", idType = "olid") {
     return `https://covers.openlibrary.org/b/${idType}/${id}-${size}.jpg`;
   }
