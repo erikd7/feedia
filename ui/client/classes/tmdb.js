@@ -2,10 +2,16 @@ import { get } from "../util/http";
 import { TwoWayMap } from "../util/mapping/mapping";
 import { getYearFromDate } from "../util/format/date";
 import Movie from "./Movie";
+import config from "../config/build";
 
 export class TMDB {
   constructor() {
-    this.baseUrl = "https://api.themoviedb.org/3";
+    this.baseUrl = "https://api.themoviedb.org";
+    this.redirectUrl = this.redirectUrl = config.api.redirect
+      ? config.api.redirectTo + "/tmdb"
+      : null;
+    this.versionPath = "/3";
+    this.searchPath = "/search/movie";
 
     this.fieldMap = TwoWayMap.build({
       tmdbId: "id",
@@ -19,15 +25,19 @@ export class TMDB {
     };
   }
 
+  url() {
+    return (this.redirectUrl || this.baseUrl) + this.versionPath;
+  }
+
   //Search component
-  static async search(queryString) {
+  async search(queryString) {
     //Map input fields to OpenLibrary fields
     const params = {
       query: queryString
     };
     //Make the request
     const books = this.destructureResponseData(
-      await get(this.baseUrl + "/search/movie", params)
+      await get(this.url() + this.searchPath, params)
     );
 
     //Map OpenLibrary fields back to our fields and create a class instance

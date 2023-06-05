@@ -2,7 +2,7 @@ import config from "../config/build";
 import { MEDIA_TYPES } from "./constants/base";
 import getRequiredFields from "./constants/fields";
 import Openlibrary from "../classes/open-library";
-import TMDB from "../classes/open-library";
+import TMDB from "../classes/tmdb";
 
 const searchConfig = config.search;
 
@@ -31,8 +31,9 @@ const search = async (currentMediaTypesHash, query, isFullPageSearch) => {
 
   //Get movie info
   if (currentMediaTypesHash[MEDIA_TYPES.MOVIE]) {
-    const books = await TMDB.search(query, resultsLimit);
-    results = results.concat(books);
+    console.log(`gonna call tmdb search`); /* //!DELETE */
+    const movies = await TMDB.search(query, resultsLimit);
+    results = results.concat(movies);
   }
 
   //TODO Prioritize results across all media types
