@@ -39,8 +39,14 @@ const search = async (currentMediaTypesHash, query, isFullPageSearch) => {
     results = results.concat(movies);
   }
 
-  //TODO Prioritize results across all media types
+  //Prioritize results across all media types
+  const sortedResults = sortResults(query, results);
 
+  return sortedResults;
+};
+
+//Eventually this will be a more robust server-side sort, but this will work for now
+const sortResults = (_query, results) => {
   return results;
 };
 
