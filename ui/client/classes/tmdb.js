@@ -40,11 +40,10 @@ export class TMDB {
       await get(this.url() + this.searchPath, params)
     );
 
-    //Map OpenLibrary fields back to our fields and create a class instance
+    //Map TMDB fields back to our fields and create a class instance
     const formattedMovies = movies.map(b =>
       this.instantiateMovieClass(this.convertObjectToLocal(b))
     );
-
     return formattedMovies;
   }
 
@@ -64,13 +63,15 @@ export class TMDB {
   }
   convertObjectToLocal(openLibraryObject) {
     return Object.entries(openLibraryObject).reduce((agg, [oldKey, value]) => {
-      const newKey = this.fieldMap.revGet(oldKey) || oldKey;
-      const transformer = this.fieldTransformer[newKey];
-      let transformedValue = value;
-      if (this.fieldTransformer[newKey]) {
-        transformedValue = transformer(value);
+      const newKey = this.fieldMap.revGet(oldKey);
+      if (newKey) {
+        const transformer = this.fieldTransformer[newKey];
+        let transformedValue = value;
+        if (this.fieldTransformer[newKey]) {
+          transformedValue = transformer(value);
+        }
+        agg[newKey] = transformedValue;
       }
-      agg[newKey] = transformedValue;
 
       return agg;
     }, {});

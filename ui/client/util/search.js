@@ -34,6 +34,7 @@ const search = async (currentMediaTypesHash, query, isFullPageSearch) => {
   //Get movie info
   if (currentMediaTypesHash[MEDIA_TYPES.MOVIE]) {
     const movies = await TMDB.search(query, resultsLimit);
+    console.log(`got movie results`, movies); /* //!DELETE */
     results = results.concat(movies);
   }
 
