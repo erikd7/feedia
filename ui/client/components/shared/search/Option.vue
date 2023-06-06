@@ -1,25 +1,43 @@
 <template>
-  <div class="text-left text-ellipsis">
-    <div class="font-semibold">{{ callClassFn(option, "displayTitle") }}</div>
-    <div class="flex flex-row justify-between text-sm">
-      <div>{{ callClassFn(option, "displayFirstNAuthors") }}</div>
-      <div>{{ callClassFn(option, "displayFirstPublishYear") }}</div>
-    </div>
+  <div>
+    <MediaTypeSwitcher
+      :mediaType="option.mediaType"
+      :componentsByMediaType="componentsByMediaType"
+      :passedProps="{ option, showMediaType }"
+    />
   </div>
 </template>
 
 <script>
-import { callClassFn } from "../../../util/class";
+import BookOption from "./BookOption";
+import MovieOption from "./MovieOption";
+import { MEDIA_TYPES } from "../../../util/constants/base";
+import { mapState } from "vuex";
+import MediaTypeSwitcher from "../media-type/MediaTypeSwitcher.vue";
 
 export default {
+  components: {
+    BookOption,
+    MovieOption,
+    MediaTypeSwitcher
+  },
   props: {
     option: {
       type: Object,
       required: true
     }
   },
-  methods: {
-    callClassFn
+  computed: {
+    ...mapState(["currentMediaTypes"]),
+    componentsByMediaType() {
+      return {
+        [MEDIA_TYPES.BOOK]: BookOption,
+        [MEDIA_TYPES.MOVIE]: MovieOption
+      };
+    },
+    showMediaType() {
+      return this.currentMediaTypes?.length > 1; //Show media type options if there are multiple media types
+    }
   }
 };
 </script>

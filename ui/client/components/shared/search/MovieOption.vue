@@ -3,14 +3,14 @@
     <div class="vertical-center-flex pr-2">
       <MediaTypeIcon
         v-if="showMediaType"
-        :icon="MEDIA_TYPE_DISPLAY.BOOK.icon"
+        :icon="MEDIA_TYPE_DISPLAY.MOVIE.icon"
       />
     </div>
     <div class="text-left text-ellipsis flex-grow">
-      <div class="font-semibold">{{ callClassFn(option, "displayTitle") }}</div>
+      <div class="font-semibold">{{ title }}</div>
       <div class="flex flex-row justify-between text-sm">
-        <div>{{ callClassFn(option, "displayFirstNAuthors") }}</div>
-        <div>{{ callClassFn(option, "displayFirstPublishYear") }}</div>
+        <div>Director placeholder</div>
+        <div>{{ year }}</div>
       </div>
     </div>
   </div>
@@ -39,6 +39,12 @@ export default {
   computed: {
     MEDIA_TYPE_DISPLAY() {
       return MEDIA_TYPE_DISPLAY;
+    },
+    title() {
+      return this.option.displayTitle();
+    },
+    year() {
+      return this.option.displayYear();
     }
   }
 };

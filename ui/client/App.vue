@@ -157,6 +157,11 @@ export default {
   top: 50%;
   position: relative;
 }
+.vertical-center-flex {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
 @media only screen and (max-width: 767px /*mobile-breakpoint*/) {
   .mobile-one-col {
     flex-wrap: wrap;

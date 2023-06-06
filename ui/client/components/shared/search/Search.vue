@@ -46,8 +46,9 @@ export default {
       this.setSelection(queryString);
       try {
         const results = await aggregateSearch(
-          this.currentMediaTypesHash,
           queryString,
+          this.currentMediaTypes,
+          this.currentMediaTypesHash,
           this.isInFullPageSearch
         );
         //Set the results in Vuex which are passed to Autocomplete items

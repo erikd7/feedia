@@ -1,7 +1,9 @@
 import OpenlibraryClient from "./open-library";
+import { MEDIA_TYPES } from "../util/constants/base";
 
 export default class Book {
   constructor(input) {
+    this.mediaType = MEDIA_TYPES.BOOK;
     //Limited fields
     this.title = input.title;
     this.authors = input.authors;

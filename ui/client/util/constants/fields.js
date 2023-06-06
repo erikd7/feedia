@@ -13,7 +13,22 @@ const movie = {
   expanded: []
 };
 
-const fields = { [MEDIA_TYPES.BOOK]: book, [MEDIA_TYPES.MOVIE]: movie };
+const tv = {
+  limited: [],
+  expanded: []
+};
+
+const music = {
+  limited: [],
+  expanded: []
+};
+
+const fields = {
+  [MEDIA_TYPES.BOOK]: book,
+  [MEDIA_TYPES.MOVIE]: movie,
+  [MEDIA_TYPES.TV]: tv,
+  [MEDIA_TYPES.MUSIC]: music
+};
 
 const getFields = (mediaType, level, aggregate = true) => {
   try {
