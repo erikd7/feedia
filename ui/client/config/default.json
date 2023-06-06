@@ -1,4 +1,7 @@
 {
+  "mediaTypes": {
+    "default": ["BOOK", "MOVIE"]
+  },
   "search": {
     "limit": {
       "limited": 10,
@@ -7,5 +10,10 @@
   },
   "mobile": {
     "breakpoint": "767px"
+  },
+  "cache": {
+    "localStorage": {
+      "defaultExpirationHours": 48
+    }
   }
 }

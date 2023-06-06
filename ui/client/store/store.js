@@ -2,6 +2,12 @@ import Vuex from "vuex";
 import searchStore from "./search";
 import navigationStore from "./navigation";
 import { MEDIA_TYPES } from "../util/constants/base";
+import { get as getLocal, set as setLocal } from "../util/localStorage";
+import config from "../config/build";
+
+const setLocalCurrentMediatypes = mediaTypes => {
+  setLocal("currentMediaTypes", mediaTypes, { expirationUnits: "d" }, true);
+};
 
 //Vuex store
 const store = Vuex.createStore({
@@ -12,7 +18,8 @@ const store = Vuex.createStore({
   state() {
     return {
       primaryMediaType: MEDIA_TYPES.BOOK,
-      currentMediaTypes: [MEDIA_TYPES.BOOK]
+      currentMediaTypes:
+        getLocal("currentMediaTypes") || config.mediaTypes.default
     };
   },
   getters: {
@@ -31,7 +38,9 @@ const store = Vuex.createStore({
   actions: {
     addMediaType({ state, commit }, newMediaType) {
       if (!state.currentMediaTypes.includes(newMediaType)) {
-        commit("currentMediaTypes", [...state.currentMediaTypes, newMediaType]);
+        const mediaTypes = [...state.currentMediaTypes, newMediaType];
+        commit("currentMediaTypes", mediaTypes);
+        setLocalCurrentMediatypes(mediaTypes);
       }
     },
     removeMediaType({ state, commit }, mediaTypeKey) {
@@ -39,6 +48,7 @@ const store = Vuex.createStore({
       if (indexToRemove > -1) {
         state.currentMediaTypes.splice(indexToRemove, 1);
         commit("currentMediaTypes", state.currentMediaTypes);
+        setLocalCurrentMediatypes(state.currentMediaTypes);
       }
     }
   }
