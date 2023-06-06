@@ -30,7 +30,7 @@ export class TMDB {
   }
 
   //Search component
-  async search(queryString) {
+  async search(queryString, resultsLimit) {
     //Map input fields to OpenLibrary fields
     const params = {
       query: queryString
@@ -44,7 +44,8 @@ export class TMDB {
     const formattedMovies = movies.map(b =>
       this.instantiateMovieClass(this.convertObjectToLocal(b))
     );
-    return formattedMovies;
+
+    return formattedMovies.slice(0, resultsLimit);
   }
 
   //Get movie cover

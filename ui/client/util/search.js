@@ -12,6 +12,8 @@ const search = async (currentMediaTypesHash, query, isFullPageSearch) => {
   const fields = getRequiredFields(currentMediaTypesHash, fieldsType, true);
 
   //Get results limit
+  //Each media type should respect the limit and then the limit will be enforced when selecting from the different types
+  //E.g. if searching movies and books, retrieve N movies and N books and then choose N movies/books from the set of 2N
   const resultsLimit = isFullPageSearch
     ? searchConfig.limit.full
     : searchConfig.limit.limited;
@@ -34,7 +36,6 @@ const search = async (currentMediaTypesHash, query, isFullPageSearch) => {
   //Get movie info
   if (currentMediaTypesHash[MEDIA_TYPES.MOVIE]) {
     const movies = await TMDB.search(query, resultsLimit);
-    console.log(`got movie results`, movies); /* //!DELETE */
     results = results.concat(movies);
   }
 
