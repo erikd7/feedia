@@ -1,22 +1,19 @@
 <template>
   <div class="rounded overflow-hidden shadow-lg px-2 py-2">
     <div class="flex flex-row">
-      <div class="flex flex-column">movie poster</div>
+      <div class="flex flex-column">
+        <MoviePoster :movie="movie">
+          <template v-slot:coverAction="{ hovered }">
+            <MediaTypeIcon v-if="hovered" :mediaType="mediaType" />
+          </template>
+        </MoviePoster>
+      </div>
       <div class="flex flex-column justify-between">
         <div class="card-section">
           <p class="font-bold text-xl">
             {{ title }}
           </p>
-          <DotSeparatedInfo
-            :info="[
-              director,
-              year,
-              {
-                value: length,
-                formatter: length => getHoursAndMinutesFromMinutes(length)
-              }
-            ]"
-          />
+          <DotSeparatedInfo :info="[director, year, runtime]" />
         </div>
         <div
           v-if="description"
@@ -29,9 +26,9 @@
         </div>
         <div class="mobile-hide card-section space-x-1 space-y-1">
           <Chip
-            v-for="subject in movie.subjects"
-            :title="subject"
-            :label="truncate(subject, 30)"
+            v-for="genre in movie.genres"
+            :title="genre"
+            :label="truncate(genre, 30)"
           />
         </div>
       </div>
@@ -40,13 +37,16 @@
 </template>
 
 <script>
+import MediaTypeIcon from "../../navigation/MediaTypeIcon.vue";
+import MoviePoster from "../image/MoviePoster";
 import Chip from "primevue/chip";
 import DotSeparatedInfo from "../info/DotSeparatedInfo.vue";
+import { MEDIA_TYPES } from "../../../util/constants/base";
 import { truncate } from "../../../util/format/text";
-import { getHoursAndMinutesFromMinutes } from "../../../util/format/time";
+import { levels as fieldLevels } from "../../../util/constants/fields";
 
 export default {
-  components: { Chip, DotSeparatedInfo },
+  components: { MediaTypeIcon, MoviePoster, Chip, DotSeparatedInfo },
   props: {
     index: {
       type: Number,
@@ -59,9 +59,27 @@ export default {
   },
   methods: {
     truncate,
-    getHoursAndMinutesFromMinutes
+    getDetails() {
+      //Retrieve details if they aren't already set
+      if (
+        !this.movie.dataLevel ||
+        fieldLevels.indexOf(this.movie.dataLevel) <
+          fieldLevels.indexOf("details")
+      ) {
+        this.movie.addDetails();
+      }
+    }
+  },
+  created() {
+    this.getDetails();
   },
   computed: {
+    dataLevel() {
+      return this.movie.dataLevel;
+    },
+    mediaType() {
+      return MEDIA_TYPES.MOVIE;
+    },
     title() {
       return this.movie.displayTitle();
     },
@@ -71,8 +89,8 @@ export default {
     year() {
       return this.movie.displayYear();
     },
-    length() {
-      return 125;
+    runtime() {
+      return this.movie.displayRuntime();
     },
     description() {
       return this.movie.displayDescription();

@@ -8,8 +8,16 @@ const http = axios.create({
 });
 
 // Axios method wrappers
-export const get = async (url, queryParams, { responseType = "json" } = {}) => {
+export const get = async (
+  url,
+  queryParams,
+  pathParams,
+  { responseType = "json" } = {}
+) => {
   try {
+    if (pathParams?.length) {
+      url = url + "/" + pathParams.join("/");
+    }
     const response = await http.get(url, {
       params: queryParams,
       responseType

@@ -19,7 +19,7 @@ import Option from "./Option";
 import { mapActions, mapState, mapGetters } from "vuex";
 import { ROUTES } from "../../../util/constants/navigation";
 import { getSearchTerms } from "../../../util/constants/base";
-import aggregateSearch from "../../../util/search";
+import aggregateSearch from "../../../util/fetch/search";
 
 export default {
   components: { SearchBar, Option },

@@ -1,8 +1,8 @@
-import config from "../config/build";
-import { MEDIA_TYPES } from "./constants/base";
-import getRequiredFields from "./constants/fields";
-import Openlibrary from "../classes/open-library";
-import TMDB from "../classes/tmdb";
+import config from "../../config/build";
+import { MEDIA_TYPES } from "../constants/base";
+import getRequiredFields from "../constants/fields";
+import Openlibrary from "../../classes/open-library";
+import TMDB from "../../classes/tmdb";
 
 const searchConfig = config.search;
 
