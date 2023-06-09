@@ -7,7 +7,7 @@ export const getHoursAndMinutesFromMinutes = minutes => {
     result += hours + "h";
   }
   if (remainingMinutes > 0) {
-    result += remainingMinutes + "min";
+    result += remainingMinutes + "m";
   }
 
   return result;

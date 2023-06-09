@@ -1,7 +1,7 @@
 import { MEDIA_TYPES } from "./base";
 
 //Fields stack on each other, e.g. when you collect book.expanded fields, you should already have collected book.limited fields
-const levels = ["limited", "expanded"];
+export const levels = ["limited", "expanded", "search", "details"];
 
 export const book = {
   limited: ["openLibraryEditionKey", "title", "firstPublishYear", "authors"],
