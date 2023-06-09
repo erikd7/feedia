@@ -1,13 +1,7 @@
 <template>
   <div class="rounded overflow-hidden shadow-lg px-2 py-2">
     <div class="flex flex-row">
-      <div class="flex flex-column">
-        <BookCover :book="book">
-          <template v-slot:coverAction="{ hovered }">
-            <MediaTypeIcon v-if="hovered" :mediaType="mediaType"
-          /></template>
-        </BookCover>
-      </div>
+      <div class="flex flex-column">movie poster</div>
       <div class="flex flex-column justify-between">
         <div class="card-section">
           <p class="font-bold text-xl">
@@ -15,24 +9,27 @@
           </p>
           <DotSeparatedInfo
             :info="[
-              first3Authors,
-              firstPublishYear,
-              { value: pageCount, formatter: pageCount => pageCount + ' pages' }
+              director,
+              year,
+              {
+                value: length,
+                formatter: length => getHoursAndMinutesFromMinutes(length)
+              }
             ]"
           />
         </div>
         <div
-          v-if="firstSentence"
-          :title="`First sentence of ${title}`"
+          v-if="description"
+          :title="`Description of ${title}`"
           class="card-section"
         >
           <p class="text-gray-700 text-base italic text-ellipses">
-            {{ truncate(firstSentence, 100) }}
+            {{ truncate(description, 300) }}
           </p>
         </div>
         <div class="mobile-hide card-section space-x-1 space-y-1">
           <Chip
-            v-for="subject in book.subjects"
+            v-for="subject in movie.subjects"
             :title="subject"
             :label="truncate(subject, 30)"
           />
@@ -43,46 +40,42 @@
 </template>
 
 <script>
-import BookCover from "../image/BookCover";
-import MediaTypeIcon from "../../navigation/MediaTypeIcon.vue";
 import Chip from "primevue/chip";
 import DotSeparatedInfo from "../info/DotSeparatedInfo.vue";
 import { truncate } from "../../../util/format/text";
-import { MEDIA_TYPES } from "../../../util/constants/base";
+import { getHoursAndMinutesFromMinutes } from "../../../util/format/time";
 
 export default {
-  components: { BookCover, MediaTypeIcon, Chip, DotSeparatedInfo },
+  components: { Chip, DotSeparatedInfo },
   props: {
     index: {
       type: Number,
       required: true
     },
-    book: {
+    movie: {
       type: Object,
       default: () => {}
     }
   },
   methods: {
-    truncate
+    truncate,
+    getHoursAndMinutesFromMinutes
   },
   computed: {
-    mediaType() {
-      return MEDIA_TYPES.BOOK;
-    },
     title() {
-      return this.book.displayTitle();
+      return this.movie.displayTitle();
     },
-    first3Authors() {
-      return this.book.displayFirstNAuthors(3);
+    director() {
+      return "Edgar Wright";
     },
-    firstPublishYear() {
-      return this.book.displayFirstPublishYear();
+    year() {
+      return this.movie.displayYear();
     },
-    pageCount() {
-      return this.book.displayPages();
+    length() {
+      return 125;
     },
-    firstSentence() {
-      return this.book.displayFirstSentence();
+    description() {
+      return this.movie.displayDescription();
     }
   }
 };

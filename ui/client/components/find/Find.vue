@@ -1,15 +1,15 @@
 <template>
   <div>
-    <BookTable :books="results" />
+    <SearchResults v-if="results" :results="results" />
   </div>
 </template>
 
 <script>
-import BookTable from "../shared/table/BookTable";
+import SearchResults from "../shared/table/SearchResults";
 import { mapState } from "vuex";
 
 export default {
-  components: { BookTable },
+  components: { SearchResults },
   props: {},
   data() {
     return {};
