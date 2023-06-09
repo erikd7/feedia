@@ -20,6 +20,9 @@ export default class Movie {
   displayYear() {
     return this.year;
   }
+  displayDescription() {
+    return this.description;
+  }
 
   getLabel() {
     return `${this.displayTitle()}`;

@@ -4,7 +4,11 @@
       :imageSource="coverUrl"
       :cacheLocation="coverName"
       imageClass="rounded-md"
-    />
+    >
+      <template v-slot:imageAction="slotProps">
+        <slot name="coverAction" v-bind="slotProps" />
+      </template>
+    </Image>
   </div>
 </template>
 

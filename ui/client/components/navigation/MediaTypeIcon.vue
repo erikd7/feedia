@@ -1,7 +1,7 @@
 <template>
   <div
     class="icon-container"
-    :title="name"
+    :title="nameAgg"
     @mouseover="
       () => {
         showCloseIcon = true;
@@ -14,7 +14,7 @@
     "
   >
     <component
-      :is="icon"
+      :is="iconAgg"
       :class="{
         [iconClass]: true,
         'icon-hover-delete': aggregateShowCloseIcon
@@ -36,12 +36,19 @@
 
 <script>
 import { XMarkIcon } from "@heroicons/vue/24/solid";
+import { MEDIA_TYPE_DISPLAY } from "../../util/constants/base";
 
 export default {
   props: {
+    //If no icon, will use mediaType to get icon
     icon: {
       type: Function,
-      required: true
+      required: false
+    },
+    //Will use mediaType to get icon if no icon is specified
+    mediaType: {
+      type: String,
+      required: false
     },
     name: {
       type: String
@@ -73,6 +80,12 @@ export default {
     };
   },
   computed: {
+    iconAgg() {
+      return this.icon || MEDIA_TYPE_DISPLAY[this.mediaType]?.icon || <></>;
+    },
+    nameAgg() {
+      return this.name || MEDIA_TYPE_DISPLAY[this.mediaType]?.name;
+    },
     aggregateShowCloseIcon() {
       return this.allowRemove && (this.showRemove || this.showCloseIcon);
     }

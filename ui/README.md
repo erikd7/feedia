@@ -10,6 +10,14 @@ npm install
 
 ### Compiles and hot-reloads for development
 
+Start the server:
+
+```
+sh server.sh
+```
+
+Run in dev mode:
+
 ```
 npm run serve
 ```
