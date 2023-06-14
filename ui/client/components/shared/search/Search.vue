@@ -41,8 +41,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions("search", ["setResults", "setSelection"]),
+    ...mapActions("search", ["setResults", "setSelection", "setLoading"]),
     async search(queryString) {
+      this.setLoading(true);
       this.setSelection(queryString);
       try {
         const results = await aggregateSearch(
@@ -56,6 +57,8 @@ export default {
       } catch (e) {
         console.log(`Error with search:`, e.message);
         throw Error(e);
+      } finally {
+        this.setLoading(false);
       }
     }
   }

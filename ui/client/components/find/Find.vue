@@ -1,6 +1,7 @@
 <template>
   <div>
-    <SearchResults v-if="results" :results="results" />
+    <div v-if="loading">loading search results</div>
+    <SearchResults v-else-if="results" :results="results" />
   </div>
 </template>
 
@@ -15,7 +16,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapState("search", ["results", "selection"])
+    ...mapState("search", ["results", "selection", "loading"])
   }
 };
 </script>

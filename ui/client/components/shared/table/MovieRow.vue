@@ -60,6 +60,7 @@ export default {
   methods: {
     truncate,
     getDetails() {
+      console.log(`getting details`, this.movie.dataLevel); /* //!DELETE */
       //Retrieve details if they aren't already set
       if (
         !this.movie.dataLevel ||
@@ -70,12 +71,19 @@ export default {
       }
     }
   },
+  watch: {
+    //Watch a field that is included in additional details fetch
+    //runtime() {
+    //this.getDetails();
+    //}
+  },
   created() {
+    //Retrieve details if they aren't already set
     this.getDetails();
   },
   computed: {
-    dataLevel() {
-      return this.movie.dataLevel;
+    id() {
+      return this.movie.tmdbId;
     },
     mediaType() {
       return MEDIA_TYPES.MOVIE;
