@@ -3,11 +3,15 @@ const store = {
   namespaced: true,
   state() {
     return {
+      loading: false,
       results: [],
       selection: null
     };
   },
   mutations: {
+    loading(state, loading) {
+      state.loading = loading;
+    },
     results(state, results) {
       state.results = results;
     },
@@ -21,6 +25,9 @@ const store = {
     }
   },
   actions: {
+    setLoading({ commit }, loading) {
+      commit("loading", loading);
+    },
     setResults({ commit }, results) {
       commit("results", results);
     },
