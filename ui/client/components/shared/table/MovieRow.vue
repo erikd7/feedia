@@ -60,7 +60,6 @@ export default {
   methods: {
     truncate,
     getDetails() {
-      console.log(`getting details`, this.movie.dataLevel); /* //!DELETE */
       //Retrieve details if they aren't already set
       if (
         !this.movie.dataLevel ||
