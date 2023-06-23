@@ -2,7 +2,7 @@
   <div>
     <div class="menu">
       <div
-        v-for="section in sections"
+        v-for="section in sections.filter(s => !s.hideTab)"
         :key="section.path"
         class="menu-item-spacer"
         :class="{

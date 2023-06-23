@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Feed from "../components/feed/Feed.vue";
 import Library from "../components/library/Library.vue";
 import Find from "../components/find/Find.vue";
+import Details from "../components/details/Details.vue";
 import { ROUTES } from "../util/constants/navigation";
 import * as guards from "./guards";
 
@@ -22,6 +23,13 @@ export const routes = [
     path: ROUTES.FIND,
     alias: ROUTES.SEARCH,
     component: Find
+  },
+  {
+    name: "Details",
+    path: ROUTES.DETAILS + "/:mediaType/:id",
+    alias: ROUTES.DETAILS,
+    component: Details,
+    hideTab: true
   }
 ];
 

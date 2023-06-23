@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row">
+  <div class="flex flex-row cursor-pointer" @click="openDetails">
     <div class="vertical-center-flex pr-2">
       <MediaTypeIcon
         v-if="showMediaType"
@@ -18,7 +18,7 @@
 
 <script>
 import MediaTypeIcon from "../../navigation/MediaTypeIcon";
-import { MEDIA_TYPE_DISPLAY } from "../../../util/constants/base";
+import { MEDIA_TYPES, MEDIA_TYPE_DISPLAY } from "../../../util/constants/base";
 import { callClassFn } from "../../../util/class";
 
 export default {
@@ -34,7 +34,16 @@ export default {
     }
   },
   methods: {
-    callClassFn
+    callClassFn,
+    openDetails() {
+      this.$router.push({
+        name: "Details",
+        params: {
+          mediaType: MEDIA_TYPES.MOVIE.toLowerCase(),
+          id: this.option.routeId()
+        }
+      });
+    }
   },
   computed: {
     MEDIA_TYPE_DISPLAY() {

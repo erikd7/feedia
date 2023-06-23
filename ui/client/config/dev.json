@@ -1,8 +1,8 @@
 {
   "search": {
     "limit": {
-      "limited": 5,
-      "full": 10
+      "limited": 3,
+      "full": 5
     }
   },
   "api": {

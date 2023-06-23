@@ -1,5 +1,8 @@
 <template>
-  <div class="rounded overflow-hidden shadow-lg px-2 py-2">
+  <div
+    class="rounded overflow-hidden shadow-lg px-2 py-2 cursor-pointer"
+    @click="openDetails"
+  >
     <div class="flex flex-row">
       <div class="flex flex-column">
         <MoviePoster :movie="movie">
@@ -68,6 +71,15 @@ export default {
       ) {
         this.movie.addDetails();
       }
+    },
+    openDetails() {
+      this.$router.push({
+        name: "Details",
+        params: {
+          mediaType: MEDIA_TYPES.MOVIE.toLowerCase(),
+          id: this.movie.routeId()
+        }
+      });
     }
   },
   watch: {
