@@ -29,6 +29,7 @@ export const routes = [
     path: ROUTES.DETAILS + "/:mediaType/:id",
     alias: ROUTES.DETAILS,
     component: Details,
+    props: true,
     hideTab: true
   }
 ];

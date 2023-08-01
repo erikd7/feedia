@@ -40,8 +40,10 @@ export default {
         name: "Details",
         params: {
           mediaType: MEDIA_TYPES.MOVIE.toLowerCase(),
-          id: this.option.routeId()
-        }
+          id: this.option.routeId(),
+          info: this.option
+        },
+        props: { info: this.option }
       });
     }
   },

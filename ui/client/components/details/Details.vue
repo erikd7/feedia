@@ -1,30 +1,32 @@
 <template>
-  <div>This is the details page {{ routeParams }}</div>
+  <div>
+    This is the details page
+    <div>props: {{ mediaType }} - {{ id }}</div>
+    <div>router state: {{ $route.params }}</div>
+    now we can create mediatype-specific details pages
+    <div>and selected is {{ JSON.stringify(selected) }}</div>
+  </div>
 </template>
 
 <script>
 import SearchResults from "../shared/table/SearchResults";
 import Loading from "../shared/Loading";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   components: { SearchResults, Loading },
-  props: {},
-  data() {
-    return {
-      routeParams: this.$route.params
-    };
-  },
-  watch: {
-    routeParamsComputed() {
-      this.routeParams = this.routeParamsComputed;
+  props: {
+    mediaType: {
+      type: String,
+      required: true
+    },
+    id: {
+      type: String
     }
   },
-  computed: {
-    routeParamsComputed() {
-      return this.$route.params;
-    },
-    ...mapState("search", ["results", "selection", "loading"])
-  }
+  data() {
+    return {};
+  },
+  computed: { ...mapGetters("details", ["selected"]) }
 };
 </script>

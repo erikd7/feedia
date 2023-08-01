@@ -47,6 +47,7 @@ import DotSeparatedInfo from "../info/DotSeparatedInfo.vue";
 import { MEDIA_TYPES } from "../../../util/constants/base";
 import { truncate } from "../../../util/format/text";
 import { levels as fieldLevels } from "../../../util/constants/fields";
+import { mapActions } from "vuex";
 
 export default {
   components: { MediaTypeIcon, MoviePoster, Chip, DotSeparatedInfo },
@@ -61,6 +62,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions("details", ["setSelected"]),
     truncate,
     getDetails() {
       //Retrieve details if they aren't already set
@@ -73,6 +75,8 @@ export default {
       }
     },
     openDetails() {
+      this.setSelected(this.movie);
+
       this.$router.push({
         name: "Details",
         params: {
