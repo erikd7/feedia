@@ -49,6 +49,10 @@ export default class Movie {
     return TMDBClient.getPosterName(this.posterPath, width);
   }
 
+  routeId() {
+    return this.title; //eventually this will be an internal ID
+  }
+
   //Display info
   displayTitle() {
     return this.title;
