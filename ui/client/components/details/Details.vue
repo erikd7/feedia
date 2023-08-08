@@ -1,20 +1,25 @@
 <template>
   <div>
-    This is the details page
-    <div>props: {{ mediaType }} - {{ id }}</div>
-    <div>router state: {{ $route.params }}</div>
-    now we can create mediatype-specific details pages
-    <div>and selected is {{ JSON.stringify(selected) }}</div>
+    <MediaTypeSwitcher
+      :mediaType="mediaType"
+      :componentsByMediaType="componentsByMediaType"
+      :passedProps="{ info: selected }"
+    />
+    This is the details page selected:{{ JSON.stringify(selected) }}
   </div>
 </template>
 
 <script>
 import SearchResults from "../shared/table/SearchResults";
 import Loading from "../shared/Loading";
+import MediaTypeSwitcher from "../shared/media-type/MediaTypeSwitcher.vue";
+import BookDetails from "./BookDetails";
+import MovieDetails from "./MovieDetails";
+import { MEDIA_TYPES } from "../../util/constants/base";
 import { mapGetters } from "vuex";
 
 export default {
-  components: { SearchResults, Loading },
+  components: { SearchResults, Loading, MediaTypeSwitcher },
   props: {
     mediaType: {
       type: String,
@@ -27,6 +32,18 @@ export default {
   data() {
     return {};
   },
-  computed: { ...mapGetters("details", ["selected"]) }
+  computed: {
+    ...mapGetters("details", ["selected"]),
+    componentsByMediaType() {
+      return {
+        [MEDIA_TYPES.BOOK]: BookDetails,
+        [MEDIA_TYPES.MOVIE]: MovieDetails
+      };
+    }
+  },
+  created() {
+    //Retrieve details if they aren't already set
+    //TODO
+  }
 };
 </script>
