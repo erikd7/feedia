@@ -46,7 +46,6 @@ import Chip from "primevue/chip";
 import DotSeparatedInfo from "../info/DotSeparatedInfo.vue";
 import { MEDIA_TYPES } from "../../../util/constants/base";
 import { truncate } from "../../../util/format/text";
-import { levels as fieldLevels } from "../../../util/constants/fields";
 import { mapActions } from "vuex";
 
 export default {
@@ -66,13 +65,7 @@ export default {
     truncate,
     getDetails() {
       //Retrieve details if they aren't already set
-      if (
-        !this.movie.dataLevel ||
-        fieldLevels.indexOf(this.movie.dataLevel) <
-          fieldLevels.indexOf("details")
-      ) {
-        this.movie.addDetails();
-      }
+      this.movie.addDetails(true);
     },
     openDetails() {
       this.setSelected(this.movie);
@@ -107,7 +100,7 @@ export default {
       return this.movie.displayTitle();
     },
     director() {
-      return "Edgar Wright";
+      return this.movie.displayDirectors();
     },
     year() {
       return this.movie.displayYear();

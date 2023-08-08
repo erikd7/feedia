@@ -24,7 +24,7 @@ export default {
   },
   computed: {
     mediaTypeComponent() {
-      return this.componentsByMediaType[this.mediaType];
+      return this.componentsByMediaType[this.mediaType.toUpperCase()];
     }
   }
 };
