@@ -1,12 +1,9 @@
 <template>
-  <div>
-    <MediaTypeSwitcher
-      :mediaType="mediaType"
-      :componentsByMediaType="componentsByMediaType"
-      :passedProps="{ info: selected }"
-    />
-    This is the details page selected:{{ JSON.stringify(selected) }}
-  </div>
+  <MediaTypeSwitcher
+    :mediaType="mediaType"
+    :componentsByMediaType="componentsByMediaType"
+    :passedProps="{ id, info: selected }"
+  />
 </template>
 
 <script>

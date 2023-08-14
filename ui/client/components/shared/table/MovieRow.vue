@@ -1,39 +1,34 @@
 <template>
-  <div
-    class="rounded overflow-hidden shadow-lg px-2 py-2 cursor-pointer"
-    @click="openDetails"
-  >
-    <div class="flex flex-row">
-      <div class="flex flex-column">
-        <MoviePoster :movie="movie">
-          <template v-slot:coverAction="{ hovered }">
-            <MediaTypeIcon v-if="hovered" :mediaType="mediaType" />
-          </template>
-        </MoviePoster>
+  <div class="flex flex-row">
+    <div class="flex flex-column">
+      <MoviePoster :movie="movie">
+        <template v-slot:coverAction="{ hovered }">
+          <MediaTypeIcon v-if="hovered" :mediaType="mediaType" />
+        </template>
+      </MoviePoster>
+    </div>
+    <div class="flex flex-column justify-between">
+      <div class="card-section">
+        <p class="font-bold text-xl">
+          {{ title }}
+        </p>
+        <DotSeparatedInfo :info="[director, year, runtime]" />
       </div>
-      <div class="flex flex-column justify-between">
-        <div class="card-section">
-          <p class="font-bold text-xl">
-            {{ title }}
-          </p>
-          <DotSeparatedInfo :info="[director, year, runtime]" />
-        </div>
-        <div
-          v-if="description"
-          :title="`Description of ${title}`"
-          class="card-section"
-        >
-          <p class="text-gray-700 text-base italic text-ellipses">
-            {{ truncate(description, 300) }}
-          </p>
-        </div>
-        <div class="mobile-hide card-section space-x-1 space-y-1">
-          <Chip
-            v-for="genre in movie.genres"
-            :title="genre"
-            :label="truncate(genre, 30)"
-          />
-        </div>
+      <div
+        v-if="description"
+        :title="`Description of ${title}`"
+        class="card-section"
+      >
+        <p class="text-gray-700 text-base italic text-ellipses">
+          {{ truncate(description, 300) }}
+        </p>
+      </div>
+      <div class="mobile-hide card-section space-x-1 space-y-1">
+        <Chip
+          v-for="genre in movie.genres"
+          :title="genre"
+          :label="truncate(genre, 30)"
+        />
       </div>
     </div>
   </div>
@@ -46,7 +41,6 @@ import Chip from "primevue/chip";
 import DotSeparatedInfo from "../info/DotSeparatedInfo.vue";
 import { MEDIA_TYPES } from "../../../util/constants/base";
 import { truncate } from "../../../util/format/text";
-import { mapActions } from "vuex";
 
 export default {
   components: { MediaTypeIcon, MoviePoster, Chip, DotSeparatedInfo },
@@ -61,29 +55,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions("details", ["setSelected"]),
     truncate,
     getDetails() {
       //Retrieve details if they aren't already set
       this.movie.addDetails(true);
-    },
-    openDetails() {
-      this.setSelected(this.movie);
-
-      this.$router.push({
-        name: "Details",
-        params: {
-          mediaType: MEDIA_TYPES.MOVIE.toLowerCase(),
-          id: this.movie.routeId()
-        }
-      });
     }
-  },
-  watch: {
-    //Watch a field that is included in additional details fetch
-    //runtime() {
-    //this.getDetails();
-    //}
   },
   created() {
     //Retrieve details if they aren't already set
