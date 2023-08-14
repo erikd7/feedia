@@ -1,42 +1,40 @@
 <template>
-  <div class="rounded overflow-hidden shadow-lg px-2 py-2">
-    <div class="flex flex-row">
-      <div class="flex flex-column">
-        <BookCover :book="book">
-          <template v-slot:coverAction="{ hovered }">
-            <MediaTypeIcon v-if="hovered" :mediaType="mediaType"
-          /></template>
-        </BookCover>
+  <div class="flex flex-row">
+    <div class="flex flex-column">
+      <BookCover :book="book">
+        <template v-slot:coverAction="{ hovered }">
+          <MediaTypeIcon v-if="hovered" :mediaType="mediaType"
+        /></template>
+      </BookCover>
+    </div>
+    <div class="flex flex-column justify-between">
+      <div class="card-section">
+        <p class="font-bold text-xl">
+          {{ title }}
+        </p>
+        <DotSeparatedInfo
+          :info="[
+            first3Authors,
+            firstPublishYear,
+            { value: pageCount, formatter: pageCount => pageCount + ' pages' }
+          ]"
+        />
       </div>
-      <div class="flex flex-column justify-between">
-        <div class="card-section">
-          <p class="font-bold text-xl">
-            {{ title }}
-          </p>
-          <DotSeparatedInfo
-            :info="[
-              first3Authors,
-              firstPublishYear,
-              { value: pageCount, formatter: pageCount => pageCount + ' pages' }
-            ]"
-          />
-        </div>
-        <div
-          v-if="firstSentence"
-          :title="`First sentence of ${title}`"
-          class="card-section"
-        >
-          <p class="text-gray-700 text-base italic text-ellipses">
-            {{ truncate(firstSentence, 100) }}
-          </p>
-        </div>
-        <div class="mobile-hide card-section space-x-1 space-y-1">
-          <Chip
-            v-for="subject in book.subjects"
-            :title="subject"
-            :label="truncate(subject, 30)"
-          />
-        </div>
+      <div
+        v-if="firstSentence"
+        :title="`First sentence of ${title}`"
+        class="card-section"
+      >
+        <p class="text-gray-700 text-base italic text-ellipses">
+          {{ truncate(firstSentence, 100) }}
+        </p>
+      </div>
+      <div class="mobile-hide card-section space-x-1 space-y-1">
+        <Chip
+          v-for="subject in book.subjects"
+          :title="subject"
+          :label="truncate(subject, 30)"
+        />
       </div>
     </div>
   </div>

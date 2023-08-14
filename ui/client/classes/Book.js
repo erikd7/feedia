@@ -50,6 +50,10 @@ export default class Book {
     return "";
   }
 
+  routeId() {
+    return this.title; //eventually this will be an internal ID
+  }
+
   //Display info
   displayTitle() {
     return this.title;

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="image-size">
     <Image
       :imageSource="posterUrl"
       :cacheLocation="posterName"

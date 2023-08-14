@@ -29,6 +29,11 @@ export default class Movie {
     this.directors = input.directors;
   }
 
+  //Build from ID
+  static async build(_id) {
+    //Assuming we want our IDs to be different from external IDs, we first need the backend to do this
+  }
+
   //Retrieve data
   getDetails(includeCredits = true) {
     return this.infoClient.getDetails(this.tmdbId, includeCredits);
