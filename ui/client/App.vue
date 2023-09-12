@@ -89,6 +89,16 @@ export default {
 .mainPane-container {
   padding: 5px;
 }
+.card-section {
+  padding: 5px;
+}
+.card-section:first-child {
+  padding-top: 0;
+}
+
+.card-section:last-child {
+  padding-bottom: 0;
+}
 .button {
   color: white;
   background-color: #60789e;
@@ -128,6 +138,9 @@ export default {
 }
 .hide-last:last-child {
   display: none;
+}
+.text-main {
+  @apply text-gray-500 !important;
 }
 
 @media only screen and (min-width: 650px) {

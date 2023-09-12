@@ -2,7 +2,7 @@
   <Table :rows="results">
     <template v-slot:row="row">
       <div
-        class="rounded overflow-hidden shadow-lg px-2 py-2 cursor-pointer"
+        class="rounded overflow-hidden shadow-lg px-2 py-2 cursor-pointer text-main"
         @click="() => openDetails(row.row)"
       >
         <MediaTypeSwitcher
@@ -56,3 +56,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+:deep(.p-dataview-content) {
+  color: unset !important;
+}
+</style>

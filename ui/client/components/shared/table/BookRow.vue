@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row">
+  <div class="flex flex-row px-2 py-2">
     <div class="flex flex-column">
       <BookCover :book="book">
         <template v-slot:coverAction="{ hovered }">
@@ -25,7 +25,7 @@
         :title="`First sentence of ${title}`"
         class="card-section"
       >
-        <p class="text-gray-700 text-base italic text-ellipses">
+        <p class="text-base italic text-ellipses">
           {{ truncate(firstSentence, 100) }}
         </p>
       </div>
@@ -88,15 +88,5 @@ export default {
 <style scoped>
 .p-dataview-content > div > div {
   width: 100% !important;
-}
-.card-section {
-  padding: 5px;
-}
-.card-section:first-child {
-  padding-top: 0;
-}
-
-.card-section:last-child {
-  padding-bottom: 0;
 }
 </style>
