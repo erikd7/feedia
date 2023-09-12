@@ -2,7 +2,7 @@
   <div>
     <div class="flex flex-row">
       <div class="flex flex-column pr-2">
-        <MoviePoster :movie="info" />
+        <MoviePoster :movie="movie" />
       </div>
       <div class="flex flex-column justify-between">
         <div class="card-section">
@@ -16,7 +16,7 @@
           :title="`Tagline for ${title}`"
           class="card-section"
         >
-          <p class="text-gray-700 italic text-base text-ellipses">
+          <p class="italic text-base text-ellipses">
             {{ truncate(tagline, 100) }}
           </p>
         </div>
@@ -25,7 +25,7 @@
           :title="`Description of ${title}`"
           class="card-section"
         >
-          <p class="text-gray-700 text-base text-ellipses">
+          <p class="text-base text-ellipses">
             {{ truncate(description, 100) }}
           </p>
         </div>
@@ -54,7 +54,7 @@ export default {
     id: {
       type: String
     },
-    info: {
+    movie: {
       type: Object,
       required: true
     }
@@ -62,39 +62,39 @@ export default {
   methods: {
     truncate,
     async getDetails(id) {
-      this.info = await Movie.build(id);
+      this.movie = await Movie.build(id);
     }
   },
   mounted() {
-    //If info is not passed, retrieve it
-    if (!this.info || !Object.keys(this.info)) {
+    //If movie is not passed, retrieve it
+    if (!this.movie || !Object.keys(this.movie)) {
       this.getDetails(this.id);
     }
   },
   computed: {
     id() {
-      return this.info.tmdbId;
+      return this.movie.tmdbId;
     },
     title() {
-      return this.info.displayTitle();
+      return this.movie.displayTitle();
     },
     director() {
-      return this.info.displayDirectors();
+      return this.movie.displayDirectors();
     },
     year() {
-      return this.info.displayYear();
+      return this.movie.displayYear();
     },
     runtime() {
-      return this.info.displayRuntime();
+      return this.movie.displayRuntime();
     },
     description() {
-      return this.info.displayDescription();
+      return this.movie.displayDescription();
     },
     tagline() {
-      return this.info.displayTagline();
+      return this.movie.displayTagline();
     },
     genres() {
-      return this.info.genres;
+      return this.movie.genres;
     }
   }
 };

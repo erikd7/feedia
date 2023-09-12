@@ -1,8 +1,9 @@
 <template>
   <MediaTypeSwitcher
+    class="text-main"
     :mediaType="mediaType"
     :componentsByMediaType="componentsByMediaType"
-    :passedProps="{ id, info: selected }"
+    :passedProps="{ id, [mediaType.toLowerCase()]: selected }"
   />
 </template>
 
