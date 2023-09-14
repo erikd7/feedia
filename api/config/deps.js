@@ -1,7 +1,11 @@
+import setup from "./setup";
 import { connectPostgres } from "../database/postgres";
 import getConstants from "../database/constants";
 
 const buildDeps = async app => {
+  //Extensibility setup
+  setup();
+
   //Postgres
   await connectPostgres();
 
