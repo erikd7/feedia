@@ -1,0 +1,57 @@
+{
+  "name": "feedia-api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "babel-node ./bin/www.js",
+    "dev": "nodemon --exec npm start",
+    "lint": "eslint .",
+    "build": "webpack",
+    "test": "jest --watch",
+    "ci-test": "jest --coverage",
+    "serve": "pm2 start -f build/index.js --name feedia-api --watch --ignore-watch='node_modules keys/*'",
+    "deploy-setup": "npm install && npm run build && pm2 reload all",
+    "deploy": "npm install && npm run build && npm run serve",
+    "deploy-down": "pm2 stop feedia-api",
+    "docker-serve": "node build/index.js"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/node": "^7.18.5",
+    "@hapi/joi": "^17.1.1",
+    "babel-plugin-root-import": "^6.6.0",
+    "body-parser": "^1.20.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^16.0.1",
+    "es6-promise": "^4.2.8",
+    "express": "~4.16.1",
+    "joi": "^17.6.0",
+    "joi-oid": "^1.1.2",
+    "morgan": "~1.9.1",
+    "pg": "^8.7.3",
+    "pm2": "^5.2.0",
+    "swagger-ui-express": "^4.5.0",
+    "yamljs": "^0.3.0",
+    "yesql": "^5.0.0"
+  },
+  "babel": {
+    "retainLines": true,
+    "presets": [
+      [
+        "@babel/preset-env"
+      ]
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.13",
+    "@babel/preset-env": "^7.18.10",
+    "babel-loader": "^8.2.5",
+    "eslint": "^8.19.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "nodemon": "^2.0.18",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-node-externals": "^3.0.0"
+  }
+}
