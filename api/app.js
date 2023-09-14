@@ -1,7 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
-import { errorMiddleware } from "./routes/error";
+import { errorMiddleware } from "./middleware/error";
 import userRouter from "./routes/user";
 
 var app = express();
