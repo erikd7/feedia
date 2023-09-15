@@ -1,26 +1,17 @@
-export const getSuccessBody = (body, bodyKey) => {
-  const bodyVal = body[bodyKey];
-  let statusName;
+import { StatusCodes } from "http-status-codes";
+
+export const createResponse = data => {
+  let status;
   //Undefined, null, or empty array
   if (
-    typeof bodyVal === "undefined" ||
-    bodyVal === null ||
-    (Array.isArray(bodyVal) && !bodyVal.length)
+    typeof data === "undefined" ||
+    data === null ||
+    (Array.isArray(data) && !data.length)
   ) {
-    statusName = "no-content";
+    status = StatusCodes.NO_CONTENT;
   } else {
-    statusName = "success";
+    status = StatusCodes.OK;
   }
 
-  const status = getStatusByReason(statusName);
-
-  return { status, body };
-};
-
-export const getResponseBody = (response, bodyKey) => {
-  const { ok, ...body } = response;
-
-  if (ok) return getSuccessBody(body, bodyKey);
-
-  return getFailureBody(response);
+  return { status, body: data };
 };

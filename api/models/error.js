@@ -1,4 +1,6 @@
-const DEFAULT_REASON = "server-error";
+import { ReasonPhrases, getStatusCode } from "http-status-codes";
+
+const DEFAULT_REASON = ReasonPhrases.INTERNAL_SERVER_ERROR;
 
 export default class ApiError extends Error {
   constructor(message, reason, context, ...args) {
@@ -21,12 +23,16 @@ export default class ApiError extends Error {
       return error;
     }
     if (error instanceof Error) {
+      console.log("Creating ApiError from Error:");
+      console.error(error);
       return new this(error.message, DEFAULT_REASON, context);
     }
   }
 
   prependContext(newContext) {
-    this.contexts = [newContext, ...this.contexts];
+    if (newContext) {
+      this.contexts = [newContext, ...this.contexts];
+    }
   }
   displayContexts() {
     return this.contexts?.join("/\n\t");
@@ -43,26 +49,6 @@ export default class ApiError extends Error {
   }
 
   httpCode() {
-    switch (this.reason) {
-      case "success":
-        return 200;
-      case "no-content":
-        return 204;
-      case "partial-success":
-        return 207;
-      case "bad-request":
-        return 400;
-      case "unauthorized":
-        return 401;
-      case "forbidden":
-        return 403;
-      case "not-found":
-        return 404;
-      case "conflict":
-        return 409;
-      case "server-error":
-      default:
-        return 500;
-    }
+    return getStatusCode(this.reason);
   }
 }

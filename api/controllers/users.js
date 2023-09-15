@@ -1,19 +1,17 @@
-import { getUser as getUserDomain } from "../domain/users";
 import User from "../models/user";
-import { getFailureBody } from "./controller-helper";
-import validateSchema from "../util/validate";
+import { createResponse } from "./controller-helper";
 
 export const getUser = async req => {
-  //Validate body
+  //Transform req to user
   const { userId } = req.params;
-  validateSchema("userId", ...User.getIdSchema());
+  const user = new User(userId);
 
-  const result = await getUserDomain(parseInt(userId));
+  //Validate input
+  user.validateId();
+
+  //Retrieve info
+  await user.retrieveAndSet();
 
   //Return success
-  if (result.ok) {
-    return { status: 200, body: result.user };
-  }
-
-  return getFailureBody(result);
+  return createResponse(user);
 };
