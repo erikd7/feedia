@@ -12,7 +12,7 @@ const ENV = (() => {
 })();
 
 module.exports = {
-  entry: "./bin/www.js",
+  entry: "./bin/www.ts",
   mode: ENV,
   target: "node",
   output: {

@@ -3,9 +3,25 @@ import validateSchema from "../util/validate";
 import { runQuery, queries } from "../database/postgres";
 import { ReasonPhrases } from "http-status-codes";
 
+type Id = Number;
+type Name = String | undefined;
+
+type UserInput = {
+  name?: Name;
+};
+
+type DatabaseRow = {
+  id: Id;
+  name: Name;
+};
+
 export default class User {
-  constructor(id) {
+  private id: Id;
+  private name: Name;
+
+  constructor(id: any, { name }: UserInput = {}) {
     this.id = parseInt(id);
+    this.name = name;
   }
 
   //Validation----------------------------------------------------------------
@@ -28,13 +44,14 @@ export default class User {
 
   //Data set------------------------------------------------------------------
   //Map DB data to user class properties
-  populateFromDbRow(dbRow) {
+  populateFromDbRow(dbRow: DatabaseRow) {
     this.name = dbRow.name;
   }
   //Retrieve and set data by ID
   async retrieveAndSet() {
     const userInfo = await this.retrieve();
     if (!userInfo) {
+      //@ts-ignore
       throw new ApiError(
         `Unable to find user info for user ${this.id}.`,
         ReasonPhrases.NOT_FOUND

@@ -4,6 +4,9 @@
 # UI
 ui/dist
 
+# API
+api/dist
+
 
 # local env files
 *.env

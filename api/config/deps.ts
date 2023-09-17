@@ -1,8 +1,9 @@
 import setup from "./setup";
 import { connectPostgres } from "../database/postgres";
 import getConstants from "../database/constants";
+import { Application } from "express";
 
-const buildDeps = async app => {
+const buildDeps = async (app: Application) => {
   //Extensibility setup
   setup();
 
