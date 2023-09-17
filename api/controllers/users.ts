@@ -1,7 +1,9 @@
 import User from "../models/user";
 import { createResponse } from "./controller-helper";
+import { Controller } from "./controller";
 
-export const getUser = async req => {
+//Define this as a controller
+export const getUser: Controller = async req => {
   //Transform req to user
   const { userId } = req.params;
   const user = new User(userId);

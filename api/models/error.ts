@@ -2,8 +2,21 @@ import { ReasonPhrases, getStatusCode } from "http-status-codes";
 
 const DEFAULT_REASON = ReasonPhrases.INTERNAL_SERVER_ERROR;
 
+type Message = string;
+type Reason = string;
+type Contexts = Array<string>;
+type ContextInput = Contexts | string;
+
 export default class ApiError extends Error {
-  constructor(message, reason, context, ...args) {
+  private reason: Reason;
+  private contexts: Contexts;
+
+  constructor(
+    message: Message,
+    reason: Reason,
+    context: ContextInput,
+    ...args: Array<any>
+  ) {
     super(message, ...args);
 
     //Custom error fields for handling request errors
@@ -18,7 +31,7 @@ export default class ApiError extends Error {
   }
 
   //Build an ApiError from an error that is a native or a custom error
-  static build(error, context) {
+  static build(error: Error, context: ContextInput) {
     if (error instanceof ApiError) {
       return error;
     }
@@ -29,7 +42,7 @@ export default class ApiError extends Error {
     }
   }
 
-  prependContext(newContext) {
+  prependContext(newContext: string) {
     if (newContext) {
       this.contexts = [newContext, ...this.contexts];
     }

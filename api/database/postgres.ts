@@ -1,4 +1,4 @@
-import pg, { Pool } from "pg";
+import pg, { Pool, PoolConfig } from "pg";
 import queries from "./queries";
 
 require("dotenv").config();
@@ -8,21 +8,26 @@ pg.types.setTypeParser(1114, function (stringValue) {
   return new Date(stringValue + "z"); //Add 'z' to return timestamp in UTC
 });
 
-let postgresDb, runQuery, runTransactionalizedQueries;
+const connectionConfig: PoolConfig = {
+  host: process.env.POSTGRES_HOST,
+  port: parseInt(process.env.POSTGRES_PORT as string) || 5432,
+  database: process.env.POSTGRES_DB,
+  user: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD
+};
+const postgresDb: Pool = new Pool(connectionConfig);
+
+let runQuery: Function, runTransactionalizedQueries;
 
 //Connection
 export async function connectPostgres() {
-  let connectionConfig;
-  connectionConfig = {
-    host: process.env.POSTGRES_HOST,
-    port: process.env.POSTGRES_PORT || 5432,
-    database: process.env.POSTGRES_DB,
-    user: process.env.POSTGRES_USER,
-    password: process.env.POSTGRES_PASSWORD
-  };
-
   //Query wrapper
-  runQuery = async (query, rowKey = "rows", isSingular = false, values) => {
+  runQuery = async (
+    query: string,
+    rowKey: string = "rows",
+    isSingular: Boolean = false,
+    values: Array<any>
+  ) => {
     const result = await postgresDb.query(query, values);
     return {
       ok: true,
@@ -31,7 +36,7 @@ export async function connectPostgres() {
     };
   };
 
-  runTransactionalizedQueries = async queries => {
+  runTransactionalizedQueries = async (queries: Array<string>) => {
     const client = await postgresDb.connect();
     try {
       for await (const query of queries) {
@@ -47,7 +52,7 @@ export async function connectPostgres() {
 
       client.release();
       return { ok: true };
-    } catch (error) {
+    } catch (error: any) {
       await client.query("ROLLBACK"); // rollback the transaction
 
       client.release();
@@ -55,7 +60,6 @@ export async function connectPostgres() {
     }
   };
 
-  postgresDb = new Pool(connectionConfig);
   console.log("Connected to Postgres DB.");
 }
 

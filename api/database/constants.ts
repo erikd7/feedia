@@ -5,7 +5,7 @@ const builder = [
   {
     query: queries.getMediaTypes(),
     constantsKey: "userStatusIds",
-    transform: result => rowsToHash(result.rows, "key")
+    transform: (result: any) => rowsToHash(result.rows, "key")
   }
 ];
 
@@ -15,6 +15,7 @@ const getConstants = async () => {
   for await (const { query, constantsKey, transform } of builder) {
     const result = await runQuery(query);
 
+    //@ts-ignore
     constants[constantsKey] = transform(result);
   }
 
