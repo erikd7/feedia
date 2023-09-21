@@ -1,8 +1,6 @@
 import pg, { Pool, PoolConfig } from "pg";
 import queries from "./queries";
 
-require("dotenv").config();
-
 //Override pg default to not automatically adjust timezone when selecting timestamp without timezone columns
 pg.types.setTypeParser(1114, function (stringValue) {
   return new Date(stringValue + "z"); //Add 'z' to return timestamp in UTC

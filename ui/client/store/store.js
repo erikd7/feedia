@@ -1,6 +1,7 @@
 import Vuex from "vuex";
-import searchStore from "./search";
+import userStore from "./user";
 import navigationStore from "./navigation";
+import searchStore from "./search";
 import detailsStore from "./details";
 import { MEDIA_TYPES } from "../util/constants/base";
 import { get as getLocal, set as setLocal } from "../util/localStorage";
@@ -13,6 +14,7 @@ const setLocalCurrentMediatypes = mediaTypes => {
 //Vuex store
 const store = Vuex.createStore({
   modules: {
+    user: userStore,
     navigation: navigationStore,
     search: searchStore,
     details: detailsStore

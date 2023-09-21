@@ -17,9 +17,11 @@ export const createRouter = () => {
     this[verb](
       path,
       setContextMiddleware(context),
-      errorWrapper(async (req, res) => {
-        const { status, body } = await controller(req);
+      errorWrapper(async (req, res, next) => {
+        //@ts-ignore
+        const { status, body } = await controller(req, res, next);
 
+        //@ts-ignore
         res.status(status).json(body);
       })
     );

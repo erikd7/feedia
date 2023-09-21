@@ -12,7 +12,7 @@ const queries = {
   getDataSources: () =>
     SQL(`
     select  id::integer,
-            name
+            key
     from data_source
   `)({})
 };

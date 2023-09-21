@@ -1,4 +1,5 @@
-import { Request } from "express";
+import { Response, NextFunction } from "express";
+import { Request } from "../types/express";
 
 export interface ResponseObject {
   status: StatusCodes;
@@ -6,5 +7,5 @@ export interface ResponseObject {
 }
 
 export interface Controller {
-  (req: Request): Promise<ResponseObject>;
+  (req: Request, res: Response, next: NextFunction): Promise<ResponseObject>;
 }

@@ -1,10 +1,10 @@
 --sample users
-insert into public.users ("name") values
-    ('Ibrahim Moizoos'),
-    ('T.J. Juckson'),
-    ('Quatro Quatro'),
-    ('Dan Smith'),
-    ('Hingle McCringleberry');
+insert into public.users (name_first, name_last, email) values
+    ('Ibrahim', 'Moizoos', 'moizoos@utchat.edu'),
+    ('T.J.', 'Juckson', 'tj@waynestate.edu'),
+    ('Quatro', 'Quatro', '44@hotmail.com'),
+    ('Dan', 'Smith', 'dansmith111@gmail.com'),
+    ('Hingle', 'McCringleberry', 'mrmccringleberry69@psu.edu');
 
 --sample titles
 insert into public.title (title, media_type_id) values
@@ -16,15 +16,15 @@ insert into public.title (title, media_type_id) values
     ('Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb', 2);  -- Movie
     
 --external IDs
-insert into public.title_id (title_id, data_source_id, external_id) values
+insert into public.title_external_id (title_id, data_source_id, external_id) values
 -- for books (media type_id = 1)
-    (1, 1, 'OL5703422W'),   -- Jonathan Strange & Mr. Norrell in Open Library
-    (2, 1, 'OL166973W'),    -- The Idiot in Open Library
-    (3, 1, 'OL28059906W'),  -- The Lord of the Rings: The Two Towers in Open Library
+    (1, 3, 'OL5703422W'),   -- Jonathan Strange & Mr. Norrell in Open Library
+    (2, 3, 'OL166973W'),    -- The Idiot in Open Library
+    (3, 3, 'OL28059906W'),  -- The Lord of the Rings: The Two Towers in Open Library
 -- for movies (media type_id = 2)
-    (4, 2, '121'),      -- The Lord of the Rings: The Two Towers in The Movie Database
-    (5, 2, '872585'),   -- Oppenheimer in The Movie Database
-    (6, 2, '935')       -- Dr. Strangelove in The Movie Database
+    (4, 4, '121'),      -- The Lord of the Rings: The Two Towers in The Movie Database
+    (5, 4, '872585'),   -- Oppenheimer in The Movie Database
+    (6, 4, '935')       -- Dr. Strangelove in The Movie Database
     on conflict (title_id, data_source_id, external_id) do nothing;
 
 --user next up lists

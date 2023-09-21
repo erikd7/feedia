@@ -8,5 +8,10 @@
   "api": {
     "redirect": true,
     "redirectTo": "http://localhost:4000/api"
+  },
+  "auth": {
+    "google": {
+      "redirectUrl": "http://localhost:3000/auth/google"
+    }
   }
 }

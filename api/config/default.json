@@ -1,0 +1,15 @@
+{
+  "ui": {
+    "routes": {
+      "login": "/login"
+    },
+    "queryParams": {
+      "authError": "authError"
+    }
+  },
+  "auth": {
+    "google": {
+      "callbackRoute": "/auth/google/callback"
+    }
+  }
+}
