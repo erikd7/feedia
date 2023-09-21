@@ -2,26 +2,45 @@ import { dbId } from "./base-schemas";
 import validateSchema from "../util/validate";
 import { runQuery, queries } from "../database/postgres";
 import { ReasonPhrases } from "http-status-codes";
+import { createToken } from "../auth/token";
 
 type Id = Number;
 type Name = String | undefined;
+type Email = string;
 
 type UserInput = {
-  name?: Name;
+  id?: Id;
+  nameFirst?: Name;
+  nameLast?: Name;
+  email?: Email;
+  photoUrl?: string;
 };
 
-type DatabaseRow = {
+type UserDatabaseRow = {
   id: Id;
-  name: Name;
+  nameFirst: Name;
+  nameLast: Name;
+  email: Email;
+  photoUrl: string;
+  dataSourceId: number;
+  externalId: string;
 };
 
 export default class User {
-  private id: Id;
-  private name: Name;
+  private id?: Id;
+  private nameFirst?: Name;
+  private nameLast?: Name;
+  private email?: Email;
+  private photoUrl?: string;
+  private dataSourceId?: number;
+  private externalId?: string;
 
-  constructor(id: any, { name }: UserInput = {}) {
-    this.id = parseInt(id);
-    this.name = name;
+  constructor({ id, nameFirst, nameLast, email, photoUrl }: UserInput = {}) {
+    this.id = id;
+    this.nameFirst = nameFirst;
+    this.nameLast = nameLast;
+    this.email = email;
+    this.photoUrl = photoUrl;
   }
 
   //Validation----------------------------------------------------------------
@@ -33,6 +52,14 @@ export default class User {
   //Data retrieval------------------------------------------------------------
   //Retrieve user info from DB by ID
   async retrieve() {
+    if (!this.id) {
+      //@ts-ignore
+      throw new ApiError(
+        "User must have an ID to retrieve data.",
+        ReasonPhrases.BAD_REQUEST,
+        "retrieving user info from DB"
+      );
+    }
     //Get data from Postgres
     const sqlResult = await runQuery(queries.getUser(this.id), "user", true);
     if (sqlResult.rowsAffected < 1) {
@@ -44,8 +71,19 @@ export default class User {
 
   //Data set------------------------------------------------------------------
   //Map DB data to user class properties
-  populateFromDbRow(dbRow: DatabaseRow) {
-    this.name = dbRow.name;
+  populateFromDbRow(dbRow: UserDatabaseRow) {
+    this.id = dbRow.id;
+    this.nameFirst = dbRow.nameFirst;
+    this.nameLast = dbRow.nameLast;
+    this.email = dbRow.email;
+    this.photoUrl = dbRow.photoUrl;
+    this.dataSourceId = dbRow.dataSourceId;
+    this.externalId = dbRow.externalId;
+  }
+  static createFromDbRow(dbRow: UserDatabaseRow) {
+    const user = new this();
+    user.populateFromDbRow(dbRow);
+    return user;
   }
   //Retrieve and set data by ID
   async retrieveAndSet() {
@@ -58,5 +96,17 @@ export default class User {
       );
     }
     this.populateFromDbRow(userInfo);
+  }
+
+  //Create a JWT
+  createToken() {
+    return createToken({
+      id: this.id,
+      nameFirst: this.nameFirst,
+      nameLast: this.nameLast,
+      photoUrl: this.photoUrl,
+      dataSourceId: this.dataSourceId,
+      externalId: this.externalId
+    });
   }
 }

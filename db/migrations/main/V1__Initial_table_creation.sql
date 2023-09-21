@@ -1,7 +1,24 @@
+--External data sources
+create table if not exists data_source (
+  	id bigserial not null primary key,
+    key varchar(20) not null,
+	"name" varchar(20) not null
+);
+--External data static values
+insert into public.data_source (key, "name") values
+('INTERNAL', 'Internal'), ('GOOGLE', 'Google'), ('OPENLIBRARY', 'Open Library'), ('TMDB', 'The Movie Database');
+
 --Users
 create table if not exists public.users (
   	id bigserial not null primary key, --TODO: make this ULID or UUID v7, which will hopefully be native in postgres v17
-	"name" varchar(50) not null
+	"name_first" varchar(20) not null,
+	"name_last" varchar(30) null,
+	email varchar(255) not null unique,
+    data_source_id int not null default 1, --Defaults to Internal data
+	foreign key (data_source_id) references public.data_source(id),
+    external_id text null,
+    constraint data_source_external_id_unique unique (data_source_id, external_id),
+	photo_url text null
 );
 
 --Media types
@@ -11,7 +28,7 @@ create table if not exists public.media_type (
 );
 --Media type static values
 insert into public.media_type (key) values
-('book'), ('movie');
+('BOOK'), ('MOVIE');
 
 --Titles
 create table if not exists public.title (
@@ -21,17 +38,8 @@ create table if not exists public.title (
 	foreign key (media_type_id) references media_type(id)
 );
 
---External data sources
-create table if not exists public.data_source (
-  	id bigserial not null primary key,
-	"name" varchar(20) not null
-);
---External data static values
-insert into public.data_source ("name") values
-('Open Library'), ('The Movie Database');
-
 --External ID maps
-create table if not exists public.title_id (
+create table if not exists public.title_external_id (
 	title_id int not null, --TODO: make this ULID or UUID v7, which will hopefully be native in postgres v17
 	foreign key (title_id) references title(id),
 	data_source_id int not null,

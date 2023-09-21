@@ -4,7 +4,12 @@ import { arrayToHash as rowsToHash } from "../util/mapping";
 const builder = [
   {
     query: queries.getMediaTypes(),
-    constantsKey: "userStatusIds",
+    constantsKey: "mediaTypes",
+    transform: (result: any) => rowsToHash(result.rows, "key")
+  },
+  {
+    query: queries.getDataSources(),
+    constantsKey: "dataSources",
     transform: (result: any) => rowsToHash(result.rows, "key")
   }
 ];

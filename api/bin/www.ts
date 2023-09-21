@@ -1,10 +1,13 @@
 #!/usr/bin/env node
+import dotenv from "dotenv";
+dotenv.config();
+
 import app from "../app";
-import buildDeps from "../config/deps";
+import { buildDeps } from "../config/deps";
 import debug from "debug";
 import http from "http";
 
-var port = normalizePort(process.env.PORT || "3000");
+var port = normalizePort(process.env.API_PORT || "3000");
 app.set("port", port);
 
 const server = http.createServer(app);

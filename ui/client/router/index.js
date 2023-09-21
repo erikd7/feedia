@@ -1,16 +1,32 @@
 import { createRouter, createWebHistory } from "vue-router";
+import Login from "../components/login/Login.vue";
 import Feed from "../components/feed/Feed.vue";
 import Library from "../components/library/Library.vue";
 import Find from "../components/find/Find.vue";
 import Details from "../components/details/Details.vue";
 import { ROUTES } from "../util/constants/navigation";
-import * as guards from "./guards";
+import {
+  parseToken,
+  authenticate,
+  redirectToRoot,
+  renameTitle,
+  updateRouteStore
+} from "./guards";
 
 export const routes = [
   {
+    name: "Login",
+    path: ROUTES.LOGIN,
+    alias: ROUTES.ROOT,
+    component: Login,
+    hideTab: true,
+    meta: {
+      requireAuth: false
+    }
+  },
+  {
     name: "Discover",
     path: ROUTES.FEED,
-    alias: ROUTES.ROOT,
     component: Feed
   },
   {
@@ -39,12 +55,17 @@ const router = createRouter({
   routes
 });
 
+router.beforeEach(authenticate);
 router.beforeEach((to, _from, next) => {
-  guards.redirectToRoot(to, _from, () => guards.renameTitle(to, _from, next));
+  parseToken(to, _from, () => renameTitle(to, _from, next), router);
+});
+
+router.beforeEach((to, _from, next) => {
+  redirectToRoot(to, _from, () => renameTitle(to, _from, next));
 });
 
 router.afterEach(to => {
-  guards.updateRouteStore(to);
+  updateRouteStore(to);
 });
 
 export default router;

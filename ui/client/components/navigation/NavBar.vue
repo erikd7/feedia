@@ -6,10 +6,13 @@
       :class="{ 'mobile-hide': showSearchBar }"
     />
     <MediaTypeToggle :class="{ 'mobile-hide': showSearchBar }" />
-    <SearchIconOrBar
-      :showSearchBar="showSearchBar"
-      :setShowSearchBar="setShowSearchBar"
-    />
+    <div class="flex flex-row">
+      <SearchIconOrBar
+        :showSearchBar="showSearchBar"
+        :setShowSearchBar="setShowSearchBar"
+      />
+      <UserInfo />
+    </div>
   </div>
 </template>
 
@@ -17,9 +20,10 @@
 import Menu from "./Menu";
 import MediaTypeToggle from "./MediaTypeToggle";
 import SearchIconOrBar from "./SearchIconOrBar";
+import UserInfo from "../login/UserInfo.vue";
 
 export default {
-  components: { Menu, SearchIconOrBar, MediaTypeToggle },
+  components: { Menu, SearchIconOrBar, MediaTypeToggle, UserInfo },
   data() {
     return { showSearchBar: false };
   },
