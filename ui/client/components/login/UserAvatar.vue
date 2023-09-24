@@ -5,6 +5,7 @@
       shape="circle"
       :pt="{
         image: {
+          class: 'hover:outline hover:outline-1',
           referrerPolicy: 'no-referrer',
           crossorigin: 'anonymous'
         }

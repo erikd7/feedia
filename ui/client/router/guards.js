@@ -1,6 +1,7 @@
 //Navigation Guards https://router.vuejs.org/guide/advanced/navigation-guards.html
 import store from "../store/store";
-import { getLocalToken, validate as validateToken } from "../util/auth/token";
+import { getLocalToken } from "../util/auth/token";
+import { signIn, validate } from "../util/auth/actions";
 import { ROUTES } from "../util/constants/navigation";
 
 export function redirectToRoot(to, _from, next) {
@@ -40,23 +41,21 @@ export function parseToken(to, _from, next, router) {
     }
   }
 
-  //Save token in store (also saves in local storage)
-  if (token) {
-    store.dispatch("user/setToken", token);
-  }
+  //Use token to sign in
+  signIn(token);
 
   next();
 }
 
 //Block access to restricted routes if no token
-export async function authenticate(to, _from, next) {
+export function authenticate(to, _from, next) {
   //If doesn't require auth (defaults to require auth)
   if (to.matched.some(route => route.meta.requireAuth === false)) {
     next();
   }
 
   //If token is valid
-  const isTokenValid = await store.dispatch("user/getIsTokenValid");
+  const isTokenValid = validate();
 
   //Validate token
   if (isTokenValid) {

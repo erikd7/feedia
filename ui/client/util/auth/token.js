@@ -1,7 +1,8 @@
 import decodeJwt from "jwt-decode";
 import {
   get as getLocalStorage,
-  set as setLocalStorage
+  set as setLocalStorage,
+  remove as removeLocalStorage
 } from "../localStorage";
 
 const LOCAL_STORAGE_TOKEN_KEY = "token";
@@ -29,4 +30,8 @@ export const getLocalToken = () => {
 
 export const setLocalToken = token => {
   return setLocalStorage(LOCAL_STORAGE_TOKEN_KEY, token, {}, true);
+};
+
+export const deleteLocalToken = () => {
+  return removeLocalStorage(LOCAL_STORAGE_TOKEN_KEY);
 };
