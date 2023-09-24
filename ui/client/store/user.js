@@ -1,4 +1,9 @@
-import { parse, validate, setLocalToken } from "../util/auth/token";
+import {
+  parse,
+  validate,
+  setLocalToken,
+  deleteLocalToken
+} from "../util/auth/token";
 
 //Store for user and auth info
 const store = {
@@ -29,7 +34,10 @@ const store = {
   },
   actions: {
     setToken({ commit }, token) {
+      //Set raw token
       commit("token", token);
+
+      //Set parsed token
 
       //Set the token in local storage
       setLocalToken(token);
@@ -39,6 +47,16 @@ const store = {
     },
     getIsTokenValid({ getters }) {
       return getters.isTokenValid;
+    },
+    deleteStoreToken({ dispatch }) {
+      dispatch("setToken", null);
+    },
+    deleteLocalToken() {
+      deleteLocalToken();
+    },
+    signOut({ dispatch }) {
+      dispatch("deleteLocalToken");
+      dispatch("deleteStoreToken");
     }
   }
 };

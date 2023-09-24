@@ -31,8 +31,12 @@ const set = (
   }
 };
 
+const remove = key => {
+  localStorage.removeItem(key);
+};
+
 const isExpired = (expires, time) => {
   return dayjs(time).isAfter(dayjs(expires));
 };
 
-export { get, set };
+export { get, set, remove };
