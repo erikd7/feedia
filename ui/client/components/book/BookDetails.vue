@@ -1,25 +1,25 @@
 <template>
-  <div class="flex flex-row">
-    <div class="flex flex-column">
+  <Detail v-bind="detailProps">
+    <template v-slot:photo>
       <BookCover :book="book">
         <template v-slot:coverAction="{ hovered }">
-          <MediaTypeIcon v-if="hovered" :mediaType="mediaType"
-        /></template>
+          <MediaTypeIcon v-if="hovered" :mediaType="mediaType" />
+        </template>
       </BookCover>
-    </div>
-    <div class="flex flex-column justify-between">
-      <div class="card-section">
-        <p class="font-bold text-xl">
-          {{ title }}
-        </p>
-        <DotSeparatedInfo
-          :info="[
-            first3Authors,
-            firstPublishYear,
-            { value: pageCount, formatter: pageCount => pageCount + ' pages' }
-          ]"
-        />
-      </div>
+    </template>
+    <template v-slot:title>
+      {{ title }}
+    </template>
+    <template v-slot:subHeader>
+      <DotSeparatedInfo
+        :info="[
+          first3Authors,
+          firstPublishYear,
+          { value: pageCount, formatter: pageCount => pageCount + ' pages' }
+        ]"
+      />
+    </template>
+    <template v-slot:body>
       <div
         v-if="firstSentence"
         :title="`First sentence of ${title}`"
@@ -29,6 +29,8 @@
           {{ truncate(firstSentence, 100) }}
         </p>
       </div>
+    </template>
+    <template v-slot:infoStrip>
       <div class="mobile-hide card-section space-x-1 space-y-1">
         <Chip
           v-for="subject in book.subjects"
@@ -36,11 +38,12 @@
           :label="truncate(subject, 30)"
         />
       </div>
-    </div>
-  </div>
+    </template>
+  </Detail>
 </template>
 
 <script>
+import Detail from "../details/Detail.vue";
 import BookCover from "./BookCover";
 import MediaTypeIcon from "../navigation/MediaTypeIcon.vue";
 import Chip from "primevue/chip";
@@ -49,7 +52,7 @@ import { truncate } from "../../util/format/text";
 import { MEDIA_TYPES } from "../../util/constants/base";
 
 export default {
-  components: { BookCover, MediaTypeIcon, Chip, DotSeparatedInfo },
+  components: { Detail, BookCover, MediaTypeIcon, Chip, DotSeparatedInfo },
   props: {
     book: {
       type: Object,

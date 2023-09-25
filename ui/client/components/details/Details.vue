@@ -3,12 +3,15 @@
     class="text-main"
     :mediaType="mediaType"
     :componentsByMediaType="componentsByMediaType"
-    :passedProps="{ id, [mediaType.toLowerCase()]: selected }"
+    :passedProps="{
+      id,
+      [mediaType.toLowerCase()]: selected,
+      detailProps: { onClickImage: () => {} }
+    }"
   />
 </template>
 
 <script>
-import SearchResults from "../shared/table/SearchResults";
 import Loading from "../shared/Loading";
 import MediaTypeSwitcher from "../shared/media-type/MediaTypeSwitcher.vue";
 import BookDetails from "../book/BookDetails";
@@ -17,7 +20,7 @@ import { MEDIA_TYPES } from "../../util/constants/base";
 import { mapGetters } from "vuex";
 
 export default {
-  components: { SearchResults, Loading, MediaTypeSwitcher },
+  components: { Loading, MediaTypeSwitcher },
   props: {
     mediaType: {
       type: String,
