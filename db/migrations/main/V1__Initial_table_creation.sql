@@ -10,7 +10,7 @@ insert into public.data_source (key, "name") values
 
 --Users
 create table if not exists public.users (
-  	id bigserial not null primary key, --TODO: make this ULID or UUID v7, which will hopefully be native in postgres v17
+  	id UUID not null primary key default generate_ulid(),
 	"name_first" varchar(20) not null,
 	"name_last" varchar(30) null,
 	email varchar(255) not null unique,
@@ -32,7 +32,7 @@ insert into public.media_type (key) values
 
 --Titles
 create table if not exists public.title (
-  	id bigserial not null primary key, --TODO: make this ULID or UUID v7, which will hopefully be native in postgres v17
+  	id UUID not null primary key default generate_ulid(),
 	title varchar(70),
 	media_type_id int not null,
 	foreign key (media_type_id) references media_type(id)
@@ -40,7 +40,7 @@ create table if not exists public.title (
 
 --External ID maps
 create table if not exists public.title_external_id (
-	title_id int not null, --TODO: make this ULID or UUID v7, which will hopefully be native in postgres v17
+	title_id UUID not null,
 	foreign key (title_id) references title(id),
 	data_source_id int not null,
 	foreign key (data_source_id) references data_source(id),
@@ -52,9 +52,9 @@ create table if not exists public.title_external_id (
 
 --User next up list
 create table if not exists public.user_title_next_up (
-	title_id int not null, --TODO: make this ULID or UUID v7, which will hopefully be native in postgres v17
+	title_id UUID not null,
 	foreign key (title_id) references title(id),
-	user_id int not null, --TODO: make this ULID or UUID v7, which will hopefully be native in postgres v17
+	user_id UUID not null,
 	foreign key (user_id) references users(id),
 	ordinal int,
     constraint user_title_next_up_pkey primary key (title_id, user_id)
