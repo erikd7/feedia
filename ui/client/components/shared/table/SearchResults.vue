@@ -18,8 +18,8 @@
 import Table from "./Table";
 import MediaTypeSwitcher from "../media-type/MediaTypeSwitcher.vue";
 import Row from "./Row.vue";
-import BookRow from "./BookRow";
-import MovieRow from "./MovieRow";
+import BookRow from "../../book/BookRow.vue";
+import MovieRow from "../../movie/MovieRow.vue";
 import { MEDIA_TYPES } from "../../../util/constants/base";
 import { mapActions } from "vuex";
 

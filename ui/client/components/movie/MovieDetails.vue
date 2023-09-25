@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import MoviePoster from "../shared/image/MoviePoster";
+import MoviePoster from "./MoviePoster";
 import Chip from "primevue/chip";
 import DotSeparatedInfo from "../shared/info/DotSeparatedInfo";
 import { truncate } from "../../util/format/text";

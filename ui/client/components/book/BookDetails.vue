@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import BookCover from "../shared/image/BookCover";
+import BookCover from "./BookCover";
 import MediaTypeIcon from "../navigation/MediaTypeIcon.vue";
 import Chip from "primevue/chip";
 import DotSeparatedInfo from "../shared/info/DotSeparatedInfo.vue";
