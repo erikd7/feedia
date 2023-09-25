@@ -60,8 +60,8 @@ export function authenticate(to, _from, next) {
   //Validate token
   if (isTokenValid) {
     next();
+  } else {
+    //Redirect to the login page
+    next(ROUTES.LOGIN);
   }
-
-  //Redirect to the login page
-  next(ROUTES.LOGIN);
 }
