@@ -3,13 +3,13 @@ import validateSchema from "../util/validate";
 import { runQuery, queries } from "../database/postgres";
 import { ReasonPhrases } from "http-status-codes";
 import { createToken } from "../auth/token";
+import { DynamicId } from "../database/schemas";
 
-type Id = Number;
 type Name = String | undefined;
 type Email = string;
 
 type UserInput = {
-  id?: Id;
+  id?: DynamicId;
   nameFirst?: Name;
   nameLast?: Name;
   email?: Email;
@@ -17,7 +17,7 @@ type UserInput = {
 };
 
 type UserDatabaseRow = {
-  id: Id;
+  id: DynamicId;
   nameFirst: Name;
   nameLast: Name;
   email: Email;
@@ -27,7 +27,7 @@ type UserDatabaseRow = {
 };
 
 export default class User {
-  private id?: Id;
+  private id?: DynamicId;
   private nameFirst?: Name;
   private nameLast?: Name;
   private email?: Email;
@@ -36,7 +36,7 @@ export default class User {
   private externalId?: string;
 
   constructor({ id, nameFirst, nameLast, email, photoUrl }: UserInput = {}) {
-    this.id = id;
+    this.id = id as DynamicId;
     this.nameFirst = nameFirst;
     this.nameLast = nameLast;
     this.email = email;
