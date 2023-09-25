@@ -1,9 +1,10 @@
 import { pg as SQL } from "yesql";
+import { DynamicId } from "../schemas";
 
 const queries = {
-  getUser: (id: Number) =>
+  getUser: (id: DynamicId) =>
     SQL(`
-    select  id::integer, name_first "nameFirst", name_last "nameLast",
+    select  id, name_first "nameFirst", name_last "nameLast",
               email, data_source_id "dataSourceId", external_id "externalId"
     from users
     where id = :id
@@ -11,7 +12,7 @@ const queries = {
 
   getUserByExternalId: (dataSourceId: Number, externalId: string) =>
     SQL(`
-    select  user_id::integer "userId"          
+    select  user_id "userId"          
     from users
     where data_source_id = :dataSourceId and external_id = :externalId
   `)({ dataSourceId, externalId }),
@@ -32,7 +33,7 @@ const queries = {
         "name_last" = EXCLUDED."name_last",
         email = EXCLUDED.email,
         photo_url = EXCLUDED.photo_url
-    returning id::integer, name_first "nameFirst", name_last "nameLast",
+    returning id, name_first "nameFirst", name_last "nameLast",
               email, photo_url "photoUrl", data_source_id "dataSourceId", external_id "externalId"
   `)({ nameFirst, nameLast, email, dataSourceId, externalId, photoUrl })
 };
