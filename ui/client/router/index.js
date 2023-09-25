@@ -55,8 +55,9 @@ const router = createRouter({
 });
 
 router.beforeEach((to, _from, next) => {
-  parseToken(to, _from, () => renameTitle(to, _from, next), router);
+  parseToken(to, _from, next, router);
 });
+
 router.beforeEach(authenticate);
 
 router.beforeEach((to, _from, next) => {
