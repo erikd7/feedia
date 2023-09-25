@@ -1,10 +1,7 @@
 <template>
-  <div
-    class="rounded overflow-hidden shadow-lg px-2 py-2 cursor-pointer text-main"
-    @click="onClickRow"
-  >
+  <div>
     <div class="flex flex-row">
-      <div class="flex flex-column">
+      <div class="flex flex-column pr-2">
         <slot name="photo" />
       </div>
       <div class="flex flex-column justify-between">
@@ -15,8 +12,11 @@
           <slot name="subHeader" />
         </div>
         <slot name="body" />
-        <slot name="footer" />
+        <slot name="infoStrip" />
       </div>
+    </div>
+    <div class="py-3">
+      <slot name="main" />
     </div>
   </div>
 </template>
@@ -24,7 +24,7 @@
 <script>
 export default {
   props: {
-    onClickRow: {
+    onClickImage: {
       type: Function,
       default: () => {}
     }
