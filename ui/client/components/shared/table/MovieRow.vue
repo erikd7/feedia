@@ -1,19 +1,21 @@
 <template>
-  <div class="flex flex-row">
-    <div class="flex flex-column">
-      <MoviePoster :movie="movie">
-        <template v-slot:coverAction="{ hovered }">
-          <MediaTypeIcon v-if="hovered" :mediaType="mediaType" />
-        </template>
-      </MoviePoster>
-    </div>
-    <div class="flex flex-column justify-between">
-      <div class="card-section">
-        <p class="font-bold text-xl">
-          {{ title }}
-        </p>
-        <DotSeparatedInfo :info="[director, year, runtime]" />
+  <Row v-bind="rowProps">
+    <template v-slot:photo>
+      <div>
+        <MoviePoster :movie="movie">
+          <template v-slot:coverAction="{ hovered }">
+            <MediaTypeIcon v-if="hovered" :mediaType="mediaType" />
+          </template>
+        </MoviePoster>
       </div>
+    </template>
+    <template v-slot:title>
+      {{ title }}
+    </template>
+    <template v-slot:subHeader>
+      <DotSeparatedInfo :info="[director, year, runtime]" />
+    </template>
+    <template v-slot:body>
       <div
         v-if="description"
         :title="`Description of ${title}`"
@@ -23,6 +25,8 @@
           {{ truncate(description, 300) }}
         </p>
       </div>
+    </template>
+    <template v-slot:footer>
       <div class="mobile-hide card-section space-x-1 space-y-1">
         <Chip
           v-for="genre in movie.genres"
@@ -30,8 +34,8 @@
           :label="truncate(genre, 30)"
         />
       </div>
-    </div>
-  </div>
+    </template>
+  </Row>
 </template>
 
 <script>
@@ -41,15 +45,20 @@ import Chip from "primevue/chip";
 import DotSeparatedInfo from "../info/DotSeparatedInfo.vue";
 import { MEDIA_TYPES } from "../../../util/constants/base";
 import { truncate } from "../../../util/format/text";
+import Row from "./Row.vue";
 
 export default {
-  components: { MediaTypeIcon, MoviePoster, Chip, DotSeparatedInfo },
+  components: { MediaTypeIcon, MoviePoster, Chip, DotSeparatedInfo, Row },
   props: {
     index: {
       type: Number,
       required: true
     },
     movie: {
+      type: Object,
+      default: () => {}
+    },
+    rowProps: {
       type: Object,
       default: () => {}
     }
