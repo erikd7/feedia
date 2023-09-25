@@ -39,13 +39,13 @@
 </template>
 
 <script>
-import MediaTypeIcon from "../../navigation/MediaTypeIcon.vue";
-import MoviePoster from "../image/MoviePoster";
+import MediaTypeIcon from "../navigation/MediaTypeIcon.vue";
+import MoviePoster from "./MoviePoster";
 import Chip from "primevue/chip";
-import DotSeparatedInfo from "../info/DotSeparatedInfo.vue";
-import { MEDIA_TYPES } from "../../../util/constants/base";
-import { truncate } from "../../../util/format/text";
-import Row from "./Row.vue";
+import DotSeparatedInfo from "../shared/info/DotSeparatedInfo.vue";
+import { MEDIA_TYPES } from "../../util/constants/base";
+import { truncate } from "../../util/format/text";
+import Row from "../shared/table/Row.vue";
 
 export default {
   components: { MediaTypeIcon, MoviePoster, Chip, DotSeparatedInfo, Row },

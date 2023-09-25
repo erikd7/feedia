@@ -11,8 +11,8 @@
 import SearchResults from "../shared/table/SearchResults";
 import Loading from "../shared/Loading";
 import MediaTypeSwitcher from "../shared/media-type/MediaTypeSwitcher.vue";
-import BookDetails from "./BookDetails";
-import MovieDetails from "./MovieDetails";
+import BookDetails from "../book/BookDetails";
+import MovieDetails from "../movie/MovieDetails";
 import { MEDIA_TYPES } from "../../util/constants/base";
 import { mapGetters } from "vuex";
 

@@ -43,13 +43,13 @@
 </template>
 
 <script>
-import BookCover from "../image/BookCover";
-import MediaTypeIcon from "../../navigation/MediaTypeIcon.vue";
+import BookCover from "./BookCover";
+import MediaTypeIcon from "../navigation/MediaTypeIcon.vue";
 import Chip from "primevue/chip";
-import DotSeparatedInfo from "../info/DotSeparatedInfo.vue";
-import { truncate } from "../../../util/format/text";
-import { MEDIA_TYPES } from "../../../util/constants/base";
-import Row from "./Row.vue";
+import DotSeparatedInfo from "../shared/info/DotSeparatedInfo.vue";
+import { truncate } from "../../util/format/text";
+import { MEDIA_TYPES } from "../../util/constants/base";
+import Row from "../shared/table/Row.vue";
 
 export default {
   components: { BookCover, MediaTypeIcon, Chip, DotSeparatedInfo, Row },

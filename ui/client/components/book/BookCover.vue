@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import Image from "./Image";
+import Image from "../shared/image/Image";
 
 export default {
   components: {
