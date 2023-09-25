@@ -12,13 +12,11 @@ const router: Router = createRouter();
 const authSuccessRedirecter = (token: string) =>
   urlBuilder(config.ui.host, [], { token });
 
-const authFailureRedirect = urlBuilder(
-  config.ui.host,
-  [config.ui.routes.login],
-  {
-    [config.ui.queryParams.authError]: true
-  }
-);
+//@ts-ignore
+const authFailureRedirector = (error?: ApiError) =>
+  urlBuilder(config.ui.host, [config.ui.routes.login], {
+    [config.ui.queryParams.authError]: Boolean(error)
+  });
 
 //Google authentication route
 router.get(
@@ -38,20 +36,24 @@ router.get(
       "google",
       {
         //Redirect to UI login page with auth error param true
-        failureRedirect: authFailureRedirect
+        failureRedirect: authFailureRedirector()
       },
       (_err, user) => {
-        if (user) {
-          if (!(user instanceof User)) {
-            res.redirect(authFailureRedirect);
+        try {
+          if (user) {
+            if (!(user instanceof User)) {
+              res.redirect(authFailureRedirector());
+            }
+            //const token = "a new user token";
+            const token = user.createToken();
+            //Redirect back to the UI
+            res.redirect(authSuccessRedirecter(token));
+          } else {
+            //Handle authentication failure
+            next();
           }
-          //const token = "a new user token";
-          const token = user.createToken();
-          //Redirect back to the UI
-          res.redirect(authSuccessRedirecter(token));
-        } else {
-          //Handle authentication failure
-          next();
+        } catch (error) {
+          res.redirect(authFailureRedirector(error));
         }
       }
     )(req, res, next)
