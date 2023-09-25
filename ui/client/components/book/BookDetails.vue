@@ -57,6 +57,10 @@ export default {
     book: {
       type: Object,
       required: true
+    },
+    detailProps: {
+      type: Object,
+      default: () => {}
     }
   },
   methods: {
