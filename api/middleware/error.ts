@@ -18,6 +18,7 @@ export const errorMiddleware: ErrorRequestHandler = (
     console.log(`Error Context:\n${error.displayContexts()}\n`);
     const { status, body } = error.httpResponse();
     res.status(status).send(body);
+    return;
   }
 
   //Generic 500 for unhandled error

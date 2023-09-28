@@ -1,27 +1,30 @@
 import { runQuery, queries } from "./postgres";
-import { arrayToHash as rowsToHash } from "../util/mapping";
+import { arrayToHash as rowsToHash, objectSwap } from "../util/mapping";
 
 const builder = [
   {
     query: queries.getMediaTypes(),
     constantsKey: "mediaTypes",
-    transform: (result: any) => rowsToHash(result.rows, "key")
+    transform: (result: any) => rowsToHash(result.rows)
   },
   {
     query: queries.getDataSources(),
     constantsKey: "dataSources",
-    transform: (result: any) => rowsToHash(result.rows, "key")
+    transform: (result: any) => rowsToHash(result.rows)
   }
 ];
 
 const getConstants = async () => {
-  let constants = {};
+  let constants: any = {};
 
   for await (const { query, constantsKey, transform } of builder) {
     const result = await runQuery(query);
 
-    //@ts-ignore
-    constants[constantsKey] = transform(result);
+    const transformedResult = transform(result);
+    constants[constantsKey] = transformedResult;
+
+    //Reverse constants (look up key by ID)
+    constants[`${constantsKey}R`] = objectSwap(transformedResult);
   }
 
   return constants;
