@@ -1,7 +1,7 @@
 import { ReasonPhrases } from "http-status-codes";
 
 export default function (value: any, schema: any, schemaName: string) {
-  const res = schema.required().validate(value);
+  const res = schema.label(schemaName).required().validate(value);
   if (res.error) {
     //@ts-ignore
     throw new ApiError(

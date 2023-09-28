@@ -1,9 +1,11 @@
 import staticQueries from "./queries/static";
 import usersQueries from "./queries/users";
+import titleQueries from "./queries/title";
 
 const queries = {
   ...staticQueries,
-  ...usersQueries
+  ...usersQueries,
+  ...titleQueries
 };
 
 export default queries;

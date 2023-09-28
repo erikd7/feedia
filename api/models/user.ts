@@ -1,4 +1,4 @@
-import { dbId } from "./base-schemas";
+import { ulid } from "./validation-schemas/base";
 import validateSchema from "../util/validate";
 import { runQuery, queries } from "../database/postgres";
 import { ReasonPhrases } from "http-status-codes";
@@ -46,7 +46,7 @@ export default class User {
   //Validation----------------------------------------------------------------
   //Validate user ID (throws bad-request)
   validateId() {
-    return validateSchema(this.id, dbId.label("User ID"), "user ID");
+    return validateSchema(this.id, ulid, "User ID");
   }
 
   //Data retrieval------------------------------------------------------------

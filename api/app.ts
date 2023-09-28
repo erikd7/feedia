@@ -5,6 +5,7 @@ import passport from "passport";
 import { errorMiddleware } from "./middleware/error";
 import authRouter from "./routes/auth";
 import userRouter from "./routes/user";
+import titleRouter from "./routes/title";
 import "./auth/passport/google";
 import "./auth/passport/jwt";
 
@@ -34,6 +35,7 @@ app.use(passport.authenticate("jwt", { session: false }));
 
 //Routes-----------------------------------------------------------------------------
 app.use("/user", userRouter);
+app.use("/title", titleRouter);
 
 app.use(errorMiddleware);
 
