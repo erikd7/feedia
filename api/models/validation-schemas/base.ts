@@ -8,7 +8,7 @@ export const ulid = Joi.string().guid();
 //External Data
 export const dataSource = Joi.string();
 export const dataSourceId = dbId;
-export const externalId = Joi.string();
+export const externalId = Joi.alternatives().try(Joi.string(), Joi.number());
 
 //Media Types
 export const mediaTypeId = dbId;

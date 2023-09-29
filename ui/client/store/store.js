@@ -5,7 +5,7 @@ import searchStore from "./search";
 import detailsStore from "./details";
 import { MEDIA_TYPES } from "../util/constants/base";
 import { get as getLocal, set as setLocal } from "../util/localStorage";
-import config from "../config/build";
+import config from "../../config/build";
 
 const setLocalCurrentMediatypes = mediaTypes => {
   setLocal("currentMediaTypes", mediaTypes, { expirationUnits: "d" }, true);

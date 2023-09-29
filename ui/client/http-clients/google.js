@@ -1,4 +1,4 @@
-import { get } from "../util/http.js";
+import { getNoAuth } from "../util/http.js";
 
 const baseUrl = "https://www.googleapis.com/books/v1";
 
@@ -20,5 +20,5 @@ export const searchBooks = async (
     langRestrict,
     orderBy
   };
-  return get(baseUrl + "/volumes", params);
+  return getNoAuth(baseUrl, ["/volumes"], params);
 };

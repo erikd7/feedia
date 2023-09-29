@@ -11,7 +11,7 @@ import MobileMixin from "./components/shared/mixins/MobileMixin";
 import ConfigMixin from "./components/shared/mixins/ConfigMixin";
 
 //Helpers
-import { getEnv } from "./config/build";
+import { getEnv } from "../config/build";
 
 //Style
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";

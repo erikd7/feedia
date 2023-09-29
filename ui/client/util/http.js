@@ -1,6 +1,14 @@
 import axios from "axios";
+import { getLocalToken } from "./auth/token";
 
 const defaultHeaders = {};
+const getAuthHeaderString = token => `Bearer ${token}`;
+const getAuthHeaders = (useTokenAuth, token = getLocalToken()) => {
+  if (useTokenAuth)
+    return {
+      Authorization: getAuthHeaderString(token)
+    };
+};
 const http = axios.create({
   headers: {
     common: defaultHeaders
@@ -8,58 +16,78 @@ const http = axios.create({
 });
 
 // Axios method wrappers
-export const get = async (
-  url,
+export const get = (...args) => getter(true, ...args);
+export const getNoAuth = (...args) => getter(false, ...args);
+const getter = async (
+  useTokenAuth,
+  host,
+  paths,
   queryParams,
-  pathParams,
   { responseType = "json" } = {}
 ) => {
+  let url;
   try {
-    if (pathParams?.length) {
-      url = url + "/" + pathParams.join("/");
-    }
+    url = urlBuilder(host, paths, queryParams);
     const response = await http.get(url, {
       params: queryParams,
-      responseType
+      responseType,
+      headers: getAuthHeaders(useTokenAuth)
     });
 
-    if (response.status === 200) {
-      if (response.data) {
-        return { ok: true, data: response.data };
-      } else {
-        return {
-          ok: false,
-          message: "Call succeeded but no data was returned."
-        };
-      }
-    } else if (response.status === 204) {
-      return { ok: true };
-    }
-
-    console.log(
-      `Error in axios GET at url '${url}'. Message: ${response.toString()}`
-    );
-    return { ok: false, message: response.message };
+    return responseHandler(response);
   } catch (error) {
     console.error(`Error in axios GET at url '${url}'. Message: ${error}`);
     return { ok: false, message: error.message };
   }
 };
 
-export const post = async (url, body) => {
+export const post = (...args) => poster(true, ...args);
+export const postNoAuth = (...args) => poster(false, ...args);
+const poster = async (useTokenAuth, host, paths, body, queryParams) => {
+  let url;
   try {
-    const response = await http.post(url, body);
+    url = urlBuilder(host, paths, queryParams);
+    const response = await http.post(url, body, {
+      headers: getAuthHeaders(useTokenAuth)
+    });
 
-    if (response.status === 200 || response.status === 204) {
-      return { ok: true, data: response.data };
-    }
-
-    console.log(
-      `Error in axios POST at url '${url}'. Message: ${response.toString()}`
-    );
-    return { ok: false, message: response.message };
+    return responseHandler(response);
   } catch (error) {
     console.error(`Error in axios POST at url '${url}'. Message: ${error}`);
     return { ok: false, message: error.message };
   }
+};
+
+export const urlBuilder = (host, paths = [], queryParams = {}) => {
+  let url = host;
+
+  //Add paths (replace multiple slashes with one slash)
+  const path = paths.join("/").replace(/\/+/g, "/");
+
+  url += path;
+
+  //Add query params
+  if (Object.keys(queryParams).length > 0) {
+    url += "?";
+    url += Object.entries(queryParams)
+      .map(([key, value]) => `${key}=${value}`)
+      .join("&");
+  }
+
+  return url;
+};
+
+const responseHandler = response => {
+  if (response.status === 200 || response.status === 204) {
+    if (response.data) {
+      return { ok: true, data: response.data };
+    } else {
+      return {
+        ok: true,
+        data: []
+      };
+    }
+  }
+
+  return { ok: false, message: response.message };
 };

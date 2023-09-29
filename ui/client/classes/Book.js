@@ -1,14 +1,17 @@
 import OpenlibraryClient from "./open-library";
 import { MEDIA_TYPES } from "../util/constants/base";
+import { loadTitleByExternalId } from "../http-clients/title";
 
 export default class Book {
   constructor(input) {
+    this.infoClient = OpenlibraryClient;
     this.mediaType = MEDIA_TYPES.BOOK;
     //Limited fields
     this.title = input.title;
     this.authors = input.authors;
     this.firstPublishYear = input.firstPublishYear;
     this.openLibraryEditionKey = input.openLibraryEditionKey;
+    this.externalId = this.openLibraryEditionKey;
 
     //Expanded fields
     this.descriptions = input.description;
@@ -44,14 +47,28 @@ export default class Book {
 
   //Add additional info to existing
   async addInfoResultsPage() {
-    const result = await OpenlibraryClient.getResultsPageInfo(
+    const result = await this.infoClient.getResultsPageInfo(
       this.openLibraryEditionKey
     );
     return "";
   }
 
+  //Internal data retrieval
+  async loadTitleByExternalId() {
+    if (!this.id) {
+      const result = await loadTitleByExternalId(
+        this.infoClient.dataSourceKey,
+        this.externalId,
+        this.mediaType,
+        this.displayTitle()
+      );
+
+      this.id = result.titleId;
+    }
+  }
+
   routeId() {
-    return this.title; //eventually this will be an internal ID
+    return (this.id ? `${this.id}-` : "") + this.title;
   }
 
   //Display info
@@ -82,7 +99,7 @@ export default class Book {
     return `book/cover/${this.openLibraryEditionKey}-${size}.jpg`;
   }
   getCoverUrl(size = "M") {
-    return OpenlibraryClient.getCoverUrl(this.openLibraryEditionKey, size);
+    return this.infoClient.getCoverUrl(this.openLibraryEditionKey, size);
   }
 
   getLabel() {

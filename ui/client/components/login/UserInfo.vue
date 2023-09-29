@@ -52,7 +52,6 @@ export default {
       this.$refs.menu.toggle(event);
     },
     initiateSignout() {
-      console.log(`signing out`); /* //!DELETE */
       this.signOut(this.$router);
     }
   }

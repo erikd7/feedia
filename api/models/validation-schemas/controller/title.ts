@@ -13,6 +13,6 @@ export const externalTitleDataLoad = Joi.object({
 export const externalTitleData = Joi.array().items(
   Joi.object({
     dataSource: baseSchemas.dataSource.required(),
-    externalId: baseSchemas.externalId.required()
+    externalId: baseSchemas.externalId.optional() //Filter out results with no external ID
   }).required()
 );

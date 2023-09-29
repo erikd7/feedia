@@ -15,7 +15,7 @@
 <script>
 import Option from "../shared/search/Option.vue";
 import MediaTypeIcon from "../navigation/MediaTypeIcon.vue";
-import { MEDIA_TYPES, MEDIA_TYPE_DISPLAY } from "../../util/constants/base";
+import { MEDIA_TYPE_DISPLAY } from "../../util/constants/base";
 import { callClassFn } from "../../util/class";
 
 export default {
@@ -31,18 +31,7 @@ export default {
     }
   },
   methods: {
-    callClassFn,
-    openDetails() {
-      this.$router.push({
-        name: "Details",
-        params: {
-          mediaType: MEDIA_TYPES.MOVIE.toLowerCase(),
-          id: this.movie.routeId(),
-          info: this.movie
-        },
-        props: { info: this.movie }
-      });
-    }
+    callClassFn
   },
   computed: {
     MEDIA_TYPE_DISPLAY() {

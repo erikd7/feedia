@@ -7,8 +7,10 @@ type UrlBuilder = (
 const urlBuilder: UrlBuilder = (host, routes = [], queryParams = {}) => {
   let url = host;
 
-  //Add routes
-  url += routes.join("/").replace("//", "/");
+  //Add routes (replace multiple slashes with one slash)
+  const route = routes.join("/").replace(/\/+/g, "/");
+
+  url += route;
 
   //Add query params
   if (Object.keys(queryParams).length > 0) {

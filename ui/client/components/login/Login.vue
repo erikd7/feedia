@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import config from "../../config/build";
+import config from "../../../config/build";
 
 export default {
   components: {},
