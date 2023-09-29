@@ -1,11 +1,12 @@
-import { get } from "../util/http";
+import { getNoAuth } from "../util/http";
 import { TwoWayMap } from "../util/mapping/mapping";
 import { book as bookFields } from "../util/constants/fields";
 import Book from "./Book";
-import config from "../config/build";
+import config from "../../config/build";
 
 export class OpenLibrary {
   constructor() {
+    this.dataSourceKey = "openlibrary";
     this.baseUrl = "https://openlibrary.org";
 
     this.fieldMap = TwoWayMap.build({
@@ -40,11 +41,14 @@ export class OpenLibrary {
     };
     //Make the request
     const books = this.destructureResponseData(
-      await get(this.baseUrl + "/search.json", params)
+      await getNoAuth(this.baseUrl, ["/search.json"], params)
     );
 
+    //Filter results
+    const filteredBooks = books.filter(this.filterSearchResult);
+
     //Map OpenLibrary fields back to our fields and create a class instance
-    const formattedBooks = books.map(b =>
+    const formattedBooks = filteredBooks.map(b =>
       this.instantiateBookClass(this.convertObjectToLocal(b))
     );
 
@@ -68,6 +72,8 @@ export class OpenLibrary {
   getLocalFields(openLibraryFields) {
     return openLibraryFields.map(i => this.fieldMap.revGet(i) || i);
   }
+  //Only include search results that have an OL edition key. Books without an OL edition key tend to be very low profile and do not have additional information (like description, cover image, etc.)
+  filterSearchResult = book => book[this.fieldMap.get("openLibraryEditionKey")];
   convertObjectToLocal(openLibraryObject) {
     return Object.entries(openLibraryObject).reduce((agg, [oldKey, value]) => {
       const newKey = this.fieldMap.revGet(oldKey) || oldKey;

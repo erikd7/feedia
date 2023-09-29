@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import config from "../config/build";
+import config from "../../config/build";
 
 const get = key => {
   const object = JSON.parse(localStorage[key] || "null");

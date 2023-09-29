@@ -1,4 +1,4 @@
-import { get } from "../util/http";
+import { getNoAuth } from "../util/http";
 import {
   TwoWayMap,
   getNestedProperty,
@@ -6,17 +6,18 @@ import {
 } from "../util/mapping/mapping";
 import { getYearFromDate } from "../util/format/date";
 import Movie from "./Movie";
-import config from "../config/build";
+import config from "../../config/build";
 
 export class TMDB {
   constructor() {
     //Setup
     //URLs
+    this.dataSourceKey = "tmdb";
     this.baseUrl = "https://api.themoviedb.org";
     this.imageBaseUrl = "https://image.tmdb.org";
     this.defaultImageWidth = "w185"; //https://www.themoviedb.org/talk/5aeaaf56c3a3682ddf0010de
-    this.redirectUrl = this.redirectUrl = config.api.redirect
-      ? config.api.redirectTo + "/tmdb"
+    this.redirectUrl = config.proxy.redirect
+      ? config.proxy.host + config.external.tmdb.proxyPath
       : null;
     this.versionPath = "/3";
     this.imageVersionPath = "/t/p";
@@ -89,7 +90,7 @@ export class TMDB {
     };
     //Make the request
     const movies = this.destructureResponseData(
-      await get(this.url() + this.searchPath, params)
+      await getNoAuth(this.url(), [this.searchPath], params)
     );
 
     //Map TMDB fields back to our fields and create a class instance
@@ -109,10 +110,10 @@ export class TMDB {
       queryParams = this.appendTo([this.ENTITIES.CREDITS]);
     }
     //Make the request
-    const result = await get(
-      this.url() + this.detailsPath,
-      queryParams,
-      pathParams
+    const result = await getNoAuth(
+      this.url(),
+      [this.detailsPath, ...pathParams],
+      queryParams
     );
     const details = result.data;
 

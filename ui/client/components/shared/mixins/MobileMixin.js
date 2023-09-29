@@ -1,4 +1,4 @@
-import config from "../../../config/build";
+import config from "../../../../config/build";
 const mobileBreakpoint = config.mobile.breakpoint;
 
 export default {

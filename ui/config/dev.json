@@ -1,0 +1,30 @@
+{
+  "search": {
+    "limit": {
+      "limited": 3,
+      "full": 5
+    }
+  },
+  "ui": {
+    "host": "http://localhost:8080"
+  },
+  "api": {
+    "host": "http://localhost:3000",
+    "proxyPath": "/api/feedia"
+  },
+  "external": {
+    "tmdb": {
+      "host": "https://api.themoviedb.org",
+      "proxyPath": "/api/tmdb"
+    }
+  },
+  "proxy": {
+    "redirect": true,
+    "host": "http://localhost:4000"
+  },
+  "auth": {
+    "google": {
+      "redirectUrl": "http://localhost:3000/auth/google"
+    }
+  }
+}

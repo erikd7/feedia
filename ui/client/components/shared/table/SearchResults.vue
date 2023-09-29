@@ -42,6 +42,8 @@ export default {
     openDetails(details) {
       this.setSelected(details);
 
+      details.loadTitleByExternalId();
+
       this.$router.push({
         name: "Details",
         params: {

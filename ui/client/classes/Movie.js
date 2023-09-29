@@ -2,6 +2,7 @@ import TMDBClient from "./tmdb";
 import { MEDIA_TYPES } from "../util/constants/base";
 import { getHoursAndMinutesFromMinutes } from "../util/format/time";
 import { levels as fieldLevels } from "../util/constants/fields";
+import { loadTitleByExternalId } from "../http-clients/title";
 
 export default class Movie {
   constructor(input, dataLevel) {
@@ -10,6 +11,7 @@ export default class Movie {
 
     //ID
     this.tmdbId = input.tmdbId;
+    this.externalId = this.tmdbId;
 
     this.mediaType = MEDIA_TYPES.MOVIE;
 
@@ -59,6 +61,20 @@ export default class Movie {
     });
   }
 
+  //Internal data retrieval
+  async loadTitleByExternalId() {
+    if (!this.id) {
+      const result = await loadTitleByExternalId(
+        this.infoClient.dataSourceKey,
+        this.externalId,
+        this.mediaType,
+        this.displayTitle()
+      );
+
+      this.id = result.titleId;
+    }
+  }
+
   getPosterUrl(width) {
     return this.infoClient.getPosterUrl(this.posterPath, width);
   }
@@ -67,7 +83,7 @@ export default class Movie {
   }
 
   routeId() {
-    return this.title; //eventually this will be an internal ID
+    return (this.id ? `${this.id}-` : "") + this.title;
   }
 
   //Display info

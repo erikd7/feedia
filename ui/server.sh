@@ -1,2 +1,2 @@
 #Starting server
-node ./server/index.js
+node --experimental-modules ./server/index.mjs

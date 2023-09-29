@@ -9,8 +9,9 @@ import titleRouter from "./routes/title";
 import "./auth/passport/google";
 import "./auth/passport/jwt";
 
-var app = express();
+const app = express();
 
+//Basic setup
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

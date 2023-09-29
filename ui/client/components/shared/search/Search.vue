@@ -30,6 +30,7 @@ import aggregateSearch from "../../../util/fetch/search";
 import BookOption from "../../book/BookOption.vue";
 import MovieOption from "../../movie/MovieOption.vue";
 import MediaTypeSwitcher from "../media-type/MediaTypeSwitcher.vue";
+import { getTitleIdsByExternalIds } from "../../../http-clients/title";
 
 export default {
   components: { SearchBar, MediaTypeSwitcher },
@@ -65,17 +66,37 @@ export default {
       this.setLoading(true);
       this.setSelection(queryString);
       try {
+        //Get external data
         const results = await aggregateSearch(
           queryString,
           this.currentMediaTypes,
           this.currentMediaTypesHash,
           this.isInFullPageSearch
         );
+
+        //Get existing internal title IDs for results
+        const titleIds = await getTitleIdsByExternalIds(
+          results.map(r => ({
+            dataSource: r.infoClient.dataSourceKey,
+            externalId: r.externalId
+          }))
+        );
+
+        //Match external data to existing internal data
+        results.forEach(et => {
+          //Internal title at titleIds[dataSourceKey][externalId]
+          const internalTitle =
+            titleIds[et.infoClient.dataSourceKey.toUpperCase()]?.[
+              et.externalId
+            ];
+          et.id = internalTitle;
+        });
+
         //Set the results in Vuex which are passed to Autocomplete items
         this.setResults(results);
       } catch (e) {
         console.log(`Error with search:`, e.message);
-        throw Error(e);
+        throw e;
       } finally {
         this.setLoading(false);
       }
