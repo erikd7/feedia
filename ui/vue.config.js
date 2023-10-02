@@ -1,6 +1,3 @@
-const setupProxy = require("./server/proxy");
-const setupTmdbProxy = require("./server/external-proxy/tmdb");
-
 module.exports = {
   pages: {
     index: {
@@ -22,10 +19,7 @@ module.exports = {
   },
   devServer: {
     //https://webpack.js.org/configuration/dev-server/#devserversetupmiddlewares
-    setupMiddlewares: (middlewares, { app }) => {
-      setupTmdbProxy(app);
-      setupProxy(app);
-
+    setupMiddlewares: (middlewares, { _app }) => {
       return middlewares;
     }
   }

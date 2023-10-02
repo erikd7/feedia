@@ -1,48 +1,161 @@
---sample users
-insert into public.users (name_first, name_last, email) values
-    ('Ibrahim', 'Moizoos', 'moizoos@utchat.edu'),
-    ('T.J.', 'Juckson', 'tj@waynestate.edu'),
-    ('Quatro', 'Quatro', '44@hotmail.com'),
-    ('Dan', 'Smith', 'dansmith111@gmail.com'),
-    ('Hingle', 'McCringleberry', 'mrmccringleberry69@psu.edu');
+--Creates a handful of users, titles, lists, and other mock information to help with development and testing
 
---sample titles
-insert into public.title (title, media_type_id) values
-    ('Jonathan Strange & Mr. Norrell', 1),          -- Book
-    ('The Idiot', 1),                               -- Book
-    ('The Lord of the Rings: The Two Towers', 1),   -- Book
-    ('The Lord of the Rings: The Two Towers', 2),   -- Movie
-    ('Oppenheimer', 2),                             -- Movie
-    ('Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb', 2);  -- Movie
-    
---external IDs
-insert into public.title_external_id (title_id, data_source_id, external_id) values
--- for books (media type_id = 1)
-    ((select id from title where title = 'Jonathan Strange & Mr. Norrell' and media_type_id = 1), 3, 'OL5703422W'),   -- Jonathan Strange & Mr. Norrell in Open Library
-    ((select id from title where title = 'The Idiot' and media_type_id = 1), 3, 'OL166973W'),    -- The Idiot in Open Library
-    ((select id from title where title = 'The Lord of the Rings: The Two Towers' and media_type_id = 1), 3, 'OL28059906W'),  -- The Lord of the Rings: The Two Towers in Open Library
--- for movies (media type_id = 2)
-    ((select id from title where title = 'The Lord of the Rings: The Two Towers' and media_type_id = 2), 4, '121'),      -- The Lord of the Rings: The Two Towers in The Movie Database
-    ((select id from title where title = 'Oppenheimer' and media_type_id = 2), 4, '872585'),   -- Oppenheimer in The Movie Database
-    ((select id from title where title = 'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb' and media_type_id = 2), 4, '935')       -- Dr. Strangelove in The Movie Database
-    on conflict (title_id, data_source_id, external_id) do nothing;
+--Declare variables to store the generated UUIDs
+DO $$ 
+DECLARE 
+    user1_id UUID;
+    user2_id UUID;
+    user3_id UUID;
+    user4_id UUID;
+    user5_id UUID;
+    title1_id UUID;
+    title2_id UUID;
+    title3_id UUID;
+    title4_id UUID;
+    title5_id UUID;
+    title6_id UUID;
+    list1_id UUID;
+    list2_id UUID;
+    list3_id UUID;
+    list4_id UUID;
+    list5_id UUID;
+    list6_id UUID;
+BEGIN
+    --Sample users
+    INSERT INTO public.users (name_first, name_last, email) 
+    VALUES
+        ('Ibrahim', 'Moizoos', 'moizoos@utchat.edu')
+    RETURNING id INTO user1_id;
 
---user next up lists
-insert into public.user_title_next_up (title_id, user_id, ordinal) values
--- User 1: Ibrahim Moizoos (Zero titles in the list)
--- User 2: T.J. Juckson (One title in the list)
-    ((select id from title where title = 'Jonathan Strange & Mr. Norrell' and media_type_id = 1), (select id from users where name_last = 'Moizoos'), 1),  -- T.J. Juckson's next up list: Jonathan Strange & Mr. Norrell
--- User 3: Quatro Quatro (Several titles in the list)
-((select id from title where title = 'The Idiot' and media_type_id = 1), (select id from users where name_last = 'Quatro'), 1),  -- Quatro Quatro's next up list: The Idiot
-    ((select id from title where title = 'The Lord of the Rings: The Two Towers' and media_type_id = 1), (select id from users where name_last = 'Quatro'), 2),  -- Quatro Quatro's next up list: The Lord of the Rings: The Two Towers (Book)
-    ((select id from title where title = 'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb' and media_type_id = 2), (select id from users where name_last = 'Quatro'), 3),  -- Quatro Quatro's next up list: Dr. Strangelove
--- User 4: Dan Smith (Several titles in the list)
-    ((select id from title where title = 'Jonathan Strange & Mr. Norrell' and media_type_id = 1), (select id from users where name_last = 'Smith'), 1),  -- Dan Smith's next up list: Jonathan Strange & Mr. Norrell
-    ((select id from title where title = 'The Lord of the Rings: The Two Towers' and media_type_id = 2), (select id from users where name_last = 'Smith'), 2),  -- Dan Smith's next up list: The Lord of the Rings: The Two Towers (Movie)
-    ((select id from title where title = 'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb' and media_type_id = 2), (select id from users where name_last = 'Smith'), 3),  -- Dan Smith's next up list: Dr. Strangelove
--- User 5: Hingle McCringleberry (Several titles in the list)
-    ((select id from title where title = 'The Idiot' and media_type_id = 1), (select id from users where name_last = 'McCringleberry'), 1),  -- Hingle McCringleberry's next up list: The Idiot
-    ((select id from title where title = 'The Lord of the Rings: The Two Towers' and media_type_id = 2), (select id from users where name_last = 'McCringleberry'), 2),  -- Hingle McCringleberry's next up list: The Lord of the Rings: The Two Towers (Movie)
-    ((select id from title where title = 'Oppenheimer' and media_type_id = 2), (select id from users where name_last = 'McCringleberry'), 3),  -- Hingle McCringleberry's next up list: Oppenheimer
-    ((select id from title where title = 'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb' and media_type_id = 2), (select id from users where name_last = 'McCringleberry'), 4)   -- Hingle McCringleberry's next up list: Dr. Strangelove
-    on conflict (title_id, user_id) do nothing;
+    INSERT INTO public.users (name_first, name_last, email) 
+    VALUES
+        ('T.J.', 'Juckson', 'tj@waynestate.edu')
+    RETURNING id INTO user2_id;
+
+    INSERT INTO public.users (name_first, name_last, email) 
+    VALUES
+        ('Quatro', 'Quatro', '44@hotmail.com')
+    RETURNING id INTO user3_id;
+
+    INSERT INTO public.users (name_first, name_last, email) 
+    VALUES
+        ('Dan', 'Smith', 'dansmith111@gmail.com')
+    RETURNING id INTO user4_id;
+
+    INSERT INTO public.users (name_first, name_last, email) 
+    VALUES
+        ('Hingle', 'McCringleberry', 'mrmccringleberry69@psu.edu')
+    RETURNING id INTO user5_id;
+
+    --Sample titles
+    INSERT INTO public.title (title, media_type_id) 
+    VALUES
+        ('Jonathan Strange & Mr. Norrell', 1)
+    RETURNING id INTO title1_id;
+
+    INSERT INTO public.title (title, media_type_id) 
+    VALUES
+        ('The Idiot', 1)
+    RETURNING id INTO title2_id;
+
+    INSERT INTO public.title (title, media_type_id) 
+    VALUES
+        ('The Lord of the Rings: The Two Towers', 1)
+    RETURNING id INTO title3_id;
+
+    INSERT INTO public.title (title, media_type_id) 
+    VALUES
+        ('The Lord of the Rings: The Two Towers', 2)
+    RETURNING id INTO title4_id;
+
+    INSERT INTO public.title (title, media_type_id) 
+    VALUES
+        ('Oppenheimer', 2)
+    RETURNING id INTO title5_id;
+
+    INSERT INTO public.title (title, media_type_id) 
+    VALUES
+        ('Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb', 2)
+    RETURNING id INTO title6_id;
+
+    --Title External IDs
+    INSERT INTO public.title_external_id (title_id, data_source_id, external_id) 
+    VALUES
+        (title1_id, 3, 'OL5703422W'),   -- Jonathan Strange & Mr. Norrell in Open Library
+        (title2_id, 3, 'OL166973W'),    -- The Idiot in Open Library
+        (title3_id, 3, 'OL28059906W'),  -- The Lord of the Rings: The Two Towers in Open Library
+        (title4_id, 4, '121'),          -- The Lord of the Rings: The Two Towers in The Movie Database
+        (title5_id, 4, '872585'),       -- Oppenheimer in The Movie Database
+        (title6_id, 4, '935')           -- Dr. Strangelove in The Movie Database
+    ON CONFLICT (title_id, data_source_id, external_id) DO NOTHING;
+
+    --Lists
+    INSERT INTO public.list (name, user_id) 
+    VALUES
+        ('Movies better than LotR', user2_id)
+    RETURNING id INTO list1_id;
+
+    INSERT INTO public.list (name, user_id) 
+    VALUES
+        ('Favorites', user2_id)
+    RETURNING id INTO list2_id;
+
+    INSERT INTO public.list (name, user_id) 
+    VALUES
+        ('Favorites', user3_id)
+    RETURNING id INTO list3_id;
+
+    INSERT INTO public.list (name, user_id) 
+    VALUES
+        ('Stuff to read/watch', user4_id)
+    RETURNING id INTO list4_id;
+
+    INSERT INTO public.list (name, user_id) 
+    VALUES
+        ('Summer 2023', user5_id)
+    RETURNING id INTO list5_id;
+
+    INSERT INTO public.list (name, user_id) 
+    VALUES
+        ('Next Up', user5_id)
+    RETURNING id INTO list6_id;
+
+    --List contents
+    insert into list_title (list_id, title_id) values
+    --List 1 is empty (and title 1 is in 0 lists)
+    (list2_id, title2_id),
+    (list2_id, title3_id),
+    (list2_id, title4_id),
+    (list2_id, title5_id),
+    (list2_id, title6_id),
+    (list3_id, title2_id),
+    (list4_id, title3_id),
+    (list4_id, title4_id),
+    (list5_id, title5_id),
+    (list5_id, title6_id),
+    (list6_id, title3_id),
+    (list6_id, title4_id);
+
+    --Ratings
+INSERT INTO public.user_title_rating (user_id, title_id, rating)
+VALUES
+    --Ratings for user 1
+    --Ratings for user 2
+    (user2_id, title1_id, 10),
+    (user2_id, title2_id, 1),
+    (user2_id, title3_id, 6),
+    (user2_id, title4_id, 4),
+    (user2_id, title5_id, 3),
+    (user2_id, title6_id, 5),
+    -- Ratings for user 3
+    (user3_id, title1_id, 7),
+    (user3_id, title2_id, 7),
+    (user3_id, title3_id, 3),
+    -- Ratings for user 4
+    (user4_id, title4_id, 9),
+    (user4_id, title5_id, 1),
+    (user4_id, title6_id, 7),
+    -- Ratings for user 5
+    (user5_id, title6_id, 6);
+
+END $$;
