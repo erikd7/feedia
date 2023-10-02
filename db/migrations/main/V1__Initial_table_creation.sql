@@ -47,15 +47,34 @@ create table if not exists public.title_external_id (
 	external_id text not null,
     constraint title_ids_pkey primary key (title_id, data_source_id, external_id)
 );
+-- Create an index on the user_id column
+CREATE INDEX title_external_id_title_id ON public.title_external_id (title_id);
 
 --User-Title Lists
+create table if not exists public.list (
+  	id UUID not null primary key default generate_ulid(),
+	name varchar(255),
+	user_id UUID not null,
+	foreign key (user_id) references users(id)
+);
+-- Create an index on the user_id column
+CREATE INDEX list_user_id ON public.list (user_id);
 
---User next up list
-create table if not exists public.user_title_next_up (
+--User-Title List Contents
+create table if not exists public.list_title (
+	list_id UUID not null,
+	foreign key (list_id) references list(id),
 	title_id UUID not null,
 	foreign key (title_id) references title(id),
-	user_id UUID not null,
+	constraint list_title_pkey primary key (list_id, title_id)
+);
+
+--User ratings
+create table if not exists public.user_title_rating (
+  	user_id UUID not null,
 	foreign key (user_id) references users(id),
-	ordinal int,
-    constraint user_title_next_up_pkey primary key (title_id, user_id)
+	title_id UUID not null,
+	foreign key (title_id) references title(id),
+	rating int not null,
+	constraint user_title_rating_pkey primary key (user_id, title_id)
 );
