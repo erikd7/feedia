@@ -50,6 +50,7 @@
     "passport-jwt": "^4.0.1",
     "pg": "^8.7.3",
     "pm2": "^5.2.0",
+    "sql-template-strings": "^2.2.2",
     "swagger-ui-express": "^4.5.0",
     "yamljs": "^0.3.0",
     "yesql": "^5.0.0"

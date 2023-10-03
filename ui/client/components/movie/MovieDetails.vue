@@ -1,5 +1,5 @@
 <template>
-  <Detail v-bind="detailProps">
+  <Detail v-bind="{ ...detailProps, title: movie }">
     <template v-slot:photo>
       <MoviePoster :movie="movie" />
     </template>
@@ -9,7 +9,7 @@
     <template v-slot:subHeader>
       <DotSeparatedInfo :info="[director, year, runtime]" />
     </template>
-    <template v-slot:body>
+    <template v-slot:main>
       <div v-if="tagline" :title="`Tagline for ${title}`" class="card-section">
         <p class="italic text-base text-ellipses">
           {{ truncate(tagline, 100) }}

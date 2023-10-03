@@ -11,6 +11,9 @@
           </p>
           <slot name="subHeader" />
         </div>
+        <slot name="rating">
+          Rating: {{ title.rating }} Ratings: {{ title.ratings }}
+        </slot>
         <slot name="body" />
         <slot name="infoStrip" />
       </div>
@@ -26,6 +29,10 @@ export default {
   props: {
     onClickImage: {
       type: Function,
+      default: () => {}
+    },
+    title: {
+      type: Object,
       default: () => {}
     }
   }

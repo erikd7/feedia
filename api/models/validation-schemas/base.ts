@@ -4,6 +4,9 @@ import Joi from "joi-oid";
 //Generic IDs
 export const dbId = Joi.number();
 export const ulid = Joi.string().guid();
+export const idParam = Joi.object({
+  id: ulid.required()
+});
 
 //External Data
 export const dataSource = Joi.string();

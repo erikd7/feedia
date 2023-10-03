@@ -1,4 +1,4 @@
-import { post } from "../util/http.js";
+import { get, post } from "../util/http.js";
 import config from "../../config/build.js";
 
 const { proxyPath } = config.api;
@@ -30,6 +30,17 @@ export const loadTitleByExternalId = async (
   const body = { dataSource, externalId, mediaType, title };
 
   const result = await post(host, [proxyPath, basePath, subPath], body);
+  if (result.ok) {
+    return result.data; // {titleId: string}
+  } else {
+    throw Error(result.message);
+  }
+};
+
+export const getRatingAverage = async titleId => {
+  const subPath = "/rating/average";
+
+  const result = await get(host, [proxyPath, basePath, titleId, subPath]);
   if (result.ok) {
     return result.data; // {titleId: string}
   } else {

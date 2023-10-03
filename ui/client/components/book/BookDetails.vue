@@ -1,5 +1,5 @@
 <template>
-  <Detail v-bind="detailProps">
+  <Detail v-bind="{ ...detailProps, title: book }">
     <template v-slot:photo>
       <BookCover :book="book">
         <template v-slot:coverAction="{ hovered }">
@@ -19,7 +19,7 @@
         ]"
       />
     </template>
-    <template v-slot:body>
+    <template v-slot:main>
       <div
         v-if="firstSentence"
         :title="`First sentence of ${title}`"
