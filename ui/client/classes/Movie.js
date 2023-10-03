@@ -2,7 +2,7 @@ import TMDBClient from "./tmdb";
 import { MEDIA_TYPES } from "../util/constants/base";
 import { getHoursAndMinutesFromMinutes } from "../util/format/time";
 import { levels as fieldLevels } from "../util/constants/fields";
-import { loadTitleByExternalId } from "../http-clients/title";
+import { loadTitleByExternalId, getRatingAverage } from "../http-clients/title";
 
 export default class Movie {
   constructor(input, dataLevel) {
@@ -72,6 +72,16 @@ export default class Movie {
       );
 
       this.id = result.titleId;
+    }
+  }
+
+  async getRatingAverage() {
+    if (this.id) {
+      const result = await getRatingAverage(this.id);
+      if (result?.rating) {
+        this.rating = result.rating;
+        this.ratings = result.ratings;
+      }
     }
   }
 

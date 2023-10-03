@@ -42,7 +42,11 @@ export default {
     openDetails(details) {
       this.setSelected(details);
 
+      //Load details by external ID, if necessary
       details.loadTitleByExternalId();
+
+      //Load internal details
+      details.getRatingAverage();
 
       this.$router.push({
         name: "Details",

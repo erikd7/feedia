@@ -5,7 +5,7 @@ import setContextMiddleware from "../middleware/context";
 import { Controller } from "../controllers/controller";
 
 export const createRouter = () => {
-  const router = express.Router() as Router;
+  const router = express.Router({ mergeParams: true }) as Router;
 
   router.buildRoute = function buildRoute(
     this: any,

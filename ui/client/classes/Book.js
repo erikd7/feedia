@@ -1,6 +1,6 @@
 import OpenlibraryClient from "./open-library";
 import { MEDIA_TYPES } from "../util/constants/base";
-import { loadTitleByExternalId } from "../http-clients/title";
+import { loadTitleByExternalId, getRatingAverage } from "../http-clients/title";
 
 export default class Book {
   constructor(input) {
@@ -18,6 +18,9 @@ export default class Book {
     this.firstSentence = input.firstSentence;
     this.medianPages = input.medianPages;
     this.subjects = input.subjects?.slice(0, 5);
+
+    //Internal fields
+    this.rating = input.rating;
 
     //Run cleaner functions
     this.clean();
@@ -46,11 +49,14 @@ export default class Book {
   }
 
   //Add additional info to existing
-  async addInfoResultsPage() {
-    const result = await this.infoClient.getResultsPageInfo(
-      this.openLibraryEditionKey
-    );
-    return "";
+  async getRatingAverage() {
+    if (this.id) {
+      const result = await getRatingAverage(this.id);
+      if (result?.rating) {
+        this.rating = result.rating;
+        this.ratings = result.ratings;
+      }
+    }
   }
 
   //Internal data retrieval
