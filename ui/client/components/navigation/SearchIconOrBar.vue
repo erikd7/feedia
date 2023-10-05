@@ -58,7 +58,6 @@ export default {
       this.focusSearch();
     },
     handleSearchBarClickAway(event) {
-      event.preventDefault();
       event.stopPropagation();
       this.setShowSearchBar(false);
     }
