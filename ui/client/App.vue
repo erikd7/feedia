@@ -1,19 +1,7 @@
 <template>
   <div class="top">
-    <div class="menu-pane-holder" />
-    <div
-      class="menu-pane"
-      :class="{
-        'menu-pane-expanded': navExpanded
-      }"
-      @Click="toggleExpanded"
-      v-click-away="toggleOffExpanded"
-    >
-      <NavBar
-        :sections="routes"
-        :current="currentRoute"
-        :toggleExpanded="toggleExpanded"
-      />
+    <div class="menu-pane">
+      <NavBar :sections="routes" :current="currentRoute" />
     </div>
     <div class="mainPane">
       <router-view />
@@ -32,16 +20,12 @@ export default {
     NavBar
   },
   computed: {
-    ...mapState("navigation", ["navExpanded"]),
     routes() {
       return routes;
     },
     currentRoute() {
       return this.$route.name;
     }
-  },
-  methods: {
-    ...mapActions("navigation", ["toggleExpanded", "toggleOffExpanded"])
   }
 };
 </script>
@@ -61,24 +45,15 @@ export default {
 :root {
   --mobile-breakpoint: 767px; /*mobile-breakpoint*/
 }
-.menu-pane,
-.menu-pane-holder {
+.menu-pane {
   width: 100%;
   max-height: 45px;
-  position: fixed;
-}
-.menu-pane {
   box-shadow: 0px 0px 5px grey;
   padding: 5px;
   z-index: 5;
   height: min-content;
   background-color: white;
   border-bottom: 2px solid #60789e;
-}
-.menu-pane-holder {
-  height: inherit;
-  position: relative;
-  display: block;
 }
 .mainPane {
   height: calc(100vh - 45px);
@@ -175,6 +150,9 @@ export default {
   flex-flow: column;
   justify-content: center;
 }
+.mobile-show {
+  display: none;
+}
 @media only screen and (max-width: 767px /*mobile-breakpoint*/) {
   .mobile-one-col {
     flex-wrap: wrap;
@@ -186,6 +164,9 @@ export default {
   }
   .mobile-hide {
     display: none;
+  }
+  .mobile-show {
+    display: block;
   }
   .mobile-invisible {
     visibility: hidden;

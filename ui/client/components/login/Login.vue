@@ -1,6 +1,7 @@
 <template>
   <div>
     This is the login page
+    <br /><br /><br /><br />
     <button @click="openRedirect">Log In with Google</button>
   </div>
 </template>

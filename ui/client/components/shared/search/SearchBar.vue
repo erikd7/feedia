@@ -70,7 +70,6 @@ export default {
     };
   },
   methods: {
-    ...mapActions("navigation", ["toggleOffExpanded"]),
     onQuery(event) {
       if (event.query) {
         //Call the search
@@ -87,7 +86,6 @@ export default {
       ) {
         this.$router.push(ROUTES.SEARCH);
       }
-      this.toggleOffExpanded();
     }
   }
 };

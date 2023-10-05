@@ -2,12 +2,12 @@
   <div>
     <div class="menu">
       <div
-        v-for="section in sections.filter(s => !s.hideTab)"
+        v-for="section in filteredSections"
         :key="section.path"
-        class="menu-item-spacer"
+        class="mobile-hide menu-item-spacer"
         :class="{
           'sort-item-top': isCurrent(section.name),
-          'mobile-opaque': !isCurrent(section.name) && !navExpanded
+          'mobile-opaque': !isCurrent(section.name)
         }"
       >
         <router-link :to="section.path">
@@ -22,17 +22,31 @@
           </div>
         </router-link>
       </div>
+      <div class="mobile-show">
+        <div
+          class="menu-item menu-item-selected"
+          @click="toggle"
+          aria-haspopup="true"
+          aria-controls="overlay_menu"
+        >
+          {{ current }}
+        </div>
+        <PrimevueMenu
+          ref="menu"
+          id="overlay_menu"
+          :model="menuOptions"
+          :popup="true"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import PrimevueMenu from "primevue/menu";
 
 export default {
-  data() {
-    return {};
-  },
+  components: { PrimevueMenu },
   props: {
     sections: {
       type: Array,
@@ -44,11 +58,27 @@ export default {
     }
   },
   computed: {
-    ...mapState("navigation", ["navExpanded"])
+    filteredSections() {
+      return this.sections.filter(s => !s.hideTab);
+    },
+    menuOptions() {
+      return this.filteredSections
+        .filter(s => !this.isCurrent(s.name))
+        .map(section => ({
+          label: section.name,
+          command: () => this.routeTo(section.path)
+        }));
+    }
   },
   methods: {
     isCurrent(name) {
       return name === this.current;
+    },
+    toggle(event) {
+      this.$refs.menu.toggle(event);
+    },
+    routeTo(path) {
+      this.$router.push(path);
     }
   }
 };
@@ -85,9 +115,6 @@ export default {
 @media only screen and (max-width: 767px /*mobile-breakpoint*/) {
   .menu-pane {
     transition: all 0.5s;
-  }
-  .menu-pane-expanded {
-    max-height: 300px !important;
   }
   .menu {
     flex-flow: column;
