@@ -15,10 +15,7 @@ const staticPath = path.join(__dirname, "../dist");
 
 //Serve static files
 app.use(express.static(staticPath));
-//Handle all routes by sending the HTML file (makes Vue router work)
-app.get("*", (req, res) => {
-  res.sendFile(staticPath + "/index.html");
-});
+
 //Enable CORS for /api routes
 app.use(
   "/api",
@@ -35,10 +32,10 @@ setupTmdbProxy(app);
 //Proxy to internal APIs
 setupInternalProxy(app);
 
-//Redirect to root
-/*app.use((_req, res) => {
-  res.redirect("/");
-});*/
+//Handle all routes by sending the HTML file (makes Vue router work). Keep as last middleware
+app.get("*", (_req, res) => {
+  res.sendFile(staticPath + "/index.html");
+});
 
 // Start the server
 app.listen(4000, () => {
