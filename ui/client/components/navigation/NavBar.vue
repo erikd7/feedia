@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-bar" @click="toggleExpanded">
+  <div class="nav-bar">
     <Menu
       :sections="sections"
       :current="current"
@@ -35,10 +35,6 @@ export default {
     current: {
       type: String,
       default: "/"
-    },
-    toggleExpanded: {
-      type: Function,
-      default: () => {}
     }
   },
   methods: {
@@ -85,9 +81,6 @@ export default {
   max-width: 24rem;
 }
 @media only screen and (max-width: 767px /*mobile-breakpoint*/) {
-  .menu-pane-expanded {
-    max-height: 300px !important;
-  }
   .menu {
     flex-flow: column;
   }
