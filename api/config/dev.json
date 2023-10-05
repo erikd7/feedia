@@ -1,5 +1,5 @@
 {
   "ui": {
-    "host": "http://localhost:8080"
+    "host": "http://192.168.86.205.nip.io:4000"
   }
 }
