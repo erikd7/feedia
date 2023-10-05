@@ -3,17 +3,17 @@
     class="relative self-start"
     @mouseover="
       () => {
-        hovered = true;
+        if (hovered) setHovered(true);
       }
     "
     @mouseleave="
       () => {
-        hovered = false;
+        setHovered(false);
       }
     "
     v-click-away="
       () => {
-        hovered = false;
+        setHovered(false);
       }
     "
     @click="stopEvent"
@@ -31,7 +31,19 @@
       hideIcon="fa fa-regular fa-circle-xmark"
     >
       <template #button="{ toggle }">
-        <button @click="toggle">
+        <button
+          @click="toggle"
+          @mouseover="
+            () => {
+              setHovered(true);
+            }
+          "
+          @mouseleave="
+            () => {
+              setHovered(false);
+            }
+          "
+        >
           <CurrentMediaTypes :allowRemove="!isMobile" />
         </button>
       </template>
@@ -44,7 +56,7 @@
                 isMediaTypeSelected(item.key) &&
                 currentMediaTypesDisplay?.length > 1
               "
-              :showRemove="isMobile && isMediaTypeSelected(item.key)"
+              :showRemove="Boolean(isMobile && isMediaTypeSelected(item.key))"
               :remove="() => removeMediaType(item.key)"
             />
           </button>
@@ -99,6 +111,11 @@ export default {
   },
   methods: {
     ...mapActions(["addMediaType", "removeMediaType"]),
+    setHovered(value) {
+      setTimeout(() => {
+        this.hovered = value;
+      }, 100);
+    },
     stopEvent,
     isMediaTypeSelected(key) {
       return this.currentMediaTypesHash[key];
