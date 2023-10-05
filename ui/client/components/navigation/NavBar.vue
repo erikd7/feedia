@@ -6,12 +6,12 @@
       :class="{ 'mobile-hide': showSearchBar }"
     />
     <MediaTypeToggle :class="{ 'mobile-hide': showSearchBar }" />
-    <div class="flex flex-row">
+    <div class="flex flex-row self-baseline">
       <SearchIconOrBar
         :showSearchBar="showSearchBar"
         :setShowSearchBar="setShowSearchBar"
       />
-      <UserInfo />
+      <UserInfo v-if="!showSearchBar" />
     </div>
   </div>
 </template>
