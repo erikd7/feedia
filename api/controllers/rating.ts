@@ -4,15 +4,24 @@ import validateSchema from "../util/validate";
 import { idParam as idParamSchema } from "../models/validation-schemas/controller/base";
 import { setRating as setRatingSchema } from "../models/validation-schemas/controller/rating";
 import { runQuery, queries } from "../database/postgres";
+import { Request } from "../types/express";
 
-export const getAverageRating: Controller = async req => {
+const getTitleId = (req: Request) => req.params.id;
+
+export const getRatingInfo: Controller = async req => {
   //Validate body
   validateSchema(req.params, idParamSchema.required(), "title ID");
 
-  const { id } = req.params;
+  const { user } = req;
+  const titleId = getTitleId(req);
 
   //Call query
-  const result = await runQuery(queries.getAverageRating(id), "title", true);
+  const result = await runQuery(
+    //@ts-ignore
+    queries.getRatingInfo(user.id, titleId),
+    "title",
+    true
+  );
 
   //Return success
   return createResponse(result.title);
@@ -27,7 +36,7 @@ export const setUserTitleRating: Controller = async req => {
   );
 
   const { user } = req;
-  const { id: titleId } = req.params;
+  const titleId = getTitleId(req);
   const { rating } = req.body;
 
   //Call query

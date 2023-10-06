@@ -38,7 +38,7 @@ export const loadTitleByExternalId = async (
 };
 
 export const getRatingAverage = async titleId => {
-  const subPath = "/rating/average";
+  const subPath = "/rating";
 
   const result = await get(host, [proxyPath, basePath, titleId, subPath]);
   if (result.ok) {
