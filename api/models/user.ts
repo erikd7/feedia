@@ -101,12 +101,7 @@ export default class User {
   //Create a JWT
   createToken() {
     return createToken({
-      id: this.id,
-      nameFirst: this.nameFirst,
-      nameLast: this.nameLast,
-      photoUrl: this.photoUrl,
-      dataSourceId: this.dataSourceId,
-      externalId: this.externalId
+      id: this.id as DynamicId
     });
   }
 }

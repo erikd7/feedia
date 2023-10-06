@@ -19,3 +19,6 @@ export const mediaType = Joi.string();
 
 //Title Information
 export const title = Joi.string();
+
+//Ratings
+export const rating = Joi.number().min(1).max(10);
