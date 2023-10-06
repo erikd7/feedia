@@ -46,7 +46,7 @@ export default {
       details.loadTitleByExternalId();
 
       //Load internal details
-      details.getRatingAverage();
+      details.getRatingInfo();
 
       this.$router.push({
         name: "Details",

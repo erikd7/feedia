@@ -24,3 +24,5 @@ export const getSearchTerms = mediaTypes => {
     .map(mt => MEDIA_TYPE_DISPLAY[mt].name)
     .join(", ")}...`;
 };
+
+export const RATING_MAX = 10;

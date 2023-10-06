@@ -12,7 +12,12 @@
           <slot name="subHeader" />
         </div>
         <slot name="rating">
-          Rating: {{ title.rating }} Ratings: {{ title.ratings }}
+          <RatingInfo
+            :average="title.rating"
+            :count="title.ratings"
+            :user="title.userRating"
+            :onSet="setRating"
+          />
         </slot>
         <slot name="body" />
         <slot name="infoStrip" />
@@ -25,7 +30,9 @@
 </template>
 
 <script>
+import RatingInfo from "../user-title/rating/RatingInfo.vue";
 export default {
+  components: { RatingInfo },
   props: {
     onClickImage: {
       type: Function,
@@ -34,6 +41,11 @@ export default {
     title: {
       type: Object,
       default: () => {}
+    }
+  },
+  methods: {
+    setRating(rating) {
+      this.title.setRating(rating);
     }
   }
 };

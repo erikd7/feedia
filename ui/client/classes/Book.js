@@ -1,9 +1,11 @@
 import OpenlibraryClient from "./open-library";
 import { MEDIA_TYPES } from "../util/constants/base";
-import { loadTitleByExternalId, getRatingAverage } from "../http-clients/title";
+import Title from "./Title";
 
-export default class Book {
+export default class Book extends Title {
   constructor(input) {
+    super();
+
     this.infoClient = OpenlibraryClient;
     this.mediaType = MEDIA_TYPES.BOOK;
     //Limited fields
@@ -46,31 +48,6 @@ export default class Book {
   }
   clean() {
     this.dedupeAuthors();
-  }
-
-  //Add additional info to existing
-  async getRatingAverage() {
-    if (this.id) {
-      const result = await getRatingAverage(this.id);
-      if (result?.rating) {
-        this.rating = result.rating;
-        this.ratings = result.ratings;
-      }
-    }
-  }
-
-  //Internal data retrieval
-  async loadTitleByExternalId() {
-    if (!this.id) {
-      const result = await loadTitleByExternalId(
-        this.infoClient.dataSourceKey,
-        this.externalId,
-        this.mediaType,
-        this.displayTitle()
-      );
-
-      this.id = result.titleId;
-    }
   }
 
   routeId() {

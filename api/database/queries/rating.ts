@@ -7,7 +7,7 @@ const queries = {
       select 
         utr_all.title_id "titleId",
         round(avg(utr_all.rating), 2)::float rating,
-        count(utr_all.user_id)::integer ratings,
+        count(utr_all.rating)::integer ratings,
         max(utr_user.rating) "userRating"
       from user_title_rating utr_all
       left join user_title_rating utr_user on 
