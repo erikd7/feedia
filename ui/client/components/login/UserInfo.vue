@@ -1,11 +1,11 @@
 <template>
   <div class="pl-2 position-relative">
-    <span v-if="userLoginInfo">
+    <span v-if="user">
       <UserAvatar
         @click="toggle"
         aria-haspopup="true"
         aria-controls="overlay_menu"
-        :photoUrl="userLoginInfo.photoUrl"
+        :photoUrl="user.photoUrl"
         class="cursor-pointer"
       />
       <div v-if="showMenu" class="card position-absolute right-0">
@@ -16,9 +16,10 @@
 </template>
 
 <script>
-import { getLoginInfo, signOut } from "../../util/auth/actions";
+import { signOut } from "../../util/auth/actions";
 import UserAvatar from "./UserAvatar";
 import Menu from "primevue/menu";
+import { mapGetters } from "vuex";
 
 export default {
   components: { UserAvatar, Menu },
@@ -35,18 +36,15 @@ export default {
     };
   },
   computed: {
-    userLoginInfo() {
-      return this.getLoginInfo();
-    },
+    ...mapGetters("user", ["user"]),
     name() {
-      return this.parsedToken?.nameFirst || this.parsedToken?.nameLast;
+      return this.user?.nameFirst + " " + this.user?.nameLast;
     },
     photoUrl() {
-      return this.parsedToken?.photoUrl;
+      return this.user?.photoUrl;
     }
   },
   methods: {
-    getLoginInfo,
     signOut,
     toggle(event) {
       this.$refs.menu.toggle(event);

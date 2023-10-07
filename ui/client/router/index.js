@@ -8,6 +8,7 @@ import { ROUTES } from "../util/constants/navigation";
 import {
   parseToken,
   authenticate,
+  getSetUserInfo,
   redirectToRoot,
   renameTitle,
   updateRouteStore
@@ -59,6 +60,8 @@ router.beforeEach((to, _from, next) => {
 });
 
 router.beforeEach(authenticate);
+
+router.beforeEach(getSetUserInfo);
 
 router.beforeEach((to, _from, next) => {
   redirectToRoot(to, _from, () => renameTitle(to, _from, next));

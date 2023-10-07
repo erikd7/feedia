@@ -5,7 +5,8 @@ const queries = {
   getUser: (id: DynamicId) =>
     SQL(`
     select  id, name_first "nameFirst", name_last "nameLast",
-              email, data_source_id "dataSourceId", external_id "externalId"
+              email, data_source_id "dataSourceId", external_id "externalId",
+              photo_url "photoUrl"
     from users
     where id = :id
   `)({ id }),
