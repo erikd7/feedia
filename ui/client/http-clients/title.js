@@ -56,7 +56,9 @@ export const setUserTitleRating = async (titleId, rating) => {
 
   const result = await put(host, [proxyPath, basePath, titleId, subPath], body);
 
-  if (!result.ok) {
+  if (result.ok) {
+    return result.data; // {titleId, rating, ratings, userRating}
+  } else {
     throw Error(result.message);
   }
 };

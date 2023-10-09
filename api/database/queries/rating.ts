@@ -25,7 +25,7 @@ const queries = {
     insert into user_title_rating (user_id, title_id, rating) values
     (${userId}, ${titleId}, ${rating})
     on conflict (user_id, title_id) do update
-    set rating = ${rating}
+    set rating = ${rating};
   `
 };
 

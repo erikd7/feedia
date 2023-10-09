@@ -20,19 +20,25 @@ export default class Title {
     }
   }
 
+  parseRatingInfo(ratingInfo) {
+    this.rating = ratingInfo.rating;
+    this.ratings = ratingInfo.ratings;
+    this.userRating = ratingInfo.userRating;
+  }
+
   async getRatingInfo() {
     if (this.id) {
       const result = await getRatingInfo(this.id);
       if (result) {
-        this.rating = result.rating;
-        this.ratings = result.ratings;
-        this.userRating = result.userRating;
+        this.parseRatingInfo(result);
       }
     }
   }
 
   async setRating(rating) {
-    await setUserTitleRating(this.id, rating);
-    this.rating = rating;
+    const result = await setUserTitleRating(this.id, rating);
+    if (result) {
+      this.parseRatingInfo(result);
+    }
   }
 }

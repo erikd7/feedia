@@ -5,6 +5,8 @@ import {
   TvIcon
 } from "@heroicons/vue/24/solid";
 
+export const APP_NAME = "Feedia";
+
 export const MEDIA_TYPES = {
   BOOK: "BOOK",
   MOVIE: "MOVIE",

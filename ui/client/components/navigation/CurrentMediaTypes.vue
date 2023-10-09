@@ -39,8 +39,7 @@ export default {
     items() {
       return Object.entries(MEDIA_TYPE_DISPLAY).map(([key, info]) => ({
         label: info.name,
-        icon: info.icon,
-        command: () => console.log("clicked " + key)
+        icon: info.icon
       }));
     }
   },

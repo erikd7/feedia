@@ -9,6 +9,7 @@ import {
 } from "../util/auth/actions";
 import { ROUTES } from "../util/constants/navigation";
 import { getUserInfo } from "../http-clients/user";
+import { APP_NAME } from "../util/constants/base";
 
 export function redirectToRoot(to, _from, next) {
   if (to.matched.length === 0) {
@@ -19,7 +20,7 @@ export function redirectToRoot(to, _from, next) {
 }
 
 export function renameTitle(to, _from, next) {
-  document.title = `Feedia | ${to.name}`;
+  document.title = `${APP_NAME} | ${to.name}`;
   next();
 }
 

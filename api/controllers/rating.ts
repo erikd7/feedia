@@ -39,10 +39,18 @@ export const setUserTitleRating: Controller = async req => {
   const titleId = getTitleId(req);
   const { rating } = req.body;
 
-  //Call query
+  //Set user rating
   //@ts-ignore
   await runQuery(queries.setUserTitleRating(user.id, titleId, rating));
 
+  //Get new rating info
+  const ratingResponse = await runQuery(
+    //@ts-ignore
+    queries.getRatingInfo(user.id, titleId),
+    "rating",
+    true
+  );
+
   //Return success
-  return createResponse();
+  return createResponse(ratingResponse.rating);
 };
