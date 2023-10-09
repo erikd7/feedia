@@ -42,7 +42,6 @@ const getter = async (
 };
 
 export const post = (...args) => poster(true, ...args);
-export const postNoAuth = (...args) => poster(false, ...args);
 const poster = async (useTokenAuth, host, paths, body, queryParams) => {
   let url;
   try {
@@ -54,6 +53,22 @@ const poster = async (useTokenAuth, host, paths, body, queryParams) => {
     return responseHandler(response);
   } catch (error) {
     console.error(`Error in axios POST at url '${url}'. Message: ${error}`);
+    return { ok: false, message: error.message };
+  }
+};
+
+export const put = (...args) => putter(true, ...args);
+const putter = async (useTokenAuth, host, paths, body, queryParams) => {
+  let url;
+  try {
+    url = urlBuilder(host, paths, queryParams);
+    const response = await http.put(url, body, {
+      headers: getAuthHeaders(useTokenAuth)
+    });
+
+    return responseHandler(response);
+  } catch (error) {
+    console.error(`Error in axios PUT at url '${url}'. Message: ${error}`);
     return { ok: false, message: error.message };
   }
 };

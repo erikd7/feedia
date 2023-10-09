@@ -75,6 +75,6 @@ create table if not exists public.user_title_rating (
 	foreign key (user_id) references users(id),
 	title_id UUID not null,
 	foreign key (title_id) references title(id),
-	rating int not null,
+	rating int null,
 	constraint user_title_rating_pkey primary key (user_id, title_id)
 );

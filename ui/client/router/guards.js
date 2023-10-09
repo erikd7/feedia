@@ -1,8 +1,15 @@
 //Navigation Guards https://router.vuejs.org/guide/advanced/navigation-guards.html
 import store from "../store/store";
 import { getLocalToken } from "../util/auth/token";
-import { signIn, validate } from "../util/auth/actions";
+import {
+  signIn,
+  validate,
+  getLocalUserInfo,
+  setLocalUserInfo
+} from "../util/auth/actions";
 import { ROUTES } from "../util/constants/navigation";
+import { getUserInfo } from "../http-clients/user";
+import { APP_NAME } from "../util/constants/base";
 
 export function redirectToRoot(to, _from, next) {
   if (to.matched.length === 0) {
@@ -13,7 +20,7 @@ export function redirectToRoot(to, _from, next) {
 }
 
 export function renameTitle(to, _from, next) {
-  document.title = `Feedia | ${to.name}`;
+  document.title = `${APP_NAME} | ${to.name}`;
   next();
 }
 
@@ -64,4 +71,24 @@ export function authenticate(to, _from, next) {
     //Redirect to the login page
     next(ROUTES.LOGIN);
   }
+}
+
+//Get user info if not already in local storage
+export function getSetUserInfo(_to, _from, next) {
+  //Get existing user info from local storage
+  const localUser = getLocalUserInfo();
+
+  //Get user info from API if not in local storage
+  if (!localUser) {
+    getUserInfo().then(userInfo => {
+      //Set retrieved user info in local storage
+      setLocalUserInfo(userInfo);
+      //Set store value
+      store.dispatch("user/setUser", userInfo);
+    });
+  }
+
+  store.dispatch("user/setUser", localUser);
+
+  next();
 }

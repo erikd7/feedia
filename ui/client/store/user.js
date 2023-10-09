@@ -4,13 +4,15 @@ import {
   setLocalToken,
   deleteLocalToken
 } from "../util/auth/token";
+import { removeLocalUserInfo } from "../util/auth/actions";
 
 //Store for user and auth info
 const store = {
   namespaced: true,
   state() {
     return {
-      token: null
+      token: null,
+      user: null
     };
   },
   getters: {
@@ -25,11 +27,17 @@ const store = {
     },
     isTokenValid(state) {
       return validate(state.token);
+    },
+    user(state) {
+      return state.user;
     }
   },
   mutations: {
     token(state, token) {
       state.token = token;
+    },
+    user(state, user) {
+      state.user = user;
     }
   },
   actions: {
@@ -37,16 +45,14 @@ const store = {
       //Set raw token
       commit("token", token);
 
-      //Set parsed token
-
       //Set the token in local storage
       setLocalToken(token);
     },
-    getParsedToken({ getters }) {
-      return getters.parsedToken;
+    setUser({ commit }, user) {
+      commit("user", user);
     },
-    getIsTokenValid({ getters }) {
-      return getters.isTokenValid;
+    deleteUser({ commit }) {
+      commit("user", null);
     },
     deleteStoreToken({ dispatch }) {
       dispatch("setToken", null);
@@ -55,8 +61,12 @@ const store = {
       deleteLocalToken();
     },
     signOut({ dispatch }) {
-      dispatch("deleteLocalToken");
+      dispatch("deleteUser");
       dispatch("deleteStoreToken");
+
+      //Delete local storage values
+      dispatch("deleteLocalToken");
+      removeLocalUserInfo();
     }
   }
 };

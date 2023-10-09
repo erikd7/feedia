@@ -17,6 +17,7 @@
 
 <script>
 import Avatar from "primevue/avatar";
+import { getLocalUserInfo } from "../../util/auth/actions";
 
 export default {
   components: { Avatar },
@@ -24,6 +25,12 @@ export default {
     photoUrl: {
       type: String
     }
-  }
+  },
+  computed: {
+    aggregatePhotoUrl() {
+      return this.photoUrl || this.getLocalUserInfo();
+    }
+  },
+  methods: { getLocalUserInfo }
 };
 </script>

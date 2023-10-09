@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { ResponseObject } from "./controller";
 
-export const createResponse = (data: any): ResponseObject => {
+export const createResponse = (data?: any): ResponseObject => {
   let status;
   //Undefined, null, or empty array
   if (

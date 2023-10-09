@@ -1,4 +1,4 @@
-import { get, post } from "../util/http.js";
+import { get, post, put } from "../util/http.js";
 import config from "../../config/build.js";
 
 const { proxyPath } = config.api;
@@ -37,12 +37,27 @@ export const loadTitleByExternalId = async (
   }
 };
 
-export const getRatingAverage = async titleId => {
-  const subPath = "/rating/average";
+export const getRatingInfo = async titleId => {
+  const subPath = "/rating";
 
   const result = await get(host, [proxyPath, basePath, titleId, subPath]);
   if (result.ok) {
     return result.data; // {titleId: string}
+  } else {
+    throw Error(result.message);
+  }
+};
+
+export const setUserTitleRating = async (titleId, rating) => {
+  const subPath = "/rating";
+  const body = {
+    rating
+  };
+
+  const result = await put(host, [proxyPath, basePath, titleId, subPath], body);
+
+  if (result.ok) {
+    return result.data; // {titleId, rating, ratings, userRating}
   } else {
     throw Error(result.message);
   }

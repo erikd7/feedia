@@ -2,10 +2,12 @@ import TMDBClient from "./tmdb";
 import { MEDIA_TYPES } from "../util/constants/base";
 import { getHoursAndMinutesFromMinutes } from "../util/format/time";
 import { levels as fieldLevels } from "../util/constants/fields";
-import { loadTitleByExternalId, getRatingAverage } from "../http-clients/title";
+import Title from "./Title";
 
-export default class Movie {
+export default class Movie extends Title {
   constructor(input, dataLevel) {
+    super();
+
     //Info client
     this.infoClient = TMDBClient;
 
@@ -59,30 +61,6 @@ export default class Movie {
         this[key] = value;
       }
     });
-  }
-
-  //Internal data retrieval
-  async loadTitleByExternalId() {
-    if (!this.id) {
-      const result = await loadTitleByExternalId(
-        this.infoClient.dataSourceKey,
-        this.externalId,
-        this.mediaType,
-        this.displayTitle()
-      );
-
-      this.id = result.titleId;
-    }
-  }
-
-  async getRatingAverage() {
-    if (this.id) {
-      const result = await getRatingAverage(this.id);
-      if (result?.rating) {
-        this.rating = result.rating;
-        this.ratings = result.ratings;
-      }
-    }
   }
 
   getPosterUrl(width) {
