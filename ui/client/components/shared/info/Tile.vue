@@ -1,5 +1,5 @@
 <template>
-  <div class="tile m-1 w-20 h-min rounded-lg">
+  <div class="tile mr-1 w-20 h-min rounded-lg">
     <div class="px-2 py-1 rounded-t-lg text-xs text-center">
       <slot name="header" />
     </div>
