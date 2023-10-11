@@ -34,7 +34,6 @@
 <script>
 import AutoComplete from "primevue/autocomplete";
 import { ROUTES } from "../../../util/constants/navigation";
-import { mapActions } from "vuex";
 
 export default {
   components: { AutoComplete },
@@ -69,24 +68,52 @@ export default {
       query: null
     };
   },
+  computed: {
+    queryParam() {
+      return this.$router.currentRoute?._value?.query?.query;
+    },
+    isInFindRoute() {
+      return [ROUTES.SEARCH, ROUTES.FIND].includes(
+        this.$router.currentRoute._value.path
+      );
+    }
+  },
   methods: {
+    setQueryParam(query) {
+      this.$router.push({ query: { query } });
+    },
+    loadQueryFromParam() {
+      if (this.queryParam) {
+        this.query = this.queryParam;
+      }
+    },
     onQuery(event) {
-      if (event.query) {
+      const { query } = event;
+      if (query) {
         //Call the search
-        this.liveSearch(event.query);
-        this.query = event.query;
+        this.liveSearch(query);
+
+        //Update state info
+        this.query = query;
+        this.setQueryParam(query);
       }
     },
     onEnter(event) {
       event.target.blur();
-      if (
-        ![ROUTES.SEARCH, ROUTES.FIND].includes(
-          this.$router.currentRoute._value.path
-        )
-      ) {
+      if (!this.isInFindRoute) {
         this.$router.push(ROUTES.SEARCH);
       }
     }
+  },
+  mounted() {
+    //When mounting, load the search query from the URL query param (wait for router.isReady())
+    this.$router.isReady().then(() => {
+      this.loadQueryFromParam();
+      //If in a route where results can be displayed, trigger a search
+      if (this.isInFindRoute) {
+        this.onQuery({ query: this.query });
+      }
+    });
   }
 };
 </script>
