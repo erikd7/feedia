@@ -33,6 +33,7 @@
       </Tile>
     </div>
     <Rating
+      class="absolute"
       :class="{
         hidden: !showEdit && currentUserRating
       }"
@@ -99,10 +100,10 @@ export default {
     setRating(event) {
       this.onSet(event.value);
 
-      //Hide editor after 10 seconds
+      //Hide editor after 5 seconds
       setTimeout(() => {
-        this.showEdit = false;
-      }, 10000);
+        this.toggleEdit(false);
+      }, 5000);
     }
   }
 };
