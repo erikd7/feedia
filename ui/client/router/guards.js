@@ -20,7 +20,9 @@ export function redirectToRoot(to, _from, next) {
 }
 
 export function renameTitle(to, _from, next) {
-  document.title = `${APP_NAME} | ${to.name}`;
+  const primary = APP_NAME;
+  const secondary = to.name ? ` | ${to.name}` : "";
+  document.title = primary + secondary;
   next();
 }
 
