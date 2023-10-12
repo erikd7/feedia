@@ -9,6 +9,17 @@ import {
   getTitleIdsByExternalIds as getTitleIdsByExternalIdsDomain,
   loadTitlesByExternalIds as loadTitlesByExternalIdsDomain
 } from "../domain/title";
+import { runQuery, queries } from "../database/postgres";
+
+export const getTitleInfo: Controller = async req => {
+  const { id } = req.params;
+
+  //@ts-ignore
+  const result = await runQuery(queries.getTitleInfo(id), "title", true);
+
+  //Return success
+  return createResponse(result.title);
+};
 
 export const loadTitlesByExternalIds: Controller = async req => {
   //Validate body

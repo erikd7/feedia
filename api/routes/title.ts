@@ -2,10 +2,19 @@ import { createRouter } from "./route-helper";
 import { Router } from "../types/express";
 import {
   getTitleIdsByExternalIds,
-  loadTitlesByExternalIds
+  loadTitlesByExternalIds,
+  getTitleInfo
 } from "../controllers/title";
 
 const router: Router = createRouter();
+
+//Get title info
+router.buildRoute(
+  "get",
+  "/:id",
+  "retrieving title information by ID",
+  getTitleInfo
+);
 
 //Upsert title information by external ID
 router.buildRoute(
