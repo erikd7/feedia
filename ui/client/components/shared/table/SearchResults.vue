@@ -43,10 +43,7 @@ export default {
       this.setSelected(details);
 
       //Load details by external ID, if necessary
-      details.loadTitleByExternalId();
-
-      //Load internal details
-      details.getRatingInfo();
+      details.loadDetails();
 
       this.$router.push({
         name: "Details",

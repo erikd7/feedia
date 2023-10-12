@@ -5,8 +5,8 @@ import { levels as fieldLevels } from "../util/constants/fields";
 import Title from "./Title";
 
 export default class Movie extends Title {
-  constructor(input, dataLevel) {
-    super();
+  constructor(input, dataLevel, options) {
+    super(input, dataLevel, options);
 
     //Info client
     this.infoClient = TMDBClient;
@@ -16,8 +16,6 @@ export default class Movie extends Title {
     this.externalId = this.tmdbId;
 
     this.mediaType = MEDIA_TYPES.MOVIE;
-
-    this.dataLevel = dataLevel; //denotes the data we've retrieved for incremental fetching
 
     //Limited fields
     this.title = input.title;
@@ -39,7 +37,7 @@ export default class Movie extends Title {
   }
 
   //Retrieve data
-  getDetails(includeCredits = true) {
+  getExternalDetails(includeCredits = true) {
     return this.infoClient.getDetails(this.tmdbId, includeCredits);
   }
 
@@ -68,10 +66,6 @@ export default class Movie extends Title {
   }
   getPosterName(width) {
     return this.infoClient.getPosterName(this.posterPath, width);
-  }
-
-  routeId() {
-    return (this.id ? `${this.id}-` : "") + this.title;
   }
 
   //Display info

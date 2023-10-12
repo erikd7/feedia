@@ -1,5 +1,6 @@
 <template>
   <MediaTypeSwitcher
+    v-if="mediaType && selected?.isValidTitle"
     class="text-main"
     :mediaType="mediaType"
     :componentsByMediaType="componentsByMediaType"
@@ -17,7 +18,8 @@ import MediaTypeSwitcher from "../shared/media-type/MediaTypeSwitcher.vue";
 import BookDetails from "../book/BookDetails";
 import MovieDetails from "../movie/MovieDetails";
 import { MEDIA_TYPES } from "../../util/constants/base";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
+import { createAndLoadDetailsById } from "../../classes/title-helper";
 
 export default {
   components: { Loading, MediaTypeSwitcher },
@@ -30,9 +32,6 @@ export default {
       type: String
     }
   },
-  data() {
-    return {};
-  },
   computed: {
     ...mapGetters("details", ["selected"]),
     componentsByMediaType() {
@@ -40,11 +39,27 @@ export default {
         [MEDIA_TYPES.BOOK]: BookDetails,
         [MEDIA_TYPES.MOVIE]: MovieDetails
       };
+    },
+    paramsId() {
+      return this.$router.currentRoute._value.params.id;
     }
   },
-  created() {
+  methods: {
+    ...mapActions("details", ["setSelected"]),
+    async loadDetailsById() {
+      if (this.paramsId && !this.selected) {
+        const title = createAndLoadDetailsById(this.mediaType, this.paramsId);
+
+        await title.loadDetails();
+        this.setSelected(title);
+      }
+    }
+  },
+  mounted() {
     //Retrieve details if they aren't already set
-    //TODO
+    this.$router.isReady().then(() => {
+      this.loadDetailsById();
+    });
   }
 };
 </script>

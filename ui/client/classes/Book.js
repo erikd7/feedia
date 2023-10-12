@@ -3,8 +3,8 @@ import { MEDIA_TYPES } from "../util/constants/base";
 import Title from "./Title";
 
 export default class Book extends Title {
-  constructor(input) {
-    super();
+  constructor(input, dataLevel, options) {
+    super(input, dataLevel, options);
 
     this.infoClient = OpenlibraryClient;
     this.mediaType = MEDIA_TYPES.BOOK;
@@ -28,6 +28,9 @@ export default class Book extends Title {
     this.clean();
   }
 
+  //Get details
+  getExternalDetails() {}
+
   //Cleaner functions
   dedupeAuthors() {
     if (this.authors?.length > 1) {
@@ -48,10 +51,6 @@ export default class Book extends Title {
   }
   clean() {
     this.dedupeAuthors();
-  }
-
-  routeId() {
-    return (this.id ? `${this.id}-` : "") + this.title;
   }
 
   //Display info

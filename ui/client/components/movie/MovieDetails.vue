@@ -73,9 +73,6 @@ export default {
     }
   },
   computed: {
-    id() {
-      return this.movie.tmdbId;
-    },
     title() {
       return this.movie.displayTitle();
     },

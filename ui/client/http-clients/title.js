@@ -6,6 +6,15 @@ const { host } = config.proxy;
 
 const basePath = "/title";
 
+export const getTitleInfo = async id => {
+  const result = await get(host, [proxyPath, basePath, id]);
+  if (result.ok) {
+    return result.data; // {[dataSourceKey]: externalId}
+  } else {
+    throw Error(result.message);
+  }
+};
+
 export const getTitleIdsByExternalIds = async externalIds => {
   const subPath = "/get-by-external";
 
