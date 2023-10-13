@@ -26,15 +26,16 @@ export default class Title {
 
   //Retrieve data from scratch for empty object
   async loadDetails() {
+    await this.getTitleInfo(); //Get base info, required for some subsequent calls
     await Promise.all([
-      this.getTitleInfo(),
       this.getRatingInfo(),
-      this.getExternalDetails()
+      this.getExternalDetails() //An external ID is required (must follow getTitleInfo)
     ]);
 
     this.loading = false;
   }
 
+  //Internal data retrieval
   async getTitleInfo() {
     if (this.id) {
       const result = await getTitleInfo(this.id);
@@ -78,6 +79,12 @@ export default class Title {
     if (result) {
       this.parseRatingInfo(result);
     }
+  }
+
+  //External data retrieval
+  getExternalDetails() {
+    console.log(`gonna get external`, this); /* //!DELETE */
+    return this.infoClient.getDetails(this.externalId);
   }
 
   //Display info

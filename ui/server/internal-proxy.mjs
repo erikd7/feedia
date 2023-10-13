@@ -5,6 +5,6 @@ const { host, proxyPath } = config.api;
 
 const proxyOptions = {};
 
-export default function setupTmdbProxy(app) {
+export default function setupInternalProxy(app) {
   useProxy(app, proxyPath, host, proxyOptions);
 }

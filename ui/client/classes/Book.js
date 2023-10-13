@@ -13,6 +13,7 @@ export default class Book extends Title {
     this.authors = input.authors;
     this.firstPublishYear = input.firstPublishYear;
     this.openLibraryEditionKey = input.openLibraryEditionKey;
+    console.log(`creating book with`); /* //!DELETE */
     this.externalId = this.openLibraryEditionKey;
 
     //Expanded fields
@@ -27,9 +28,6 @@ export default class Book extends Title {
     //Run cleaner functions
     this.clean();
   }
-
-  //Get details
-  getExternalDetails() {}
 
   //Cleaner functions
   dedupeAuthors() {

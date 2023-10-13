@@ -18,9 +18,9 @@ export const create = (mediaType, params, isLoading) => {
   return title;
 };
 
-export const createAndLoadDetailsById = (mediaType, id) => {
+export const createAndLoadDetailsById = async (mediaType, id) => {
   const title = create(mediaType, { id }, true);
 
-  title.loadDetails();
+  await title.loadDetails();
   return title;
 };

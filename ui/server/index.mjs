@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 import config from "./config.mjs";
 
 import setupTmdbProxy from "./external-proxy/tmdb.mjs";
+import setupOpenLibraryProxy from "./external-proxy/openlibrary.mjs";
 import setupInternalProxy from "./internal-proxy.mjs";
 
 const app = express();
@@ -28,6 +29,7 @@ app.use(
 
 //External proxies
 setupTmdbProxy(app);
+setupOpenLibraryProxy(app);
 
 //Proxy to internal APIs
 setupInternalProxy(app);

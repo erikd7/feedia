@@ -48,9 +48,11 @@ export default {
     ...mapActions("details", ["setSelected"]),
     async loadDetailsById() {
       if (this.paramsId && !this.selected) {
-        const title = createAndLoadDetailsById(this.mediaType, this.paramsId);
+        const title = await createAndLoadDetailsById(
+          this.mediaType,
+          this.paramsId
+        );
 
-        await title.loadDetails();
         this.setSelected(title);
       }
     }

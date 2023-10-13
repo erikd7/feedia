@@ -16,6 +16,10 @@
     "tmdb": {
       "host": "https://api.themoviedb.org",
       "proxyPath": "/api/tmdb"
+    },
+    "openLibrary": {
+      "host": "https://openlibrary.org",
+      "proxyPath": "/api/openlibrary"
     }
   },
   "proxy": {

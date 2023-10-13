@@ -38,7 +38,7 @@ export default class Movie extends Title {
 
   //Retrieve data
   getExternalDetails(includeCredits = true) {
-    return this.infoClient.getDetails(this.tmdbId, includeCredits);
+    return this.infoClient.getDetails(this.externalId, includeCredits);
   }
 
   async addDetails(includeCredits = true) {
@@ -47,7 +47,7 @@ export default class Movie extends Title {
       !this.dataLevel ||
       fieldLevels.indexOf(this.dataLevel) < fieldLevels.indexOf("details")
     ) {
-      const details = await this.getDetails(includeCredits);
+      const details = await this.getExternalDetails(includeCredits);
       this.addInfo(details);
       this.dataLevel = "details";
     }
