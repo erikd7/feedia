@@ -1,6 +1,7 @@
 import { merge } from "lodash";
 import defaultConfig from "./default.json";
 import devConfig from "./dev.json";
+import localNetworkConfig from "./local-network.json";
 
 export const getEnv = () =>
   process.env.ENV || process.env.NODE_ENV || "production";
@@ -8,22 +9,27 @@ export const getEnv = () =>
 const getConfigForEnv = env => {
   switch (env) {
     case "dev":
-      return devConfig;
+      return [devConfig];
     default:
-      return null;
+      return [];
   }
 };
 
 const buildConfig = (env = getEnv()) => {
-  const overrideConfig = getConfigForEnv(env);
+  const overrideConfigs = getConfigForEnv(env);
+
+  //If in dev and local network mode is set, use local network config
+  if (env === "dev" && process.env.USE_LOCAL_NETWORK === "true") {
+    overrideConfigs.push(localNetworkConfig);
+  }
 
   //If there is not a valid override, return default config
-  if (!overrideConfig) {
+  if (!overrideConfigs?.length) {
     return defaultConfig;
   }
 
   //Merge configs
-  const mergedConfig = merge(defaultConfig, overrideConfig);
+  const mergedConfig = merge(defaultConfig, ...overrideConfigs);
 
   return mergedConfig;
 };
