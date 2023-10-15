@@ -71,11 +71,9 @@ export class OpenLibrary {
       await getNoAuth(this.url(), ["works", id + ".json"])
     );
 
-    console.log(`raw res`, result); /* //!DELETE */
     //Format
     const book = this.convertObjectToLocal(result);
 
-    console.log(`book is`, book); /* //!DELETE */
     return book;
   }
 

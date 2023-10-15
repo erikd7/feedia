@@ -83,7 +83,6 @@ export default class Title {
 
   //External data retrieval
   getExternalDetails() {
-    console.log(`gonna get external`, this); /* //!DELETE */
     return this.infoClient.getDetails(this.externalId);
   }
 
