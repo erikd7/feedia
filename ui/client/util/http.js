@@ -77,7 +77,7 @@ export const urlBuilder = (host, paths = [], queryParams = {}) => {
   let url = host;
 
   //Add paths (replace multiple slashes with one slash)
-  const path = paths.join("/").replace(/\/+/g, "/");
+  const path = ("/" + paths.join("/")).replace(/\/+/g, "/");
 
   url += path;
 

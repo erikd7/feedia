@@ -9,6 +9,11 @@ export class OpenLibrary {
     this.dataSourceKey = "openlibrary";
     this.baseUrl = "https://openlibrary.org";
 
+    //Redirect info for proxy
+    this.redirectUrl = config.proxy.redirect
+      ? config.proxy.host + config.external.openLibrary.proxyPath
+      : null;
+
     this.fieldMap = TwoWayMap.build({
       openLibraryEditionKey: "cover_edition_key",
       title: "title",
@@ -17,6 +22,7 @@ export class OpenLibrary {
       description: "description",
       firstSentence: "first_sentence",
       medianPages: "number_of_pages_median",
+      numPages: "number_of_pages",
       subjects: "subject_facet"
     });
     this.fieldTransformer = {
@@ -24,6 +30,10 @@ export class OpenLibrary {
     };
 
     this.searchConfig = config.search;
+  }
+
+  url() {
+    return this.redirectUrl || this.baseUrl;
   }
 
   //Search component
@@ -41,8 +51,8 @@ export class OpenLibrary {
     };
     //Make the request
     const books = this.destructureResponseData(
-      await getNoAuth(this.baseUrl, ["/search.json"], params)
-    );
+      await getNoAuth(this.url(), ["/search.json"], params)
+    ).docs;
 
     //Filter results
     const filteredBooks = books.filter(this.filterSearchResult);
@@ -55,6 +65,18 @@ export class OpenLibrary {
     return formattedBooks;
   }
 
+  //Get details
+  async getDetails(id) {
+    const result = this.destructureResponseData(
+      await getNoAuth(this.url(), ["works", id + ".json"])
+    );
+
+    //Format
+    const book = this.convertObjectToLocal(result);
+
+    return book;
+  }
+
   //Get book cover
   getCoverUrl(id, size = "S", idType = "olid") {
     return `https://covers.openlibrary.org/b/${idType}/${id}-${size}.jpg`;
@@ -62,7 +84,7 @@ export class OpenLibrary {
 
   //Helpers
   destructureResponseData(response) {
-    return response.data.docs;
+    return response.data;
   }
 
   //Mappers
@@ -76,14 +98,15 @@ export class OpenLibrary {
   filterSearchResult = book => book[this.fieldMap.get("openLibraryEditionKey")];
   convertObjectToLocal(openLibraryObject) {
     return Object.entries(openLibraryObject).reduce((agg, [oldKey, value]) => {
-      const newKey = this.fieldMap.revGet(oldKey) || oldKey;
-      const transformer = this.fieldTransformer[newKey];
-      let transformedValue = value;
-      if (this.fieldTransformer[newKey]) {
-        transformedValue = transformer(value);
+      const newKey = this.fieldMap.revGet(oldKey);
+      if (newKey) {
+        const transformer = this.fieldTransformer[newKey];
+        let transformedValue = value;
+        if (this.fieldTransformer[newKey]) {
+          transformedValue = transformer(value);
+        }
+        agg[newKey] = transformedValue;
       }
-      agg[newKey] = transformedValue;
-
       return agg;
     }, {});
   }

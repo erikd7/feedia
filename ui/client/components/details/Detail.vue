@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="flex flex-row">
+    <Loading v-if="title.loading" message="Loading details..." />
+    <div v-else class="flex flex-row">
       <div class="flex flex-column pr-2">
         <slot name="photo" />
       </div>
@@ -31,8 +32,10 @@
 
 <script>
 import RatingInfo from "../user-title/rating/RatingInfo.vue";
+import Loading from "../shared/Loading";
+
 export default {
-  components: { RatingInfo },
+  components: { RatingInfo, Loading },
   props: {
     onClickImage: {
       type: Function,
