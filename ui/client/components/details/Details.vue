@@ -40,6 +40,9 @@ export default {
         [MEDIA_TYPES.MOVIE]: MovieDetails
       };
     },
+    routeId() {
+      return this.selected.routeId();
+    },
     paramsId() {
       return this.$router.currentRoute._value.params.id;
     }
@@ -55,6 +58,11 @@ export default {
 
         this.setSelected(title);
       }
+    },
+    updateRoute(id) {
+      const path = `/${this.$router.currentRoute._value.params.mediaType}/${id}`;
+
+      this.$router.push(path);
     }
   },
   mounted() {
@@ -62,6 +70,12 @@ export default {
     this.$router.isReady().then(() => {
       this.loadDetailsById();
     });
+  },
+  watch: {
+    //Update the URL route when title ID changes
+    routeId: function (newId) {
+      this.updateRoute(newId);
+    }
   }
 };
 </script>
