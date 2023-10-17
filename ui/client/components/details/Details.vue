@@ -41,7 +41,7 @@ export default {
       };
     },
     routeId() {
-      return this.selected.routeId();
+      return this.selected?.routeId();
     },
     paramsId() {
       return this.$router.currentRoute._value.params.id;
@@ -75,6 +75,7 @@ export default {
     //Update the URL route when title ID changes
     routeId: function (newId) {
       this.updateRoute(newId);
+      this.loadDetailsById();
     }
   }
 };
