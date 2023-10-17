@@ -43,6 +43,9 @@ export default class Title {
       this.title = result.title;
       this.dataSource = result.dataSource;
       this.externalId = result.externalId;
+    } else {
+      //If no ID, load by external
+      this.loadTitleByExternalId();
     }
   }
 
@@ -83,7 +86,7 @@ export default class Title {
 
   //External data retrieval
   getExternalDetails() {
-    return this.infoClient.getDetails(this.externalId);
+    //TODO return this.infoClient.getDetails(this.externalId);
   }
 
   //Display info
