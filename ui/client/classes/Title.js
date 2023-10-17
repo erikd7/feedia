@@ -86,7 +86,9 @@ export default class Title {
 
   //External data retrieval
   getExternalDetails() {
-    //TODO return this.infoClient.getDetails(this.externalId);
+    if (this.externalId) {
+      return this.infoClient.getDetails(this.externalId);
+    }
   }
 
   //Display info
