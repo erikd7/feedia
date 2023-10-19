@@ -1,23 +1,28 @@
 <template>
   <div class="top">
-    <div class="menu-pane">
-      <NavBar :sections="routes" :current="currentRoute" />
-    </div>
-    <div class="mainPane">
-      <router-view />
-    </div>
+    <ErrorBoundary>
+      <div class="menu-pane">
+        <NavBar :sections="routes" :current="currentRoute" />
+      </div>
+      <div class="mainPane">
+        <ErrorBoundary>
+          <router-view />
+        </ErrorBoundary>
+      </div>
+    </ErrorBoundary>
   </div>
 </template>
 
 <script>
+import ErrorBoundary from "./components/shared/error/ErrorBoundary";
 import NavBar from "./components/navigation/NavBar";
 import { routes } from "./router/index";
-import { mapActions, mapState } from "vuex";
 
 export default {
   name: "App",
   components: {
-    NavBar
+    NavBar,
+    ErrorBoundary
   },
   computed: {
     routes() {
