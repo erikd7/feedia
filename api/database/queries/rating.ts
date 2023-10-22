@@ -5,16 +5,16 @@ const queries = {
   getRatingInfo: (userId: DynamicId, titleId: DynamicId) =>
     SQL`
       select 
-        utr_all.title_id "titleId",
-        round(avg(utr_all.rating), 2)::float rating,
-        count(utr_all.rating)::integer ratings,
+        utr_all.id "titleId",
+        max(utr_all.rating) "rating",
+        max(utr_all.ratings) "ratings",
         max(utr_user.rating) "userRating"
-      from user_title_rating utr_all
+      from v_title_rating utr_all
       left join user_title_rating utr_user on 
       	utr_user.user_id = ${userId} and
       	utr_user.title_id = ${titleId}
-      where utr_all.title_id = ${titleId}
-      group by utr_all.title_id
+      where utr_all.id = ${titleId}
+      group by utr_all.id
     `,
 
   setUserTitleRating: (

@@ -15,5 +15,8 @@
     "localStorage": {
       "defaultExpirationHours": 48
     }
+  },
+  "errorBoundary": {
+    "show": true
   }
 }

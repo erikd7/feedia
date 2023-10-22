@@ -38,6 +38,13 @@ create table if not exists public.title (
 	foreign key (media_type_id) references media_type(id)
 );
 
+--Title metadata
+create table if not exists public.title_meta (
+  	title_id UUID not null primary key,
+	foreign key (title_id) references title(id),
+	meta jsonb
+);
+
 --External ID maps
 create table if not exists public.title_external_id (
 	title_id UUID not null,

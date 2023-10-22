@@ -13,16 +13,12 @@ export default class Book extends Title {
     this.authors = input.authors;
     this.firstPublishYear = input.firstPublishYear;
     this.openLibraryEditionKey = input.openLibraryEditionKey;
-    this.externalId = this.openLibraryEditionKey;
-
+    this.externalId = this.openLibraryEditionKey || input.externalId;
     //Expanded fields
     this.descriptions = input.description;
     this.firstSentence = input.firstSentence;
     this.medianPages = input.medianPages;
     this.subjects = input.subjects?.slice(0, 5);
-
-    //Internal fields
-    this.rating = input.rating;
 
     //Run cleaner functions
     this.clean();
@@ -75,10 +71,10 @@ export default class Book extends Title {
 
   //Cover
   getCoverName(size = "M") {
-    return `book/cover/${this.openLibraryEditionKey}-${size}.jpg`;
+    return `book/cover/${this.externalId}-${size}.jpg`;
   }
   getCoverUrl(size = "M") {
-    return this.infoClient.getCoverUrl(this.openLibraryEditionKey, size);
+    return this.infoClient.getCoverUrl(this.externalId, size);
   }
 
   getLabel() {

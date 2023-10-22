@@ -6,7 +6,10 @@
           <div>{{ appName }}</div>
         </template>
         <template v-slot:body>
-          <p>{{ average || "-" }} / {{ maxRating }}</p>
+          <p>
+            {{ average || "-"
+            }}<span class="text-sm font-thin"> / {{ maxRating }}</span>
+          </p>
         </template>
       </Tile>
       <Tile class="cursor-pointer" @click="() => toggleEdit()">
@@ -14,7 +17,10 @@
           <div>Me</div>
         </template>
         <template v-slot:body>
-          <p>{{ currentUserRating || "-" }} / {{ maxRating }}</p>
+          <p>
+            {{ currentUserRating || "-"
+            }}<span class="text-sm font-thin"> / {{ maxRating }}</span>
+          </p>
         </template>
       </Tile>
       <Tile>
@@ -24,7 +30,7 @@
         <template v-slot:body>
           <p>
             {{
-              count.toLocaleString("en-US", {
+              (count || 0).toLocaleString("en-US", {
                 style: "decimal"
               })
             }}
@@ -33,7 +39,6 @@
       </Tile>
     </div>
     <Rating
-      class="absolute"
       :class="{
         hidden: !showEdit && currentUserRating
       }"
