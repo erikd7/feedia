@@ -32,6 +32,12 @@ const queries = {
       left join title_info t on lt.title_id = t.id
       where l.id = ${id}
       group by l.id, l.name, l."userId"
+    `,
+
+  addTitleToList: (listId: DynamicId, titleId: DynamicId) =>
+    SQL`
+      insert into list_title (list_id, title_id) values
+      (${listId}, ${titleId})
     `
 };
 

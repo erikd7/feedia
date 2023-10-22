@@ -9,3 +9,7 @@ export const createList = Joi.object({
 export const getListParams = Joi.object({
   id: ulid.required()
 });
+
+export const addTitleToListBody = Joi.object({
+  titleId: ulid.required()
+});
