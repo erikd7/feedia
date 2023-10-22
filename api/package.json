@@ -49,6 +49,7 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.1",
     "pg": "^8.7.3",
+    "pg-error-enum": "^0.7.0",
     "pm2": "^5.2.0",
     "sql-template-strings": "^2.2.2",
     "swagger-ui-express": "^4.5.0",

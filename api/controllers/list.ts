@@ -3,12 +3,14 @@ import { Controller } from "./controller";
 import validateSchema from "../util/validate";
 import {
   createList as createListSchema,
-  getListParams as getListParamsSchema
+  getListParams as getListParamsSchema,
+  addTitleToListBody as addTitleToListBodySchema
 } from "../models/validation-schemas/controller/list";
 import {
   createList as createListDomain,
   getUserLists as getUserListsDomain,
-  getList as getListDomain
+  getList as getListDomain,
+  addTitleToList as addTitleToListDomain
 } from "../domain/list";
 
 export const createList: Controller = async req => {
@@ -43,6 +45,19 @@ export const getList: Controller = async req => {
 
   //@ts-ignore
   const result = await getListDomain(id, user.id);
+
+  //Return success
+  return createResponse(result);
+};
+
+export const addTitleToList: Controller = async req => {
+  validateSchema(req.params, getListParamsSchema.required(), "list ID");
+  const { id: listId } = req.params;
+
+  validateSchema(req.body, addTitleToListBodySchema.required(), "title ID");
+  const { titleId } = req.body;
+
+  const result = await addTitleToListDomain(listId, titleId);
 
   //Return success
   return createResponse(result);
