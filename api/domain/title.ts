@@ -12,7 +12,8 @@ export const loadTitlesByExternalIds = async (
     dataSourceId: dataSources[titleExternalInput.dataSource.toUpperCase()],
     externalId: titleExternalInput.externalId,
     mediaTypeId: mediaTypes[titleExternalInput.mediaType.toUpperCase()],
-    title: titleExternalInput.title
+    title: titleExternalInput?.title,
+    meta: titleExternalInput?.metadata
   };
 
   //Retrieve info

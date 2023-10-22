@@ -32,11 +32,12 @@ export const loadTitleByExternalId = async (
   dataSource,
   externalId,
   mediaType,
-  title
+  title,
+  metadata
 ) => {
   const subPath = "/load-by-external";
 
-  const body = { dataSource, externalId, mediaType, title };
+  const body = { dataSource, externalId, mediaType, title, metadata };
 
   const result = await post(host, [proxyPath, basePath, subPath], body);
   if (result.ok) {

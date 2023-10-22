@@ -24,7 +24,7 @@ export default class Movie extends Title {
 
     //Expanded fields
     this.genres = input.genres;
-    this.posterPath = input.posterPath;
+    this.posterPath = input.meta?.imagePath || input.posterPath;
     this.status = input.status;
     this.runtime = input.runtime;
     this.tagline = input.tagline;
@@ -59,6 +59,10 @@ export default class Movie extends Title {
         this[key] = value;
       }
     });
+  }
+
+  imagePath() {
+    return this.posterPath;
   }
 
   getPosterUrl(width) {

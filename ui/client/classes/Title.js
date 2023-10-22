@@ -14,6 +14,11 @@ export default class Title {
     //Core properties
     this.id = params.id;
 
+    //Rating properties
+    this.rating = params.rating;
+    this.ratings = params.ratings;
+    this.userRating = params.userRating;
+
     //State properties
     this.isValidTitle = true;
     this.loading = isLoading;
@@ -49,13 +54,18 @@ export default class Title {
     }
   }
 
+  imagePath() {
+    return ""; //Empty string indicates that imagePath can be built without special identifier (e.g. uses externalId)
+  }
+
   async loadTitleByExternalId() {
     if (!this.id) {
       const result = await loadTitleByExternalId(
         this.infoClient.dataSourceKey,
         this.externalId,
         this.mediaType,
-        this.displayTitle()
+        this.title,
+        { imagePath: this.imagePath() }
       );
 
       this.id = result.titleId;

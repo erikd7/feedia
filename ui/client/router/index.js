@@ -4,6 +4,7 @@ import Feed from "../components/feed/Feed.vue";
 import Library from "../components/library/Library.vue";
 import Find from "../components/find/Find.vue";
 import Details from "../components/details/Details.vue";
+import List from "../components/shared/list/List";
 import { ROUTES } from "../util/constants/navigation";
 import {
   parseToken,
@@ -45,6 +46,13 @@ export const routes = [
     name: "Details",
     path: ROUTES.DETAILS + "/:mediaType/:id",
     component: Details,
+    props: true,
+    hideTab: true
+  },
+  {
+    name: "List",
+    path: ROUTES.LIST + "/:id",
+    component: List,
     props: true,
     hideTab: true
   }

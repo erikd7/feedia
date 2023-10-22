@@ -59,7 +59,7 @@ export default {
   },
   computed: {
     filteredSections() {
-      return this.sections.filter(s => !s.hideTab);
+      return this.sections.filter(s => !s.hideTab || this.isCurrent(s.name));
     },
     menuOptions() {
       return this.filteredSections

@@ -30,5 +30,8 @@
     "google": {
       "redirectUrl": "http://localhost:3000/auth/google"
     }
+  },
+  "errorBoundary": {
+    "show": false
   }
 }

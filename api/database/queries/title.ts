@@ -20,11 +20,12 @@ const queries = {
     dataSourceId,
     externalId,
     title,
-    mediaTypeId
+    mediaTypeId,
+    meta
   }: any) =>
     SQL(`select insert_title_by_external_id(
-      :dataSourceId, :externalId, :title, :mediaTypeId
-    ) "titleId"`)({ dataSourceId, externalId, title, mediaTypeId }),
+      :dataSourceId, :externalId, :title, :mediaTypeId, :meta
+    ) "titleId"`)({ dataSourceId, externalId, title, mediaTypeId, meta }),
 
   getTitleIdsByExternalIds: (externalTitleData: Array<any>) =>
     `

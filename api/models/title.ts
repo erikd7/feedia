@@ -1,17 +1,16 @@
-//@ts-ignore
-import Joi from "joi-oid";
-import validateSchema from "../util/validate";
-import { runQuery, queries } from "../database/postgres";
-import { ReasonPhrases } from "http-status-codes";
 import { DynamicId } from "../database/schemas";
 
 type TitleName = String;
+type Metadata = {
+  imagePath?: String;
+};
 
 export type TitleExternalInput = {
   dataSource: String;
   externalId: String;
   mediaType: String;
-  title?: TitleName;
+  title: TitleName;
+  metadata?: Metadata;
 };
 
 type TitleInput = {

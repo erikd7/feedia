@@ -3,7 +3,8 @@ create or replace function insert_title_by_external_id(
     dataSourceId int,
     externalId text,
     title text,
-    mediaTypeId int
+    mediaTypeId int,
+    meta jsonb
 )
 returns uuid as $$
 declare existingTitleId uuid;
@@ -22,6 +23,10 @@ begin
        --Insert the external ID map for the new title
        insert into title_external_id (title_id, data_source_id, external_id)
        values (newTitleId, dataSourceId, externalId);
+
+       --Insert metadata
+       insert into title_meta (title_id, meta)
+       values (newTitleId, meta);
       
        --Retun the new ID
        return newTitleId;
