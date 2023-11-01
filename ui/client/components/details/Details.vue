@@ -20,6 +20,7 @@ import MovieDetails from "../movie/MovieDetails";
 import { MEDIA_TYPES } from "../../util/constants/base";
 import { mapGetters, mapActions } from "vuex";
 import { createAndLoadDetailsById } from "../../classes/title-helper";
+import { ROUTES } from "../../util/constants/navigation";
 
 export default {
   components: { Loading, MediaTypeSwitcher },
@@ -60,7 +61,7 @@ export default {
       }
     },
     updateRoute(id) {
-      const path = `/${this.$router.currentRoute._value.params.mediaType}/${id}`;
+      const path = `${ROUTES.DETAILS}/${this.$router.currentRoute._value.params.mediaType}/${id}`;
 
       this.$router.push(path);
     }

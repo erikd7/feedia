@@ -4,7 +4,7 @@
       <template #title>
         <p class="text-base break-all">{{ name }}</p>
       </template>
-      <template #content> </template>
+      <template #content></template>
     </Card>
   </div>
 </template>

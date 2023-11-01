@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import TileGrid from "../title/tile/TileGrid";
 import MoviePoster from "./MoviePoster";
 import Chip from "primevue/chip";
 import DotSeparatedInfo from "../shared/info/DotSeparatedInfo";
@@ -46,7 +45,7 @@ import { truncate } from "../../util/format/text";
 import Movie from "../../classes/Movie";
 
 export default {
-  components: { TileGrid, MoviePoster, Chip, DotSeparatedInfo },
+  components: { MoviePoster, Chip, DotSeparatedInfo },
   props: {
     wrapper: {
       type: Object,

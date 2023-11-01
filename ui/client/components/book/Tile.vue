@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import TileGrid from "../title/tile/TileGrid";
 import BookCover from "./BookCover";
 import MediaTypeIcon from "../navigation/MediaTypeIcon.vue";
 import Chip from "primevue/chip";
@@ -55,7 +54,6 @@ import { MEDIA_TYPES } from "../../util/constants/base";
 
 export default {
   components: {
-    TileGrid,
     BookCover,
     MediaTypeIcon,
     Chip,
