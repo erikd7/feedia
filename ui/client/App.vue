@@ -1,5 +1,8 @@
 <template>
   <div class="top">
+    <Toast position="top-left" group="tl" />
+    <Toast position="bottom-left" group="bl" />
+    <Toast position="bottom-right" group="br" />
     <ErrorBoundary>
       <div class="menu-pane">
         <NavBar :sections="routes" :current="currentRoute" />
@@ -14,16 +17,14 @@
 </template>
 
 <script>
+import Toast from "primevue/toast";
 import ErrorBoundary from "./components/shared/error/ErrorBoundary";
 import NavBar from "./components/navigation/NavBar";
 import { routes } from "./router/index";
 
 export default {
   name: "App",
-  components: {
-    NavBar,
-    ErrorBoundary
-  },
+  components: { Toast, NavBar, ErrorBoundary },
   computed: {
     routes() {
       return routes;

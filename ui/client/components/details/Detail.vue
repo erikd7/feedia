@@ -7,9 +7,12 @@
       </div>
       <div class="flex flex-column justify-between">
         <div class="card-section">
-          <p class="font-bold text-xl">
-            <slot name="title" />
-          </p>
+          <div class="flex flex-row">
+            <MediaTypeIcon :mediaType="title.mediaType" />
+            <p class="font-bold text-xl">
+              <slot name="title" />
+            </p>
+          </div>
           <slot name="subHeader" />
         </div>
         <slot name="rating">
@@ -31,11 +34,12 @@
 </template>
 
 <script>
-import RatingInfo from "../title/rating/RatingInfo.vue";
+import RatingInfo from "../title/rating/RatingInfo";
 import Loading from "../shared/Loading";
+import MediaTypeIcon from "../navigation/MediaTypeIcon";
 
 export default {
-  components: { RatingInfo, Loading },
+  components: { RatingInfo, Loading, MediaTypeIcon },
   props: {
     onClickImage: {
       type: Function,

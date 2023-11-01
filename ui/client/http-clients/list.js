@@ -1,4 +1,4 @@
-import { get } from "../util/http.js";
+import { get, put } from "../util/http.js";
 import config from "../../config/build.js";
 
 const { proxyPath } = config.api;
@@ -22,4 +22,14 @@ export const getList = async id => {
   } else {
     throw Error(result.message);
   }
+};
+
+export const addTitleToList = async (listId, titleId) => {
+  const subpath = "title";
+  const body = { titleId };
+  const result = await put(host, [proxyPath, basePath, listId, subpath], body);
+  if (result.ok) {
+    return result.data;
+  }
+  throw Error(result.message);
 };
