@@ -13,7 +13,7 @@
         @error="onError"
       />
       <div v-if="loaded" class="absolute top-0">
-        <slot name="imageAction" :hovered="hovered" />
+        <slot name="imageAction" :hovered="hovered || isMobile" />
       </div>
     </div>
     <div v-if="!loaded" class="h-full">

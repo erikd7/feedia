@@ -9,6 +9,7 @@ import store from "./store/store";
 import { mixin as clickaway } from "vue3-click-away";
 import MobileMixin from "./components/shared/mixins/MobileMixin";
 import ConfigMixin from "./components/shared/mixins/ConfigMixin";
+import ToastService from "primevue/toastservice";
 
 //Helpers
 import { getEnv } from "../config/build";
@@ -39,6 +40,7 @@ app.use(store);
 app.mixin(clickaway);
 app.mixin(ConfigMixin);
 app.mixin(MobileMixin);
+app.use(ToastService);
 
 //Style
 app.component("font-awesome-icon", FontAwesomeIcon);

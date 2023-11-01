@@ -12,7 +12,7 @@
           </p>
         </template>
       </Tile>
-      <Tile class="cursor-pointer" @click="() => toggleEdit()">
+      <Tile class="cursor-pointer hover:ring" @click="() => toggleEdit()">
         <template v-slot:header>
           <div>Me</div>
         </template>

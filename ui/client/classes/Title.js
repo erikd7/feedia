@@ -4,6 +4,7 @@ import {
   setUserTitleRating,
   getTitleInfo
 } from "../http-clients/title";
+import { addTitleToList } from "../http-clients/list";
 
 export default class Title {
   isValidTitle;
@@ -99,6 +100,11 @@ export default class Title {
     if (this.externalId) {
       return this.infoClient.getDetails(this.externalId);
     }
+  }
+
+  //Actions
+  addToList(listId) {
+    return addTitleToList(listId, this.id);
   }
 
   //Display info

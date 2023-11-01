@@ -1,7 +1,13 @@
 <template>
   <Detail v-bind="{ ...detailProps, title: movie }">
     <template v-slot:photo>
-      <MoviePoster :movie="movie" />
+      <MoviePoster :movie="movie">
+        <template v-slot:coverAction="{ hovered }">
+          <div v-show="hovered">
+            <ActionBar :title="movie" />
+          </div>
+        </template>
+      </MoviePoster>
     </template>
     <template v-slot:title>
       {{ title }}

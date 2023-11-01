@@ -3,7 +3,9 @@
     <template v-slot:photo>
       <BookCover :book="book">
         <template v-slot:coverAction="{ hovered }">
-          <MediaTypeIcon v-if="hovered" :mediaType="mediaType" />
+          <div v-show="hovered">
+            <ActionBar :title="book" />
+          </div>
         </template>
       </BookCover>
     </template>
@@ -46,13 +48,21 @@
 import Detail from "../details/Detail.vue";
 import BookCover from "./BookCover";
 import MediaTypeIcon from "../navigation/MediaTypeIcon.vue";
+import ActionBar from "../title/action/ActionBar";
 import Chip from "primevue/chip";
 import DotSeparatedInfo from "../shared/info/DotSeparatedInfo.vue";
 import { truncate } from "../../util/format/text";
 import { MEDIA_TYPES } from "../../util/constants/base";
 
 export default {
-  components: { Detail, BookCover, MediaTypeIcon, Chip, DotSeparatedInfo },
+  components: {
+    Detail,
+    BookCover,
+    MediaTypeIcon,
+    ActionBar,
+    Chip,
+    DotSeparatedInfo
+  },
   props: {
     book: {
       type: Object,
