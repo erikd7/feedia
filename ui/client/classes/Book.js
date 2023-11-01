@@ -13,7 +13,7 @@ export default class Book extends Title {
     this.authors = input.authors;
     this.firstPublishYear = input.firstPublishYear;
     this.openLibraryEditionKey = input.openLibraryEditionKey;
-    this.externalId = this.openLibraryEditionKey || input.externalId;
+    this.externalId = input.openLibraryEditionKey || input.externalId;
     //Expanded fields
     this.descriptions = input.description;
     this.firstSentence = input.firstSentence;
