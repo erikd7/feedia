@@ -1,28 +1,19 @@
 import { DynamicId } from "../database/schemas";
 
 type TitleName = String;
-type Metadata = {
-  imagePath?: String;
-};
 
 export type TitleExternalInput = {
   dataSource: String;
   externalId: String;
   mediaType: String;
   title: TitleName;
-  metadata?: Metadata;
+  metadata?: any;
 };
 
 type TitleInput = {
   id?: DynamicId;
   mediaType?: Number;
   title?: TitleName;
-};
-
-type TitleDatabaseRow = {
-  id: DynamicId;
-  title: TitleName;
-  mediaType: Number;
 };
 
 export default class Title {

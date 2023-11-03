@@ -39,7 +39,6 @@ export default {
       return [
         {
           label: "Add to List",
-          loadingSubmenuItems: this.loadedUserLists,
           icon: "pi pi-fw pi-file",
           items: this.userListMenus
         }

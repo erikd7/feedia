@@ -10,7 +10,7 @@ export default class Title {
   isValidTitle;
   id;
   loading;
-
+  title;
   constructor(params, dataLevel, isLoading = false) {
     //Core properties
     this.id = params.id;
@@ -49,6 +49,9 @@ export default class Title {
       this.title = result.title;
       this.dataSource = result.dataSource;
       this.externalId = result.externalId;
+      Object.entries(result.meta).forEach(([key, value]) => {
+        this[key] = value;
+      });
     } else {
       //If no ID, load by external
       this.loadTitleByExternalId();
@@ -59,6 +62,18 @@ export default class Title {
     return ""; //Empty string indicates that imagePath can be built without special identifier (e.g. uses externalId)
   }
 
+  externalDataToSave() {
+    return {};
+  }
+  defaultExternalDataToSave() {
+    return { imagePath: this.imagePath() };
+  }
+  getExternalDataToSave() {
+    return {
+      ...this.defaultExternalDataToSave(),
+      ...this.externalDataToSave()
+    };
+  }
   async loadTitleByExternalId() {
     if (!this.id) {
       const result = await loadTitleByExternalId(
@@ -66,7 +81,7 @@ export default class Title {
         this.externalId,
         this.mediaType,
         this.title,
-        { imagePath: this.imagePath() }
+        this.getExternalDataToSave()
       );
 
       this.id = result.titleId;

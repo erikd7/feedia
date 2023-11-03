@@ -41,6 +41,18 @@ export default class Movie extends Title {
     return this.infoClient.getDetails(this.externalId, includeCredits);
   }
 
+  externalDataToSave() {
+    return {
+      year: this.year,
+      firstPublishYear: this.firstPublishYear,
+      runtime: this.runtime,
+      description: this.description,
+      tagline: this.tagline,
+      genres: this.genres,
+      directors: this.directors
+    };
+  }
+
   async addDetails(includeCredits = true) {
     //If details have not yet been retrieved
     if (
