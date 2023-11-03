@@ -9,10 +9,12 @@ const queries = {
       t.title,
       t.media_type_id "mediaTypeId",
       ds."key" "dataSource",
-      tei.external_id "externalId" 
+      tei.external_id "externalId",
+      tm.meta
     from title t 
     join title_external_id tei on tei.title_id = t.id
-    join data_source ds on ds.id = tei.data_source_id 
+    join data_source ds on ds.id = tei.data_source_id
+    join title_meta tm on tm.title_id = t.id
     where t.id = :id
   `)({ id }),
 

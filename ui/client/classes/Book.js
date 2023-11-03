@@ -24,6 +24,17 @@ export default class Book extends Title {
     this.clean();
   }
 
+  externalDataToSave() {
+    return {
+      authors: this.authors,
+      firstPublishYear: this.firstPublishYear,
+      medianPages: this.medianPages,
+      descriptions: this.descriptions,
+      firstSentence: this.firstSentence,
+      subjects: this.subjects
+    };
+  }
+
   //Cleaner functions
   dedupeAuthors() {
     if (this.authors?.length > 1) {

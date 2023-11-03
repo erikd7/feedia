@@ -16,7 +16,7 @@ export const loadTitlesByExternalIds = async (
     meta: titleExternalInput?.metadata
   };
 
-  //Retrieve info
+  //Set info in DB
   const result = await runQuery(
     queries.insertTitleByExternalId(titleInfo),
     "title",

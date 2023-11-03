@@ -14,7 +14,6 @@ import { runQuery, queries } from "../database/postgres";
 export const getTitleInfo: Controller = async req => {
   const { id } = req.params;
 
-  //@ts-ignore
   const result = await runQuery(queries.getTitleInfo(id), "title", true);
 
   //Return success

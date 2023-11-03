@@ -9,7 +9,7 @@ const basePath = "/title";
 export const getTitleInfo = async id => {
   const result = await get(host, [proxyPath, basePath, id]);
   if (result.ok) {
-    return result.data; // {[dataSourceKey]: externalId}
+    return result.data;
   } else {
     throw Error(result.message);
   }
