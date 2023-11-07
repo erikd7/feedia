@@ -1,12 +1,10 @@
 <template>
-  <div>
-    <Card class="w-40 h-20" @click="openList">
-      <template #title>
-        <p class="text-base break-all">{{ name }}</p>
-      </template>
-      <template #content></template>
-    </Card>
-  </div>
+  <Card class="w-40 h-20" @click="openList" :title="name">
+    <template #title>
+      <p class="text-base break-all">{{ name }}</p>
+    </template>
+    <template #content></template>
+  </Card>
 </template>
 
 <script>

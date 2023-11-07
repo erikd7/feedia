@@ -60,7 +60,7 @@ CREATE INDEX title_external_id_title_id ON public.title_external_id (title_id);
 --User-Title Lists
 create table if not exists public.list (
   	id UUID not null primary key default generate_ulid(),
-	name varchar(255),
+	name varchar(75),
 	user_id UUID not null,
 	foreign key (user_id) references users(id)
 );

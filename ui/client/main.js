@@ -10,6 +10,8 @@ import { mixin as clickaway } from "vue3-click-away";
 import MobileMixin from "./components/shared/mixins/MobileMixin";
 import ConfigMixin from "./components/shared/mixins/ConfigMixin";
 import ToastService from "primevue/toastservice";
+import Tooltip from "primevue/tooltip";
+import FocusTrap from "primevue/focustrap";
 
 //Helpers
 import { getEnv } from "../config/build";
@@ -41,6 +43,8 @@ app.mixin(clickaway);
 app.mixin(ConfigMixin);
 app.mixin(MobileMixin);
 app.use(ToastService);
+app.directive("tooltip", Tooltip);
+app.directive("focustrap", FocusTrap);
 
 //Style
 app.component("font-awesome-icon", FontAwesomeIcon);
