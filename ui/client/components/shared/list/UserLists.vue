@@ -1,5 +1,5 @@
 <template>
-  <Lists :lists="lists" />
+  <Lists :lists="lists" :showCreate="true" @formComplete="getUserLists" />
 </template>
 
 <script>
