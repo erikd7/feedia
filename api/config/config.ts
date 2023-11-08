@@ -19,7 +19,7 @@ const buildConfig = (env = getEnv()) => {
   const overrideConfigs = getConfigForEnv(env);
 
   //If in dev and local network mode is set, use local network config
-  if (env === "dev" && process.env.USE_LOCAL_NETWORK === "true") {
+  if (env === "dev" && process.env.VUE_APP_USE_LOCAL_NETWORK === "true") {
     overrideConfigs.push(localNetworkConfig);
   }
 
