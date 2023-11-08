@@ -1,5 +1,14 @@
 <template>
   <div>
+    <Dialog
+      modal
+      v-model:visible="editModalVisible"
+      header="Edit List"
+      :style="{ width: '70vw' }"
+      :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
+    >
+      <ListForm @complete="onFormComplete" class="mt-4" :list="list" />
+    </Dialog>
     <Loading v-if="loading" />
     <div v-else class="m-3">
       <DataView :value="titles" :layout="layout">
@@ -8,6 +17,12 @@
             class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight capitalize"
           >
             {{ name }}
+            <font-awesome-icon
+              class="text-gray-600 m-1 cursor-pointer"
+              icon="pencil"
+              title="Edit list information"
+              @click="showEditModal"
+            />
           </h2>
           <div class="flex justify-content-end">
             <DataViewLayoutOptions v-model="layout" />
@@ -45,6 +60,8 @@
 </template>
 
 <script>
+import Dialog from "primevue/dialog";
+import ListForm from "./Form";
 import DataView from "primevue/dataview";
 import DataViewLayoutOptions from "primevue/dataviewlayoutoptions";
 import MediaTypeSwitcher from "../media-type/MediaTypeSwitcher2";
@@ -60,14 +77,15 @@ import { create } from "../../../classes/title-helper";
 export default {
   data() {
     return {
+      editModalVisible: false,
       loading: false,
-      name: null,
-      owningUserId: null,
-      titles: [],
-      layout: "list"
+      layout: "list",
+      list: {}
     };
   },
   components: {
+    Dialog,
+    ListForm,
     Loading,
     TileGrid,
     TileList,
@@ -92,6 +110,12 @@ export default {
     },
     TileGrid() {
       return TileGrid;
+    },
+    name() {
+      return this.list.name;
+    },
+    titles() {
+      return this.list.titles;
     }
   },
   methods: {
@@ -99,15 +123,28 @@ export default {
       try {
         this.loading = true;
         const result = await getList(this.id);
-        this.name = result.name;
-        this.owningUserId = result.userId;
-        this.titles = result.titles.map(t => create(t.mediaType, t));
+        this.list = {
+          id: result.id,
+          name: result.name,
+          owningUserId: result.userId,
+          titles: result.titles.map(t => create(t.mediaType, t))
+        };
       } catch (e) {
         console.error(e.message);
         throw e;
       } finally {
         this.loading = false;
       }
+    },
+    showEditModal() {
+      this.editModalVisible = true;
+    },
+    closeEditModal() {
+      this.editModalVisible = false;
+    },
+    onFormComplete() {
+      this.getDetails();
+      this.closeEditModal();
     }
   },
   mounted() {

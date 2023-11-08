@@ -41,6 +41,13 @@ export const getList = async (id: DynamicId, userId: DynamicId) => {
   return result.list;
 };
 
+export const updateList = async (id: DynamicId, name: string) => {
+  //Retrieve info
+  const result = await runQuery(queries.list.update(id, name), "list", true);
+
+  return result.list;
+};
+
 export const addTitleToList = async (listId: DynamicId, titleId: DynamicId) => {
   let result;
   try {

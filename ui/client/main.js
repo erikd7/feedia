@@ -18,6 +18,9 @@ import { getEnv } from "../config/build";
 
 //Style
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
+
 import PrimeVue from "primevue/config";
 import "./public/themes/index.css";
 import "./public/themes/main.css";
@@ -48,6 +51,8 @@ app.directive("focustrap", FocusTrap);
 
 //Style
 app.component("font-awesome-icon", FontAwesomeIcon);
+library.add(faPencil);
+
 app.use(PrimeVue, { ripple: true });
 
 app.mount("#app");
