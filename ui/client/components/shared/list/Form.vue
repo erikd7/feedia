@@ -8,12 +8,11 @@
           v-model="name"
           @blur="nameVisited = true"
           autofocus
-          class="w-40"
           :class="{
             'p-invalid': nameVisited && !nameValid
           }"
           :pt="{
-            root: { autocomplete: 'off' }
+            root: { autocomplete: 'off', class: 'w-5/6 max-w-sm' }
           }"
         />
         <label for="name">Name</label>
@@ -44,14 +43,14 @@
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import { createList } from "../../../http-clients/list";
+import { LIST_NAME_MAX_LENGTH } from "../../../util/constants/list";
 
 export default {
   emits: ["complete"],
   data() {
     return {
       name: this.list.name,
-      nameVisited: false,
-      nameMaxLength: 75
+      nameVisited: false
     };
   },
   components: { Button, InputText },
@@ -62,6 +61,9 @@ export default {
     }
   },
   computed: {
+    nameMaxLength() {
+      return LIST_NAME_MAX_LENGTH;
+    },
     nameValid() {
       return this.name?.length && this.name.length <= this.nameMaxLength;
     },

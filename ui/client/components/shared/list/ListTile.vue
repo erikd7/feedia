@@ -1,7 +1,7 @@
 <template>
-  <Card class="w-40 h-20" @click="openList" :title="name">
+  <Card class="w-48 h-20 p-1" @click="openList" :title="name">
     <template #title>
-      <p class="text-base break-all">{{ name }}</p>
+      <p class="text-base break-word">{{ truncatedName }}</p>
     </template>
     <template #content></template>
   </Card>
@@ -10,6 +10,7 @@
 <script>
 import Card from "primevue/card";
 import { ROUTES } from "../../../util/constants/navigation";
+import { truncate } from "../../../util/format/text";
 
 export default {
   components: { Card },
@@ -23,6 +24,11 @@ export default {
       required: true
     }
   },
+  computed: {
+    truncatedName() {
+      return truncate(this.name, 60);
+    }
+  },
   methods: {
     openList() {
       this.$router.push(ROUTES.LIST + "/" + this.id);
@@ -30,3 +36,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+:deep(.p-card-body) {
+  padding: 0px !important;
+}
+</style>
