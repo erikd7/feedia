@@ -32,7 +32,7 @@
           rounded
           @click="save"
           class="justify-end"
-          :disabled="!valid"
+          :disabled="!allowSave"
         />
       </span>
     </div>
@@ -42,7 +42,7 @@
 <script>
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
-import { createList } from "../../../http-clients/list";
+import { createList, updateList } from "../../../http-clients/list";
 import { LIST_NAME_MAX_LENGTH } from "../../../util/constants/list";
 
 export default {
@@ -56,8 +56,8 @@ export default {
   components: { Button, InputText },
   props: {
     list: {
-      type: String,
-      default: ""
+      type: Object,
+      default: () => {}
     }
   },
   computed: {
@@ -70,15 +70,43 @@ export default {
     valid() {
       return this.nameValid;
     },
+    hasChanged() {
+      return this.name !== this.list.name;
+    },
+    allowSave() {
+      //If edit and hasn't changed, don't allow save
+      if (this.isExisting && !this.hasChanged) {
+        return false;
+      }
+
+      return this.valid;
+    },
     tooltip() {
-      if (this.valid) {
+      if (this.allowSave) {
         return "Save the list";
       }
+      if (this.isExisting && !this.hasChanged) {
+        return "No changes have been made";
+      }
       return "Correct the invalid fields";
+    },
+    isExisting() {
+      return Boolean(this.list.id);
     }
   },
   methods: {
     async save() {
+      //Create OR update
+      if (this.isExisting) {
+        await this.update();
+      } else {
+        await this.create();
+      }
+
+      //Emit complete event for parent to handle
+      this.complete();
+    },
+    async create() {
       try {
         await createList(this.name);
         this.$toast.add({
@@ -95,9 +123,24 @@ export default {
           group: "bl"
         });
       }
-
-      //Emit complete event for parent to handle
-      this.complete();
+    },
+    async update() {
+      try {
+        await updateList(this.list.id, this.name);
+        this.$toast.add({
+          severity: "success",
+          summary: `Updated list ${this.name}`,
+          life: 3000,
+          group: "bl"
+        });
+      } catch (error) {
+        this.$toast.add({
+          severity: "error",
+          summary: `Unable to update list ${this.name}`,
+          life: 3000,
+          group: "bl"
+        });
+      }
     },
     complete() {
       this.$emit("complete");

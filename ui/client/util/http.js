@@ -57,6 +57,22 @@ const poster = async (useTokenAuth, host, paths, body, queryParams) => {
   }
 };
 
+export const patch = (...args) => patcher(true, ...args);
+const patcher = async (useTokenAuth, host, paths, body, queryParams) => {
+  let url;
+  try {
+    url = urlBuilder(host, paths, queryParams);
+    const response = await http.patch(url, body, {
+      headers: getAuthHeaders(useTokenAuth)
+    });
+
+    return responseHandler(response);
+  } catch (error) {
+    console.error(`Error in axios PATCH at url '${url}'. Message: ${error}`);
+    return { ok: false, message: error.message };
+  }
+};
+
 export const put = (...args) => putter(true, ...args);
 const putter = async (useTokenAuth, host, paths, body, queryParams) => {
   let url;

@@ -1,4 +1,4 @@
-import { get, put, post } from "../util/http.js";
+import { get, put, post, patch } from "../util/http.js";
 import config from "../../config/build.js";
 
 const { proxyPath } = config.api;
@@ -37,6 +37,15 @@ export const addTitleToList = async (listId, titleId) => {
 export const createList = async name => {
   const body = { name };
   const result = await post(host, [proxyPath, basePath], body);
+  if (result.ok) {
+    return result.data;
+  }
+  throw Error(result.message);
+};
+
+export const updateList = async (id, name) => {
+  const body = { name };
+  const result = await patch(host, [proxyPath, basePath, id], body);
   if (result.ok) {
     return result.data;
   }

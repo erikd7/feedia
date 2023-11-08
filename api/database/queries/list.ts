@@ -34,6 +34,13 @@ const queries = {
       group by l.id, l.name, l."userId"
     `,
 
+  update: (id: DynamicId, listName: string) =>
+    SQL`
+      update list
+      set name = ${listName}
+      where id = ${id}
+    `,
+
   addTitleToList: (listId: DynamicId, titleId: DynamicId) =>
     SQL`
       insert into list_title (list_id, title_id) values
