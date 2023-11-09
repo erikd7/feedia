@@ -41,15 +41,28 @@ export const getList = async (id: DynamicId, userId: DynamicId) => {
   return result.list;
 };
 
-export const updateList = async (id: DynamicId, name: string) => {
-  //Retrieve info
+export const updateList = async (
+  id: DynamicId,
+  userId: DynamicId,
+  name: string
+) => {
+  //Check access
+  await checkAccess(id, userId);
+
   const result = await runQuery(queries.list.update(id, name), "list", true);
 
   return result.list;
 };
 
-export const addTitleToList = async (listId: DynamicId, titleId: DynamicId) => {
+export const addTitleToList = async (
+  listId: DynamicId,
+  userId: DynamicId,
+  titleId: DynamicId
+) => {
   let result;
+  //Check access
+  await checkAccess(listId, userId);
+
   try {
     result = await runQuery(queries.list.addTitleToList(listId, titleId));
   } catch (err) {
@@ -76,6 +89,38 @@ export const addTitleToList = async (listId: DynamicId, titleId: DynamicId) => {
     throw new ApiError(
       "List not found.",
       ReasonPhrases.NOT_FOUND,
+      "Retrieving list"
+    );
+  }
+};
+
+export const deleteList = async (
+  listId: DynamicId,
+  deletingUserId: DynamicId
+) => {
+  //Check access
+  await checkAccess(listId, deletingUserId);
+
+  const result = await runQuery(queries.list.delete(listId), "list", true);
+
+  return result.list;
+};
+
+//Ensures the acting user is the list owner
+const checkAccess = async (listId: DynamicId, userId: DynamicId) => {
+  //Retrieve existing list info
+  const existingListResult = await runQuery(
+    queries.list.get(listId),
+    "list",
+    true
+  );
+
+  const listOwnerId = existingListResult.list.userId;
+
+  if (!listOwnerId || listOwnerId !== userId) {
+    throw new ApiError(
+      "User is not the list owner and does not have access",
+      ReasonPhrases.FORBIDDEN,
       "Retrieving list"
     );
   }

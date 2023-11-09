@@ -18,10 +18,16 @@
           >
             {{ name }}
             <font-awesome-icon
-              class="text-gray-600 m-1 cursor-pointer"
+              class="text-gray-600 m-1 cursor-pointer hover-grow"
               icon="pencil"
               title="Edit list information"
               @click="showEditModal"
+            />
+            <font-awesome-icon
+              class="text-red-300 m-1 cursor-pointer hover-grow"
+              icon="trash"
+              title="Delete list"
+              @click="deleteWithConfirmation"
             />
           </h2>
           <div class="flex justify-content-end">
@@ -33,10 +39,20 @@
           <div class="col-12 p-2">
             <MediaTypeSwitcher :mediaType="data.mediaType">
               <template v-slot:[MEDIA_TYPES.BOOK]>
-                <BookTile :wrapper="TileList" :book="data" />
+                <BookTile
+                  :wrapper="TileList"
+                  :book="data"
+                  @click="() => openTitleDetails(data)"
+                  class="cursor-pointer"
+                />
               </template>
               <template v-slot:[MEDIA_TYPES.MOVIE]>
-                <MovieTile :wrapper="TileList" :movie="data" />
+                <MovieTile
+                  :wrapper="TileList"
+                  :movie="data"
+                  @click="() => openTitleDetails(data)"
+                  class="cursor-pointer"
+                />
               </template>
             </MediaTypeSwitcher>
           </div>
@@ -70,9 +86,12 @@ import TileGrid from "../../title/tile/TileGrid.vue";
 import TileList from "../../title/tile/TileList.vue";
 import BookTile from "../../book/Tile";
 import MovieTile from "../../movie/Tile";
+import { mapActions } from "vuex";
 import { MEDIA_TYPES } from "../../../util/constants/base";
-import { getList } from "../../../http-clients/list";
+import { getList, deleteList } from "../../../http-clients/list";
 import { create } from "../../../classes/title-helper";
+import { truncate } from "../../../util/format/text";
+import { ROUTES } from "../../../util/constants/navigation";
 
 export default {
   data() {
@@ -119,6 +138,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions("details", ["setSelected"]),
     async getDetails() {
       try {
         this.loading = true;
@@ -131,7 +151,10 @@ export default {
         };
       } catch (e) {
         console.error(e.message);
-        throw e;
+        if (e.message?.includes("404")) {
+          this.redirectToLibrary();
+        }
+        throw Error("Unable to get list information");
       } finally {
         this.loading = false;
       }
@@ -145,6 +168,51 @@ export default {
     onFormComplete() {
       this.getDetails();
       this.closeEditModal();
+    },
+    openTitleDetails(title) {
+      this.setSelected(title);
+
+      this.$router.push({
+        name: "Details",
+        params: {
+          mediaType: title.mediaType.toLowerCase(),
+          id: title.routeId()
+        }
+      });
+    },
+    deleteWithConfirmation() {
+      this.$confirm.require({
+        message: "Are you sure you want to delete the list?",
+        header: `Delete ${truncate(this.name, 30)}`,
+        icon: "pi pi-exclamation-triangle",
+        accept: () => {
+          this.deleteList();
+        }
+      });
+    },
+    async deleteList() {
+      try {
+        await deleteList(this.list.id);
+        this.$toast.add({
+          severity: "success",
+          summary: `Deleted ${this.name}`,
+          life: 3000,
+          group: "bl"
+        });
+        this.redirectToLibrary();
+      } catch (e) {
+        console.log(e);
+        this.$toast.add({
+          severity: "error",
+          summary: `Unable to delete the list`,
+          life: 3000,
+          group: "bl"
+        });
+        throw Error(`Failed to delete list`);
+      }
+    },
+    redirectToLibrary() {
+      this.$router.push(ROUTES.LIBRARY);
     }
   },
   mounted() {

@@ -35,12 +35,6 @@ export default {
         ...MEDIA_TYPE_DISPLAY[mt],
         key: mt
       }));
-    },
-    items() {
-      return Object.entries(MEDIA_TYPE_DISPLAY).map(([key, info]) => ({
-        label: info.name,
-        icon: info.icon
-      }));
     }
   },
   methods: {

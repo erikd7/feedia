@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @click="stopEvent">
     <div class="flex flex-row m-1">
       <Tile>
         <template v-slot:header>
@@ -56,6 +56,7 @@ import Rating from "primevue/rating";
 import DotSeparatedInfo from "../../shared/info/DotSeparatedInfo";
 import UserAvatar from "../../login/UserAvatar";
 import Tile from "../../shared/info/Tile";
+import { stopEvent } from "../../../util/event";
 
 export default {
   props: {
@@ -96,6 +97,7 @@ export default {
     }
   },
   methods: {
+    stopEvent,
     toggleEdit(forcedValue) {
       const newValue =
         typeof forcedValue !== "undefined" ? forcedValue : !this.showEdit;

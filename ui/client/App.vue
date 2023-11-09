@@ -3,6 +3,7 @@
     <Toast position="top-left" group="tl" />
     <Toast position="bottom-left" group="bl" />
     <Toast position="bottom-right" group="br" />
+    <ConfirmDialog />
     <ErrorBoundary>
       <div class="menu-pane">
         <NavBar :sections="routes" :current="currentRoute" />
@@ -18,13 +19,14 @@
 
 <script>
 import Toast from "primevue/toast";
+import ConfirmDialog from "primevue/confirmdialog";
 import ErrorBoundary from "./components/shared/error/ErrorBoundary";
 import NavBar from "./components/navigation/NavBar";
 import { routes } from "./router/index";
 
 export default {
   name: "App",
-  components: { Toast, NavBar, ErrorBoundary },
+  components: { Toast, ConfirmDialog, NavBar, ErrorBoundary },
   computed: {
     routes() {
       return routes;
