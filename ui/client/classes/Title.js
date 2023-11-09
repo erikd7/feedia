@@ -11,7 +11,7 @@ export default class Title {
   id;
   loading;
   title;
-  constructor(params, dataLevel, isLoading = false) {
+  constructor(params, dataLevel, { isLoading = false } = {}) {
     //Core properties
     this.id = params.id;
 
@@ -32,6 +32,7 @@ export default class Title {
 
   //Retrieve data from scratch for empty object
   async loadDetails() {
+    this.loading = true;
     await this.getTitleInfo(); //Get base info, required for some subsequent calls
     await Promise.all([
       this.getRatingInfo(),

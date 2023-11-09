@@ -5,7 +5,8 @@ import {
   getUserLists,
   getList,
   updateList,
-  addTitleToList
+  addTitleToList,
+  deleteList
 } from "../controllers/list";
 
 const router: Router = createRouter();
@@ -24,5 +25,8 @@ router.buildRoute("patch", "/:id", "updating list details", updateList);
 
 //Add title to list
 router.buildRoute("put", "/:id/title", "adding title to list", addTitleToList);
+
+//Delete list
+router.buildRoute("delete", "/:id", "deleting title", deleteList);
 
 export default router;

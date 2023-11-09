@@ -16,6 +16,13 @@ const queries = {
       where "userId" = ${userId}
     `,
 
+  get: (id: DynamicId) =>
+    SQL`
+      select *
+      from v_list l
+      where l.id = ${id}
+    `,
+
   getDetails: (id: DynamicId, userId: DynamicId) =>
     SQL`
       with title_info as (
@@ -26,7 +33,7 @@ const queries = {
       )
       select
         l.*,
-        jsonb_agg(t.*) "titles"
+        COALESCE(json_agg(t.*) FILTER (WHERE t.id IS NOT NULL), '[]') "titles"
       from v_list l
       left join list_title lt on l.id = lt.list_id
       left join title_info t on lt.title_id = t.id
@@ -45,6 +52,13 @@ const queries = {
     SQL`
       insert into list_title (list_id, title_id) values
       (${listId}, ${titleId})
+    `,
+
+  delete: (id: DynamicId) =>
+    SQL`
+      delete
+      from list 
+      where id = ${id}
     `
 };
 

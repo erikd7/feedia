@@ -89,6 +89,22 @@ const putter = async (useTokenAuth, host, paths, body, queryParams) => {
   }
 };
 
+export const _delete = (...args) => deleter(true, ...args);
+const deleter = async (useTokenAuth, host, paths, queryParams) => {
+  let url;
+  try {
+    url = urlBuilder(host, paths, queryParams);
+    const response = await http.delete(url, {
+      headers: getAuthHeaders(useTokenAuth)
+    });
+
+    return responseHandler(response);
+  } catch (error) {
+    console.error(`Error in axios DELETE at url '${url}'. Message: ${error}`);
+    return { ok: false, message: error.message };
+  }
+};
+
 export const urlBuilder = (host, paths = [], queryParams = {}) => {
   let url = host;
 

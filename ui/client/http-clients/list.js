@@ -1,4 +1,4 @@
-import { get, put, post, patch } from "../util/http.js";
+import * as http from "../util/http.js";
 import config from "../../config/build.js";
 
 const { proxyPath } = config.api;
@@ -7,7 +7,7 @@ const { host } = config.proxy;
 const basePath = "/user/list";
 
 export const getUserLists = async () => {
-  const result = await get(host, [proxyPath, basePath]);
+  const result = await http.get(host, [proxyPath, basePath]);
   if (result.ok) {
     return result.data;
   } else {
@@ -16,7 +16,7 @@ export const getUserLists = async () => {
 };
 
 export const getList = async id => {
-  const result = await get(host, [proxyPath, basePath, id]);
+  const result = await http.get(host, [proxyPath, basePath, id]);
   if (result.ok) {
     return result.data;
   } else {
@@ -27,7 +27,11 @@ export const getList = async id => {
 export const addTitleToList = async (listId, titleId) => {
   const subpath = "title";
   const body = { titleId };
-  const result = await put(host, [proxyPath, basePath, listId, subpath], body);
+  const result = await http.put(
+    host,
+    [proxyPath, basePath, listId, subpath],
+    body
+  );
   if (result.ok) {
     return result.data;
   }
@@ -36,7 +40,7 @@ export const addTitleToList = async (listId, titleId) => {
 
 export const createList = async name => {
   const body = { name };
-  const result = await post(host, [proxyPath, basePath], body);
+  const result = await http.post(host, [proxyPath, basePath], body);
   if (result.ok) {
     return result.data;
   }
@@ -45,7 +49,15 @@ export const createList = async name => {
 
 export const updateList = async (id, name) => {
   const body = { name };
-  const result = await patch(host, [proxyPath, basePath, id], body);
+  const result = await http.patch(host, [proxyPath, basePath, id], body);
+  if (result.ok) {
+    return result.data;
+  }
+  throw Error(result.message);
+};
+
+export const deleteList = async id => {
+  const result = await http._delete(host, [proxyPath, basePath, id]);
   if (result.ok) {
     return result.data;
   }

@@ -70,7 +70,7 @@ CREATE INDEX list_user_id ON public.list (user_id);
 --User-Title List Contents
 create table if not exists public.list_title (
 	list_id UUID not null,
-	foreign key (list_id) references list(id),
+	foreign key (list_id) references list(id) on delete cascade, --Deleting a list should delete the list-title relationships
 	title_id UUID not null,
 	foreign key (title_id) references title(id),
 	constraint list_title_pkey primary key (list_id, title_id)

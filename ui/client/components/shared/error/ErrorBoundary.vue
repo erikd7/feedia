@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     show() {
-      return config.errorBoundary.show && Boolean(error);
+      return config.errorBoundary.show && Boolean(this.error);
     }
   },
   errorCaptured(error, vm, info) {
