@@ -3,7 +3,7 @@
 --Declare variables to store the generated UUIDs
 DO $$ 
 DECLARE 
-    user0_id UUID = '018b4ffc-a11e-db48-384d-32ebda9426a4';
+    user0_id UUID = '018bb1d8-4beb-153e-dd19-ee505749e83d';
     user1_id UUID = '018b54dd-766a-ff85-312b-b2db39d83c48';
     user2_id UUID = '018b54dd-766a-a076-98d9-15b79a8bdff8';
     user3_id UUID = '018b54dd-766a-dc24-773f-2cb66f1cd2e3';
@@ -24,13 +24,14 @@ DECLARE
     list7_id UUID = '018b54dd-df75-51ad-4e60-27f79f60c12d';
 BEGIN
     --Sample users
-    insert into public.users (id, name_first, name_last, email, photo_url) values
-        (user0_id, 'Erik', 'Dietrich', 'erik@fakeemail.com', 'https://lh3.googleusercontent.com/a/ACg8ocKyRXc_fXK6n8N4Pl-n7xQ1b9R-qYl8uKlQq4N6gSfT4W0=s96-c'),
-        (user1_id, 'Ibrahim', 'Moizoos', 'moizoos@utchat.edu', null),
-        (user2_id, 'T.J.', 'Juckson', 'tj@waynestate.edu', null),
-        (user3_id, 'Quatro', 'Quatro', '44@hotmail.com', null),
-        (user4_id, 'Dan', 'Smith', 'dansmith111@gmail.com', null),
-        (user5_id, 'Hingle', 'McCringleberry', 'mrmccringleberry69@psu.edu', null);
+    insert into public.users (id, name_first, name_last, email, photo_url, data_source_id, external_id) values
+        (user0_id, 'Erik', 'Dietrich', '${defaultUserEmail}', '${defaultUserPhotoUrl}', 2, '${defaultUserExternalId}'),
+        (user1_id, 'Ibrahim', 'Moizoos', 'moizoos@utchat.edu', null, 1, null),
+        (user2_id, 'T.J.', 'Juckson', 'tj@waynestate.edu', null, 1, null),
+        (user3_id, 'Quatro', 'Quatro', '44@hotmail.com', null, 1, null),
+        (user4_id, 'Dan', 'Smith', 'dansmith111@gmail.com', null, 1, null),
+        (user5_id, 'Hingle', 'McCringleberry', 'mrmccringleberry69@psu.edu', null, 1, null)
+    on conflict do nothing;
 
     --Sample titles
     insert into public.title (id, title, media_type_id) values
