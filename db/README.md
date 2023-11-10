@@ -11,6 +11,12 @@ You'll need the following environment variables:
 `POSTGRES_USER` - name of the intialized user. PostgreSQL provisions the user and Flyway uses the user to run the migrations.
 `POSTGRES_PASSWORD` - password of the database user
 
+The below environment variables allow you to keep a consistent user record that is recreated with each database creation. To get the values the first time, run migration V100 without creating user 0. Use the UI to sign in. Then copy the newly-created values from the new row on the `users` table into the below variables.
+
+`DEFAULT_USER_EMAIL`
+`DEFAULT_USER_PHOTO_URL`
+`DEFAULT_USER_EXTERNAL_ID`
+
 ### Running
 
 Use the following command to run the database and run the Flyway migrations.
