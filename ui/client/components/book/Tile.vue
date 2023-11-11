@@ -3,8 +3,10 @@
     <component :is="wrapper" v-bind="{ title: book }">
       <template v-slot:photo>
         <BookCover :book="book">
-          <template v-slot>
-            <MediaTypeIcon :mediaType="mediaType" />
+          <template v-slot:coverAction="{ hovered }">
+            <div v-show="hovered">
+              <ActionBar :title="book" />
+            </div>
           </template>
         </BookCover>
       </template>
@@ -51,10 +53,12 @@ import Chip from "primevue/chip";
 import DotSeparatedInfo from "../shared/info/DotSeparatedInfo.vue";
 import { truncate } from "../../util/format/text";
 import { MEDIA_TYPES } from "../../util/constants/base";
+import ActionBar from "../title/action/ActionBar";
 
 export default {
   components: {
     BookCover,
+    ActionBar,
     MediaTypeIcon,
     Chip,
     DotSeparatedInfo

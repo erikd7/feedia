@@ -1,5 +1,10 @@
 <template>
-  <div class="ml-2" v-click-away="hideMenu" @mouseleave="hideMenu">
+  <div
+    class="ml-2"
+    v-click-away="hideMenu"
+    @mouseleave="hideMenu"
+    @click="stopEvent"
+  >
     <Kebab @click="toggleShowMenu" />
     <TieredMenu v-if="showMenu" :model="menuItems" />
   </div>
@@ -10,6 +15,7 @@ import TieredMenu from "primevue/tieredmenu";
 import Kebab from "../../shared/menu/Kebab.vue";
 import ProgressSpinner from "primevue/progressspinner";
 import { getUserLists } from "../../../http-clients/list";
+import { stopEvent } from "../../../util/event";
 
 export default {
   props: {
@@ -49,6 +55,7 @@ export default {
     this.getUserLists();
   },
   methods: {
+    stopEvent,
     toggleShowMenu() {
       this.showMenu = !this.showMenu;
     },

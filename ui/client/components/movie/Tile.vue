@@ -1,7 +1,13 @@
 <template>
   <component :is="wrapper" v-bind="{ title: movie }">
     <template v-slot:photo>
-      <MoviePoster :movie="movie" />
+      <MoviePoster :movie="movie">
+        <template v-slot:coverAction="{ hovered }">
+          <div v-show="hovered">
+            <ActionBar :title="movie" />
+          </div>
+        </template>
+      </MoviePoster>
     </template>
     <template v-slot:title>
       {{ title }}
@@ -43,9 +49,10 @@ import Chip from "primevue/chip";
 import DotSeparatedInfo from "../shared/info/DotSeparatedInfo";
 import { truncate } from "../../util/format/text";
 import Movie from "../../classes/Movie";
+import ActionBar from "../title/action/ActionBar";
 
 export default {
-  components: { MoviePoster, Chip, DotSeparatedInfo },
+  components: { MoviePoster, ActionBar, Chip, DotSeparatedInfo },
   props: {
     wrapper: {
       type: Object,
