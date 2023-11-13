@@ -1,6 +1,5 @@
 <template>
   <div>
-    show menu is {{ showMenu }}
     <div
       class="ml-2"
       v-if="menuItems?.length"
@@ -33,42 +32,28 @@ export default {
   },
   components: { TieredMenu, Kebab },
   computed: {
-    actionConfig2() {
-      return this.actionConfig;
-    },
     menuItems() {
       return this.actionConfig.menuItems();
     }
   },
   methods: {
     stopEvent,
-    setShowMenu(value) {
-      console.log(`setting show menu`, value); /* //!DELETE */
-      this.showMenu = value;
-    },
     hideMenu() {
       this.actionConfig.hideMenu();
     },
     toggleShowMenu() {
-      console.log(
-        `gonna show menu`,
-        this.actionConfig.showMenu.get()
-      ); /* //!DELETE */
       this.actionConfig.toggleShowMenu();
     }
   },
   mounted() {
-    this.actionConfig.setupShowMenu(() => this.showMenu, this.setShowMenu); //Hook showMenu state into class
+    //Hook showMenu state into class
+    this.actionConfig.setupShowMenu(
+      () => this.showMenu,
+      value => (this.showMenu = value)
+    );
 
+    //Run the class's onMount methods
     this.actionConfig.onMount()();
-  },
-  watch: {
-    actionConfig: {
-      deep: true,
-      handler(newVal, oldVal) {
-        console.log(`action config changed`, newVal, oldVal); /* //!DELETE */
-      }
-    }
   }
 };
 </script>

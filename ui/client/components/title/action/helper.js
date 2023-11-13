@@ -15,7 +15,6 @@ class ActionBarConfig {
     this.showMenu.get = getter;
     this.showMenu.set = setter;
   }
-  //showMenu = false;
 
   //Base menu items and mount hooks (constants that can be passed in)
   baseMenuItems = [];
@@ -37,9 +36,6 @@ class ActionBarConfig {
   }
 
   //State changes
-  getShowMenu() {
-    return this.showMenu;
-  }
   toggleShowMenu() {
     //this.showMenu = !this.showMenu;
     this.showMenu.set(!this.showMenu.get());
@@ -64,10 +60,6 @@ class ActionBarConfig {
   }
   onMount() {
     return functionArrayToFunction(this.onMountHooks());
-  }
-
-  createProps() {
-    return { onMount: this.onMount(), menuItems: this.menuItems() };
   }
 }
 
