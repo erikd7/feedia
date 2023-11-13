@@ -6,7 +6,16 @@ import { getUserLists } from "../../../http-clients/list";
 
 class ActionBarConfig {
   //Menu state
-  showMenu = false;
+  //Hook Vue component in here
+  showMenu = {
+    get: () => {},
+    set: () => {}
+  };
+  setupShowMenu(getter, setter) {
+    this.showMenu.get = getter;
+    this.showMenu.set = setter;
+  }
+  //showMenu = false;
 
   //Base menu items and mount hooks (constants that can be passed in)
   baseMenuItems = [];
@@ -32,10 +41,12 @@ class ActionBarConfig {
     return this.showMenu;
   }
   toggleShowMenu() {
-    this.showMenu = !this.showMenu;
+    //this.showMenu = !this.showMenu;
+    this.showMenu.set(!this.showMenu.get());
   }
   hideMenu() {
-    this.showMenu = false;
+    //this.showMenu = false;
+    this.showMenu.set(false);
   }
 
   additionalMenuItems() {

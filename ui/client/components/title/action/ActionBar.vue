@@ -20,6 +20,11 @@ import Kebab from "../../shared/menu/Kebab.vue";
 import { stopEvent } from "../../../util/event";
 
 export default {
+  data() {
+    return {
+      showMenu: false
+    };
+  },
   props: {
     actionConfig: {
       type: Object,
@@ -28,8 +33,8 @@ export default {
   },
   components: { TieredMenu, Kebab },
   computed: {
-    showMenu() {
-      return this.actionConfig.getShowMenu();
+    actionConfig2() {
+      return this.actionConfig;
     },
     menuItems() {
       return this.actionConfig.menuItems();
@@ -37,18 +42,24 @@ export default {
   },
   methods: {
     stopEvent,
+    setShowMenu(value) {
+      console.log(`setting show menu`, value); /* //!DELETE */
+      this.showMenu = value;
+    },
     hideMenu() {
       this.actionConfig.hideMenu();
     },
     toggleShowMenu() {
       console.log(
         `gonna show menu`,
-        this.actionConfig.showMenu
+        this.actionConfig.showMenu.get()
       ); /* //!DELETE */
       this.actionConfig.toggleShowMenu();
     }
   },
   mounted() {
+    this.actionConfig.setupShowMenu(() => this.showMenu, this.setShowMenu); //Hook showMenu state into class
+
     this.actionConfig.onMount()();
   },
   watch: {
