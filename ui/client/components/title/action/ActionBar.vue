@@ -1,101 +1,61 @@
 <template>
-  <div
-    class="ml-2"
-    v-click-away="hideMenu"
-    @mouseleave="hideMenu"
-    @click="stopEvent"
-  >
-    <Kebab @click="toggleShowMenu" />
-    <TieredMenu v-if="showMenu" :model="menuItems" />
+  <div>
+    show menu is {{ showMenu }}
+    <div
+      class="ml-2"
+      v-if="menuItems?.length"
+      v-click-away="hideMenu"
+      @mouseleave="hideMenu"
+      @click="stopEvent"
+    >
+      <Kebab @click="toggleShowMenu" />
+      <TieredMenu v-if="showMenu" :model="menuItems" />
+    </div>
   </div>
 </template>
 
 <script>
 import TieredMenu from "primevue/tieredmenu";
 import Kebab from "../../shared/menu/Kebab.vue";
-import ProgressSpinner from "primevue/progressspinner";
-import { getUserLists } from "../../../http-clients/list";
 import { stopEvent } from "../../../util/event";
 
 export default {
   props: {
-    title: {
+    actionConfig: {
       type: Object,
       required: true
     }
   },
-  data() {
-    return {
-      showMenu: false,
-      userLists: []
-    };
-  },
-  components: { TieredMenu, Kebab, ProgressSpinner },
+  components: { TieredMenu, Kebab },
   computed: {
-    userListMenus() {
-      return this.userLists.map(l => ({
-        ...l,
-        label: l.name,
-        command: () => {
-          this.addToList(l.id, l.name);
-        }
-      }));
+    showMenu() {
+      return this.actionConfig.getShowMenu();
     },
     menuItems() {
-      return [
-        {
-          label: "Add to List",
-          icon: "pi pi-fw pi-file",
-          items: this.userListMenus
-        }
-      ];
+      return this.actionConfig.menuItems();
     }
-  },
-  mounted() {
-    this.getUserLists();
   },
   methods: {
     stopEvent,
-    toggleShowMenu() {
-      this.showMenu = !this.showMenu;
-    },
     hideMenu() {
-      this.showMenu = false;
+      this.actionConfig.hideMenu();
     },
-    async getUserLists() {
-      if (!this.userLists?.length) {
-        const result = await getUserLists();
-        if (result?.length) {
-          this.userLists = Array.from(result);
-        }
-      }
-    },
-    async addToList(listId, listName) {
-      this.hideMenu();
-      try {
-        await this.title.addToList(listId);
-        this.$toast.add({
-          severity: "success",
-          summary: `Added ${this.title.title} to ${listName}`,
-          life: 3000,
-          group: "bl"
-        });
-      } catch (error) {
-        if (error.message?.includes("409")) {
-          this.$toast.add({
-            severity: "warn",
-            summary: `${this.title.displayTitle()} has already been added to ${listName}`,
-            life: 3000,
-            group: "bl"
-          });
-        } else {
-          this.$toast.add({
-            severity: "error",
-            summary: `Unable to add ${this.title.title} to ${listName}`,
-            life: 3000,
-            group: "bl"
-          });
-        }
+    toggleShowMenu() {
+      console.log(
+        `gonna show menu`,
+        this.actionConfig.showMenu
+      ); /* //!DELETE */
+      this.actionConfig.toggleShowMenu();
+    }
+  },
+  mounted() {
+    this.actionConfig.onMount()();
+  },
+  watch: {
+    actionConfig: {
+      deep: true,
+      handler(newVal, oldVal) {
+        console.log(`action config changed`, newVal, oldVal); /* //!DELETE */
       }
     }
   }

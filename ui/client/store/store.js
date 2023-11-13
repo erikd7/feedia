@@ -3,6 +3,7 @@ import userStore from "./user";
 import navigationStore from "./navigation";
 import searchStore from "./search";
 import detailsStore from "./details";
+import listStore from "./list";
 import { MEDIA_TYPES } from "../util/constants/base";
 import { get as getLocal, set as setLocal } from "../util/localStorage";
 import config from "../../config/build";
@@ -17,7 +18,8 @@ const store = Vuex.createStore({
     user: userStore,
     navigation: navigationStore,
     search: searchStore,
-    details: detailsStore
+    details: detailsStore,
+    list: listStore
   },
   state() {
     return {

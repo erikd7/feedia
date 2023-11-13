@@ -5,7 +5,7 @@
         <BookCover :book="book">
           <template v-slot:coverAction="{ hovered }">
             <div v-show="hovered">
-              <ActionBar :title="book" />
+              <ActionBar :actionConfig="actionBarConfig" />
             </div>
           </template>
         </BookCover>
@@ -54,6 +54,7 @@ import DotSeparatedInfo from "../shared/info/DotSeparatedInfo.vue";
 import { truncate } from "../../util/format/text";
 import { MEDIA_TYPES } from "../../util/constants/base";
 import ActionBar from "../title/action/ActionBar";
+import { TitleActionBarConfig } from "../title/action/helper";
 
 export default {
   components: {
@@ -77,6 +78,13 @@ export default {
     truncate
   },
   computed: {
+    actionBarConfig() {
+      return TitleActionBarConfig.build(
+        this.book,
+        { addToLists: true },
+        this.$toast.add
+      );
+    },
     mediaType() {
       return MEDIA_TYPES.BOOK;
     },
