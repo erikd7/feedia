@@ -8,7 +8,7 @@
       @click="stopEvent"
     >
       <Kebab @click="toggleShowMenu" />
-      <TieredMenu v-if="showMenu" :model="menuItems" />
+      <TieredMenu v-if="erikThing.showMenu" :model="menus" />
     </div>
   </div>
 </template>
@@ -21,10 +21,16 @@ import { stopEvent } from "../../../util/event";
 export default {
   data() {
     return {
-      showMenu: false
+      erikThing: {},
+      menus: []
     };
   },
   props: {
+    //Type should be one of the classes from the helper
+    type: {
+      type: Function,
+      required: true
+    },
     actionConfig: {
       type: Object,
       required: true
@@ -33,27 +39,32 @@ export default {
   components: { TieredMenu, Kebab },
   computed: {
     menuItems() {
-      return this.actionConfig.menuItems();
+      if (this.erikThing.menuItems) {
+        return this.erikThing.menuItems();
+      }
     }
   },
   methods: {
     stopEvent,
     hideMenu() {
-      this.actionConfig.hideMenu();
+      this.erikThing.hideMenu();
     },
     toggleShowMenu() {
-      this.actionConfig.toggleShowMenu();
+      this.erikThing.toggleShowMenu();
+    }
+  },
+  watch: {
+    erikThing: {
+      deep: true,
+      handler(newVal, oldVal) {
+        this.menus = this.erikThing.menuItems();
+      }
     }
   },
   mounted() {
-    //Hook showMenu state into class
-    this.actionConfig.setupShowMenu(
-      () => this.showMenu,
-      value => (this.showMenu = value)
-    );
-
-    //Run the class's onMount methods
-    this.actionConfig.onMount()();
+    //Initialize config class
+    this.erikThing = this.type.build(this.actionConfig, this);
+    this.erikThing.onMount()();
   }
 };
 </script>

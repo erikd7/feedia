@@ -10,7 +10,6 @@ const basePath = "/user/list";
 export const getUserLists = async (useCache = true) => {
   if (useCache) {
     const userListsStore = store.getters["list/userLists"];
-    console.log(`in http getuserlists`, userListsStore); /* //!DELETE */
     if (userListsStore) {
       return userListsStore;
     }

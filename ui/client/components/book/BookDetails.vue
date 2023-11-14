@@ -4,7 +4,10 @@
       <BookCover :book="book">
         <template v-slot:coverAction="{ hovered }">
           <div v-show="hovered">
-            <ActionBar :title="book" />
+            <ActionBar
+              :type="TitleActionBarConfig"
+              :actionConfig="actionBarConfig"
+            />
           </div>
         </template>
       </BookCover>
@@ -53,6 +56,7 @@ import Chip from "primevue/chip";
 import DotSeparatedInfo from "../shared/info/DotSeparatedInfo.vue";
 import { truncate } from "../../util/format/text";
 import { MEDIA_TYPES } from "../../util/constants/base";
+import { TitleActionBarConfig } from "../title/action/helper";
 
 export default {
   components: {
@@ -77,6 +81,12 @@ export default {
     truncate
   },
   computed: {
+    TitleActionBarConfig() {
+      return TitleActionBarConfig;
+    },
+    actionBarConfig() {
+      return { title: this.book, options: { addToLists: true } };
+    },
     mediaType() {
       return MEDIA_TYPES.BOOK;
     },

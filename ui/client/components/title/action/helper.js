@@ -6,9 +6,11 @@ import { getUserLists } from "../../../http-clients/list";
 
 class ActionBarConfig {
   //Menu state
+  showMenu = false;
   //Hook Vue component in here
-  showMenu = {
-    get: () => {},
+
+  state = {
+    get: () => [],
     set: () => {}
   };
   setupShowMenu(getter, setter) {
@@ -20,36 +22,37 @@ class ActionBarConfig {
   baseMenuItems = [];
   baseOnMountHooks = [];
 
-  //Menu action hooks
-  notify; //Notify function to send toast messages (pass this.notify from Vue component)
+  //Vue instance
+  vueInstance;
 
-  constructor(notify, baseMenuItems, baseOnMountHooks) {
+  constructor(vueInstance, baseMenuItems, baseOnMountHooks) {
+    this.vueInstance = vueInstance;
+
     if (baseMenuItems) {
       this.baseMenuItems = baseMenuItems;
     }
     if (baseOnMountHooks) {
       this.baseOnMountHooks = baseOnMountHooks;
     }
-    if (notify) {
-      this.notify = notify;
-    }
   }
 
   //State changes
+  setShowMenu(value) {
+    this.showMenu = value;
+  }
   toggleShowMenu() {
-    //this.showMenu = !this.showMenu;
-    this.showMenu.set(!this.showMenu.get());
+    this.setShowMenu(!this.showMenu);
   }
   hideMenu() {
-    //this.showMenu = false;
-    this.showMenu.set(false);
+    this.setShowMenu(false);
   }
 
   additionalMenuItems() {
     return [];
   }
   menuItems() {
-    return this.baseMenuItems.concat(this.additionalMenuItems());
+    return this.additionalMenuItems();
+    //return this.baseMenuItems.concat(this.additionalMenuItems());
   }
 
   additionalOnMountHooks() {
@@ -60,6 +63,10 @@ class ActionBarConfig {
   }
   onMount() {
     return functionArrayToFunction(this.onMountHooks());
+  }
+
+  notify(notification) {
+    this.vueInstance.$toast.add(notification);
   }
 }
 
@@ -73,24 +80,27 @@ export class TitleActionBarConfig extends ActionBarConfig {
   //AddToLists state
   userLists = [];
 
-  constructor(title, addToLists, notify, baseMenuItems, baseOnMountHooks) {
-    super(notify, baseMenuItems, baseOnMountHooks);
+  constructor(title, addToLists, vueInstance, baseMenuItems, baseOnMountHooks) {
+    super(vueInstance, baseMenuItems, baseOnMountHooks);
 
     this.title = title;
     this.addToLists = addToLists;
   }
 
   static build(
-    title,
-    { addToLists } = {},
-    notify,
-    baseMenuItems,
-    baseOnMountHooks
+    {
+      title,
+      options: { addToLists } = {},
+
+      baseMenuItems,
+      baseOnMountHooks
+    } = {},
+    vueInstance
   ) {
     return new TitleActionBarConfig(
       title,
       addToLists,
-      notify,
+      vueInstance,
       baseMenuItems,
       baseOnMountHooks
     );
