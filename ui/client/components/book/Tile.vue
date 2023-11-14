@@ -5,7 +5,10 @@
         <BookCover :book="book">
           <template v-slot:coverAction="{ hovered }">
             <div v-show="hovered">
-              <ActionBar :actionConfig="actionBarConfig" />
+              <ActionBar
+                :type="TitleActionBarConfig"
+                :actionConfig="actionBarConfig"
+              />
             </div>
           </template>
         </BookCover>
@@ -78,12 +81,11 @@ export default {
     truncate
   },
   computed: {
+    TitleActionBarConfig() {
+      return TitleActionBarConfig;
+    },
     actionBarConfig() {
-      return TitleActionBarConfig.build(
-        this.book,
-        { addToLists: true },
-        this.$toast.add
-      );
+      return { title: this.book, options: { addToLists: true } };
     },
     mediaType() {
       return MEDIA_TYPES.BOOK;

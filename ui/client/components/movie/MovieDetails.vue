@@ -4,7 +4,10 @@
       <MoviePoster :movie="movie">
         <template v-slot:coverAction="{ hovered }">
           <div v-show="hovered">
-            <ActionBar :actionConfig="actionBarConfig" />
+            <ActionBar
+              :type="TitleActionBarConfig"
+              :actionConfig="actionBarConfig"
+            />
           </div>
         </template>
       </MoviePoster>
@@ -80,12 +83,11 @@ export default {
     }
   },
   computed: {
+    TitleActionBarConfig() {
+      return TitleActionBarConfig;
+    },
     actionBarConfig() {
-      return TitleActionBarConfig.build(
-        this.movie,
-        { addToLists: true },
-        this.$toast.add
-      );
+      return { title: this.movie, options: { addToLists: true } };
     },
     title() {
       return this.movie.displayTitle();
