@@ -59,7 +59,6 @@ class ActionBarConfig {
   }
 
   emit(event) {
-    console.log(`emiting`, event); /* //!DELETE */
     this.vueInstance.$emit(event);
   }
 }
@@ -204,7 +203,6 @@ export class TitleActionBarConfig extends ActionBarConfig {
     return [];
   }
   removeTitleFromList = async (listId, listName) => {
-    console.log(`helper remove from list`, listId); /* //!DELETE */
     this.hideMenu();
     try {
       await this.title.removeFromList(listId);

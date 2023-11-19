@@ -54,14 +54,12 @@ const queries = {
       (${listId}, ${titleId})
     `,
 
-  removeTitleFromList: (listId: DynamicId, titleId: DynamicId) => {
-    console.log(`time to delete`, listId, titleId); /* //!DELETE */
-    return SQL`
+  removeTitleFromList: (listId: DynamicId, titleId: DynamicId) =>
+    SQL`
       delete
       from list_title
       where list_id = ${listId} and title_id = ${titleId}
-    `;
-  },
+    `,
 
   delete: (id: DynamicId) =>
     SQL`

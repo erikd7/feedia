@@ -144,7 +144,6 @@ export default {
       setSelectedList: "setSelected"
     }),
     listUpdate() {
-      console.log(`made it to List comp updateList`); /* //!DELETE */
       this.getDetails();
     },
     async getDetails() {
@@ -157,7 +156,6 @@ export default {
           owningUserId: result.userId,
           titles: result.titles.map(t => create(t.mediaType, t))
         };
-        console.log(`setting selected list`, this.list); /* //!DELETE */
         this.setSelectedList(this.list);
       } catch (e) {
         console.error(e.message);

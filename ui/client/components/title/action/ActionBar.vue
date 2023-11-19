@@ -1,6 +1,5 @@
 <template>
   <div>
-    showing {{ erikThing.showMenu }}
     <div
       class="ml-2"
       v-if="menuItems?.length"
@@ -9,7 +8,7 @@
       @click="stopEvent"
     >
       <Kebab @click="toggleShowMenu" />
-      <TieredMenu v-if="erikThing.showMenu" :model="menus" />
+      <TieredMenu v-if="actionBarConfig.showMenu" :model="menus" />
     </div>
   </div>
 </template>
@@ -22,7 +21,7 @@ import { stopEvent } from "../../../util/event";
 export default {
   data() {
     return {
-      erikThing: {},
+      actionBarConfig: {},
       menus: []
     };
   },
@@ -40,33 +39,32 @@ export default {
   components: { TieredMenu, Kebab },
   computed: {
     menuItems() {
-      if (this.erikThing.menuItems) {
-        return this.erikThing.menuItems();
+      if (this.actionBarConfig.menuItems) {
+        return this.actionBarConfig.menuItems();
       }
     }
   },
   methods: {
     stopEvent,
     hideMenu() {
-      this.erikThing.hideMenu();
+      this.actionBarConfig.hideMenu();
     },
     toggleShowMenu() {
-      this.erikThing.toggleShowMenu();
+      this.actionBarConfig.toggleShowMenu();
     }
   },
   watch: {
-    erikThing: {
+    actionBarConfig: {
       deep: true,
-      handler(newVal, oldVal) {
-        this.menus = this.erikThing.menuItems();
+      handler() {
+        this.menus = this.actionBarConfig.menuItems();
       }
     }
   },
   mounted() {
     //Initialize config class
-    console.log(`building action config`, this.actionConfig); /* //!DELETE */
-    this.erikThing = this.type.build(this.actionConfig, this);
-    this.erikThing.onMount()();
+    this.actionBarConfig = this.type.build(this.actionConfig, this);
+    this.actionBarConfig.onMount()();
   }
 };
 </script>

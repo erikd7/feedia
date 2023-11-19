@@ -71,7 +71,6 @@ export default {
   },
   methods: {
     listUpdate() {
-      console.log(`in movie tile updatelist`); /* //!DELETE */
       this.$emit("listUpdate");
     },
     truncate,

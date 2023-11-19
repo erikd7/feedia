@@ -82,7 +82,6 @@ export default {
   methods: {
     truncate,
     listUpdate() {
-      console.log(`in booktile updatelist`); /* //!DELETE */
       this.$emit("listUpdate");
     }
   },

@@ -123,7 +123,6 @@ export default class Title {
     return addTitleToList(listId, this.id);
   }
   removeFromList(listId) {
-    console.log(`removing`, listId, this.id); /* //!DELETE */
     return removeTitleFromList(listId, this.id);
   }
 
