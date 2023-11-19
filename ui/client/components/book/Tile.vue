@@ -8,6 +8,7 @@
               <ActionBar
                 :type="TitleActionBarConfig"
                 :actionConfig="actionBarConfig"
+                @listUpdate="listUpdate"
               />
             </div>
           </template>
@@ -58,6 +59,7 @@ import { truncate } from "../../util/format/text";
 import { MEDIA_TYPES } from "../../util/constants/base";
 import ActionBar from "../title/action/ActionBar";
 import { TitleActionBarConfig } from "../title/action/helper";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -78,14 +80,23 @@ export default {
     }
   },
   methods: {
-    truncate
+    truncate,
+    listUpdate() {
+      console.log(`in booktile updatelist`); /* //!DELETE */
+      this.$emit("listUpdate");
+    }
   },
   computed: {
+    ...mapGetters("list", { selectedList: "selected" }),
     TitleActionBarConfig() {
       return TitleActionBarConfig;
     },
     actionBarConfig() {
-      return { title: this.book, options: { addToLists: true } };
+      return {
+        title: this.book,
+        toggles: { addToLists: true, removeFromList: true },
+        options: { selectedList: this.selectedList }
+      };
     },
     mediaType() {
       return MEDIA_TYPES.BOOK;

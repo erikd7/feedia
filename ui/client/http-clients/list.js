@@ -46,6 +46,20 @@ export const addTitleToList = async (listId, titleId) => {
   throw Error(result.message);
 };
 
+export const removeTitleFromList = async (listId, titleId) => {
+  const subpath = "title";
+  const body = { titleId };
+  const result = await http._delete(
+    host,
+    [proxyPath, basePath, listId, subpath],
+    body
+  );
+  if (result.ok) {
+    return result.data;
+  }
+  throw Error(result.message);
+};
+
 export const createList = async name => {
   const body = { name };
   const result = await http.post(host, [proxyPath, basePath], body);

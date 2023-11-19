@@ -6,6 +6,7 @@ import {
   getList,
   updateList,
   addTitleToList,
+  removeTitleFromList,
   deleteList
 } from "../controllers/list";
 
@@ -25,6 +26,14 @@ router.buildRoute("patch", "/:id", "updating list details", updateList);
 
 //Add title to list
 router.buildRoute("put", "/:id/title", "adding title to list", addTitleToList);
+
+//Remove title from list
+router.buildRoute(
+  "delete",
+  "/:id/title",
+  "removing title from list",
+  removeTitleFromList
+);
 
 //Delete list
 router.buildRoute("delete", "/:id", "deleting title", deleteList);

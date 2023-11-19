@@ -87,7 +87,7 @@ export default {
       return TitleActionBarConfig;
     },
     actionBarConfig() {
-      return { title: this.movie, options: { addToLists: true } };
+      return { title: this.movie, toggles: { addToLists: true } };
     },
     title() {
       return this.movie.displayTitle();

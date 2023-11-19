@@ -5,8 +5,9 @@
         <template v-slot:coverAction="{ hovered }">
           <div v-show="hovered">
             <ActionBar
-              :type="TitleActionBarConfig"
               :actionConfig="actionBarConfig"
+              :type="TitleActionBarConfig"
+              @listUpdate="listUpdate"
             />
           </div>
         </template>
@@ -54,6 +55,7 @@ import { truncate } from "../../util/format/text";
 import Movie from "../../classes/Movie";
 import ActionBar from "../title/action/ActionBar";
 import { TitleActionBarConfig } from "../title/action/helper";
+import { mapGetters } from "vuex";
 
 export default {
   components: { MoviePoster, ActionBar, Chip, DotSeparatedInfo },
@@ -68,6 +70,10 @@ export default {
     }
   },
   methods: {
+    listUpdate() {
+      console.log(`in movie tile updatelist`); /* //!DELETE */
+      this.$emit("listUpdate");
+    },
     truncate,
     async getDetails(id) {
       this.movie = await Movie.build(id);
@@ -80,11 +86,16 @@ export default {
     }
   },
   computed: {
+    ...mapGetters("list", { selectedList: "selected" }),
     TitleActionBarConfig() {
       return TitleActionBarConfig;
     },
     actionBarConfig() {
-      return { title: this.movie, options: { addToLists: true } };
+      return {
+        title: this.movie,
+        toggles: { addToLists: true, removeFromList: true },
+        options: { selectedList: this.selectedList }
+      };
     },
     title() {
       return this.movie.displayTitle();

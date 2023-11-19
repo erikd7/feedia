@@ -94,6 +94,30 @@ export const addTitleToList = async (
   }
 };
 
+export const removeTitleFromList = async (
+  listId: DynamicId,
+  userId: DynamicId,
+  titleId: DynamicId
+) => {
+  let result;
+  //Check access
+  await checkAccess(listId, userId);
+
+  try {
+    result = await runQuery(queries.list.removeTitleFromList(listId, titleId));
+  } catch (err) {
+    //Handle foreign key constraint (invalid title or list ID)
+    //@ts-ignore
+    if (err.code == PostgresError.FOREIGN_KEY_VIOLATION) {
+      throw new ApiError(
+        "List or title not found",
+        ReasonPhrases.BAD_REQUEST,
+        "Inserting title into list"
+      );
+    }
+  }
+};
+
 export const deleteList = async (
   listId: DynamicId,
   deletingUserId: DynamicId

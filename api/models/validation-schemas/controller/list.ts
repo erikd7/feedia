@@ -18,6 +18,6 @@ export const updateListBody = Joi.object({
   name: listName.required()
 });
 
-export const addTitleToListBody = Joi.object({
+export const titleListUpdateBody = Joi.object({
   titleId: ulid.required()
 });

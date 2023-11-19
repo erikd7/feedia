@@ -1,5 +1,6 @@
 <template>
   <div>
+    showing {{ erikThing.showMenu }}
     <div
       class="ml-2"
       v-if="menuItems?.length"
@@ -63,6 +64,7 @@ export default {
   },
   mounted() {
     //Initialize config class
+    console.log(`building action config`, this.actionConfig); /* //!DELETE */
     this.erikThing = this.type.build(this.actionConfig, this);
     this.erikThing.onMount()();
   }
