@@ -61,17 +61,17 @@ export function authenticate(to, _from, next) {
   //If doesn't require auth (defaults to require auth)
   if (to.matched.some(route => route.meta.requireAuth === false)) {
     next();
-  }
-
-  //If token is valid
-  const isTokenValid = validate();
-
-  //Validate token
-  if (isTokenValid) {
-    next();
   } else {
-    //Redirect to the login page
-    next(ROUTES.LOGIN);
+    //If token is valid
+    const isTokenValid = validate();
+
+    //Validate token
+    if (isTokenValid) {
+      next();
+    } else {
+      //Redirect to the login page
+      next(ROUTES.LOGIN);
+    }
   }
 }
 
