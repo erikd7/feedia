@@ -4,7 +4,10 @@
       <MoviePoster :movie="movie">
         <template v-slot:coverAction="{ hovered }">
           <div v-show="hovered">
-            <ActionBar :title="movie" />
+            <ActionBar
+              :type="TitleActionBarConfig"
+              :actionConfig="actionBarConfig"
+            />
           </div>
         </template>
       </MoviePoster>
@@ -50,6 +53,7 @@ import Chip from "primevue/chip";
 import DotSeparatedInfo from "../shared/info/DotSeparatedInfo";
 import { truncate } from "../../util/format/text";
 import Movie from "../../classes/Movie";
+import { TitleActionBarConfig } from "../title/action/helper";
 
 export default {
   components: { Detail, MoviePoster, Chip, DotSeparatedInfo },
@@ -79,6 +83,12 @@ export default {
     }
   },
   computed: {
+    TitleActionBarConfig() {
+      return TitleActionBarConfig;
+    },
+    actionBarConfig() {
+      return { title: this.movie, toggles: { addToLists: true } };
+    },
     title() {
       return this.movie.displayTitle();
     },

@@ -4,7 +4,7 @@ import {
   setUserTitleRating,
   getTitleInfo
 } from "../http-clients/title";
-import { addTitleToList } from "../http-clients/list";
+import { addTitleToList, removeTitleFromList } from "../http-clients/list";
 
 export default class Title {
   isValidTitle;
@@ -121,6 +121,9 @@ export default class Title {
   //Actions
   addToList(listId) {
     return addTitleToList(listId, this.id);
+  }
+  removeFromList(listId) {
+    return removeTitleFromList(listId, this.id);
   }
 
   //Display info

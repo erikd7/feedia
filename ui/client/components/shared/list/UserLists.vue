@@ -1,17 +1,17 @@
 <template>
-  <Lists :lists="lists" :showCreate="true" @formComplete="getUserLists" />
+  <Lists
+    :lists="userLists"
+    :showCreate="true"
+    @formComplete="() => getUserLists(false)"
+  />
 </template>
 
 <script>
 import Lists from "./Lists";
 import { getUserLists } from "../../../http-clients/list";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
-  data() {
-    return {
-      lists: []
-    };
-  },
   components: { Lists },
   props: {
     userId: {
@@ -19,9 +19,13 @@ export default {
       required: true
     }
   },
+  computed: {
+    ...mapGetters("list", ["userLists"])
+  },
   methods: {
-    async getUserLists() {
-      this.lists = await getUserLists();
+    ...mapActions("list", ["setUserLists"]),
+    async getUserLists(useCache) {
+      const result = await getUserLists(useCache);
     }
   },
   mounted() {

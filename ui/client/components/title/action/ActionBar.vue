@@ -1,96 +1,70 @@
 <template>
-  <div class="ml-2" v-click-away="hideMenu" @mouseleave="hideMenu">
-    <Kebab @click="toggleShowMenu" />
-    <TieredMenu v-if="showMenu" :model="menuItems" />
+  <div>
+    <div
+      class="ml-2"
+      v-if="menuItems?.length"
+      v-click-away="hideMenu"
+      @mouseleave="hideMenu"
+      @click="stopEvent"
+    >
+      <Kebab @click="toggleShowMenu" />
+      <TieredMenu v-if="actionBarConfig.showMenu" :model="menus" />
+    </div>
   </div>
 </template>
 
 <script>
 import TieredMenu from "primevue/tieredmenu";
 import Kebab from "../../shared/menu/Kebab.vue";
-import ProgressSpinner from "primevue/progressspinner";
-import { getUserLists } from "../../../http-clients/list";
+import { stopEvent } from "../../../util/event";
 
 export default {
+  data() {
+    return {
+      actionBarConfig: {},
+      menus: []
+    };
+  },
   props: {
-    title: {
+    //Type should be one of the classes from the helper
+    type: {
+      type: Function,
+      required: true
+    },
+    actionConfig: {
       type: Object,
       required: true
     }
   },
-  data() {
-    return {
-      showMenu: false,
-      userLists: []
-    };
-  },
-  components: { TieredMenu, Kebab, ProgressSpinner },
+  components: { TieredMenu, Kebab },
   computed: {
-    userListMenus() {
-      return this.userLists.map(l => ({
-        ...l,
-        label: l.name,
-        command: () => {
-          this.addToList(l.id, l.name);
-        }
-      }));
-    },
     menuItems() {
-      return [
-        {
-          label: "Add to List",
-          icon: "pi pi-fw pi-file",
-          items: this.userListMenus
-        }
-      ];
+      if (this.actionBarConfig.menuItems) {
+        return this.actionBarConfig.menuItems();
+      }
+    }
+  },
+  methods: {
+    stopEvent,
+    hideMenu() {
+      this.actionBarConfig.hideMenu();
+    },
+    toggleShowMenu() {
+      this.actionBarConfig.toggleShowMenu();
+    }
+  },
+  watch: {
+    actionBarConfig: {
+      deep: true,
+      handler() {
+        this.menus = this.actionBarConfig.menuItems();
+      }
     }
   },
   mounted() {
-    this.getUserLists();
-  },
-  methods: {
-    toggleShowMenu() {
-      this.showMenu = !this.showMenu;
-    },
-    hideMenu() {
-      this.showMenu = false;
-    },
-    async getUserLists() {
-      if (!this.userLists?.length) {
-        const result = await getUserLists();
-        if (result?.length) {
-          this.userLists = Array.from(result);
-        }
-      }
-    },
-    async addToList(listId, listName) {
-      this.hideMenu();
-      try {
-        await this.title.addToList(listId);
-        this.$toast.add({
-          severity: "success",
-          summary: `Added ${this.title.title} to ${listName}`,
-          life: 3000,
-          group: "bl"
-        });
-      } catch (error) {
-        if (error.message?.includes("409")) {
-          this.$toast.add({
-            severity: "warn",
-            summary: `${this.title.displayTitle()} has already been added to ${listName}`,
-            life: 3000,
-            group: "bl"
-          });
-        } else {
-          this.$toast.add({
-            severity: "error",
-            summary: `Unable to add ${this.title.title} to ${listName}`,
-            life: 3000,
-            group: "bl"
-          });
-        }
-      }
-    }
+    //Initialize config class
+    this.actionBarConfig = this.type.build(this.actionConfig, this);
+    this.actionBarConfig.onMount()();
   }
 };
 </script>

@@ -34,7 +34,6 @@
             <DataViewLayoutOptions v-model="layout" />
           </div>
         </template>
-
         <template #list="{ data }">
           <div class="col-12 p-2">
             <MediaTypeSwitcher :mediaType="data.mediaType">
@@ -43,6 +42,7 @@
                   :wrapper="TileList"
                   :book="data"
                   @click="() => openTitleDetails(data)"
+                  @listUpdate="listUpdate"
                   class="cursor-pointer"
                 />
               </template>
@@ -51,6 +51,7 @@
                   :wrapper="TileList"
                   :movie="data"
                   @click="() => openTitleDetails(data)"
+                  @listUpdate="listUpdate"
                   class="cursor-pointer"
                 />
               </template>
@@ -139,6 +140,12 @@ export default {
   },
   methods: {
     ...mapActions("details", ["setSelected"]),
+    ...mapActions("list", {
+      setSelectedList: "setSelected"
+    }),
+    listUpdate() {
+      this.getDetails();
+    },
     async getDetails() {
       try {
         this.loading = true;
@@ -149,6 +156,7 @@ export default {
           owningUserId: result.userId,
           titles: result.titles.map(t => create(t.mediaType, t))
         };
+        this.setSelectedList(this.list);
       } catch (e) {
         console.error(e.message);
         if (e.message?.includes("404")) {

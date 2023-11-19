@@ -1,14 +1,22 @@
 import * as http from "../util/http.js";
 import config from "../../config/build.js";
+import store from "../store/store";
 
 const { proxyPath } = config.api;
 const { host } = config.proxy;
 
 const basePath = "/user/list";
 
-export const getUserLists = async () => {
+export const getUserLists = async (useCache = true) => {
+  if (useCache) {
+    const userListsStore = store.getters["list/userLists"];
+    if (userListsStore) {
+      return userListsStore;
+    }
+  }
   const result = await http.get(host, [proxyPath, basePath]);
   if (result.ok) {
+    store.dispatch("list/setUserLists", result.data);
     return result.data;
   } else {
     throw Error(result.message);
@@ -28,6 +36,20 @@ export const addTitleToList = async (listId, titleId) => {
   const subpath = "title";
   const body = { titleId };
   const result = await http.put(
+    host,
+    [proxyPath, basePath, listId, subpath],
+    body
+  );
+  if (result.ok) {
+    return result.data;
+  }
+  throw Error(result.message);
+};
+
+export const removeTitleFromList = async (listId, titleId) => {
+  const subpath = "title";
+  const body = { titleId };
+  const result = await http._delete(
     host,
     [proxyPath, basePath, listId, subpath],
     body

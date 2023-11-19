@@ -8,6 +8,7 @@ import {
   getList as getListDomain,
   updateList as updateListDomain,
   addTitleToList as addTitleToListDomain,
+  removeTitleFromList as removeTitleFromListDomain,
   deleteList as deleteListDomain
 } from "../domain/list";
 
@@ -77,7 +78,7 @@ export const addTitleToList: Controller = async req => {
 
   validateSchema(
     req.body,
-    listSchemas.addTitleToListBody.required(),
+    listSchemas.titleListUpdateBody.required(),
     "title ID"
   );
 
@@ -86,6 +87,26 @@ export const addTitleToList: Controller = async req => {
 
   //@ts-ignore
   const result = await addTitleToListDomain(listId, user.id, titleId);
+
+  //Return success
+  return createResponse(result);
+};
+
+export const removeTitleFromList: Controller = async req => {
+  validateSchema(req.params, listSchemas.getListParams.required(), "list ID");
+  const { id: listId } = req.params;
+
+  validateSchema(
+    req.query,
+    listSchemas.titleListUpdateBody.required(),
+    "title ID"
+  );
+
+  const { user } = req;
+  const { titleId } = req.query;
+
+  //@ts-ignore
+  const result = await removeTitleFromListDomain(listId, user.id, titleId);
 
   //Return success
   return createResponse(result);

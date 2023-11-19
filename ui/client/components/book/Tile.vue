@@ -3,8 +3,14 @@
     <component :is="wrapper" v-bind="{ title: book }">
       <template v-slot:photo>
         <BookCover :book="book">
-          <template v-slot>
-            <MediaTypeIcon :mediaType="mediaType" />
+          <template v-slot:coverAction="{ hovered }">
+            <div v-show="hovered">
+              <ActionBar
+                :type="TitleActionBarConfig"
+                :actionConfig="actionBarConfig"
+                @listUpdate="listUpdate"
+              />
+            </div>
           </template>
         </BookCover>
       </template>
@@ -51,10 +57,14 @@ import Chip from "primevue/chip";
 import DotSeparatedInfo from "../shared/info/DotSeparatedInfo.vue";
 import { truncate } from "../../util/format/text";
 import { MEDIA_TYPES } from "../../util/constants/base";
+import ActionBar from "../title/action/ActionBar";
+import { TitleActionBarConfig } from "../title/action/helper";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
     BookCover,
+    ActionBar,
     MediaTypeIcon,
     Chip,
     DotSeparatedInfo
@@ -70,9 +80,23 @@ export default {
     }
   },
   methods: {
-    truncate
+    truncate,
+    listUpdate() {
+      this.$emit("listUpdate");
+    }
   },
   computed: {
+    ...mapGetters("list", { selectedList: "selected" }),
+    TitleActionBarConfig() {
+      return TitleActionBarConfig;
+    },
+    actionBarConfig() {
+      return {
+        title: this.book,
+        toggles: { addToLists: true, removeFromList: true },
+        options: { selectedList: this.selectedList }
+      };
+    },
     mediaType() {
       return MEDIA_TYPES.BOOK;
     },

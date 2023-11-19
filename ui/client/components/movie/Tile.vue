@@ -1,7 +1,17 @@
 <template>
   <component :is="wrapper" v-bind="{ title: movie }">
     <template v-slot:photo>
-      <MoviePoster :movie="movie" />
+      <MoviePoster :movie="movie">
+        <template v-slot:coverAction="{ hovered }">
+          <div v-show="hovered">
+            <ActionBar
+              :actionConfig="actionBarConfig"
+              :type="TitleActionBarConfig"
+              @listUpdate="listUpdate"
+            />
+          </div>
+        </template>
+      </MoviePoster>
     </template>
     <template v-slot:title>
       {{ title }}
@@ -43,9 +53,12 @@ import Chip from "primevue/chip";
 import DotSeparatedInfo from "../shared/info/DotSeparatedInfo";
 import { truncate } from "../../util/format/text";
 import Movie from "../../classes/Movie";
+import ActionBar from "../title/action/ActionBar";
+import { TitleActionBarConfig } from "../title/action/helper";
+import { mapGetters } from "vuex";
 
 export default {
-  components: { MoviePoster, Chip, DotSeparatedInfo },
+  components: { MoviePoster, ActionBar, Chip, DotSeparatedInfo },
   props: {
     wrapper: {
       type: Object,
@@ -57,6 +70,9 @@ export default {
     }
   },
   methods: {
+    listUpdate() {
+      this.$emit("listUpdate");
+    },
     truncate,
     async getDetails(id) {
       this.movie = await Movie.build(id);
@@ -69,6 +85,17 @@ export default {
     }
   },
   computed: {
+    ...mapGetters("list", { selectedList: "selected" }),
+    TitleActionBarConfig() {
+      return TitleActionBarConfig;
+    },
+    actionBarConfig() {
+      return {
+        title: this.movie,
+        toggles: { addToLists: true, removeFromList: true },
+        options: { selectedList: this.selectedList }
+      };
+    },
     title() {
       return this.movie.displayTitle();
     },
